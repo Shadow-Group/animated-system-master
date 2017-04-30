@@ -1,0 +1,11 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="list_accounts_padding">8dp</dimen>
+    <dimen name="list_card_view_margin">5dp</dimen>
+    <dimen name="negative_activity_horizontal_margin">-16dp</dimen>
+    <dimen name="negative_activity_vertical_margin">-16dp</dimen>
+    <dimen name="negative_list_accounts_padding">-8dp</dimen>
+    <dimen name="negative_list_card_view_margin">-5dp</dimen>
+</resources>

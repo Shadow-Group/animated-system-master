@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group>
+    <item
+    android:title="@string/inbox"
+    android:icon="@drawable/ic_inbox_black_24dp"
+        android:id="@+id/inbox_drawer_item"
+    />
+    <item
+        android:title="@string/sent"
+        android:icon="@drawable/ic_label_black_24dp"
+        android:id="@+id/sent_drawer_item"
+        />
+    <item
+        android:title="@string/drafts"
+        android:icon="@drawable/ic_drafts_black_24dp"
+        android:id="@+id/drafts_drawer_item"
+        />
+</group>
+
+    <item android:title="@string/others_menu_label">
+        <menu>
+            <group>
+
+            </group>
+        </menu>
+    </item>
+</menu>

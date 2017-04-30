@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Project34</string>
+    <string name="email">Email</string>
+    <string name="choose_account_message">Choose Account</string>
+    <string name="play_services_failed_message">
+        This application requires Google play service to work.
+        Please install Google play services or update if already present.
+    </string>
+    <string name="inbox">Inbox</string>
+    <string name="sent">Sent items</string>
+    <string name="outbox">Outbox</string>
+    <string name="drafts">Drafts</string>
+    <string name="others_menu_label">Others</string>
+    <string name="account_image_description">User account icon</string>
+    
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="total_rec_mess">Total received messages</string>
+    <string name="total_sent_mess">Total sent messages</string>
+    <string name="error_connect">An error occurred. %1$s</string>
+    <string name="search">Search</string>
+</resources>
