@@ -20,7 +20,7 @@ public class ConnectionManager {
 
     private static final String TAG=ConnectionManager.class.getName();
     private static ConnectionManager instance;
-    private ImapCallbacks callbacks;
+    private MailCallbacks callbacks;
 
     private Properties       mProps;
     private Session          mSession;
@@ -38,9 +38,9 @@ public class ConnectionManager {
         this.mAccessToken=token;
         this.mSession=Session.getInstance(mProps);
         try{
-            callbacks=(ImapCallbacks)ctx;
+            callbacks=(MailCallbacks)ctx;
         }catch (Exception ex){
-            Log.d(TAG, "ConnectionManager: Necessary for the caller to implement interface ImapCallbacks");
+            Log.d(TAG, "ConnectionManager: Necessary for the caller to implement interface MailCallbacks");
             return;
         }
         new ConnectionTask().execute();

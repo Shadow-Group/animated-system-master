@@ -3,6 +3,8 @@ package com.osama.project34.imap;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import javax.mail.Folder;
@@ -14,13 +16,17 @@ import javax.mail.Store;
  *
  */
 
-public class LabelManager {
+public class LabelManager implements MailObserver {
     private ArrayList<CharSequence> labels;
-    private ImapCallbacks callBacks;
-    public LabelManager(Context cts){
-        callBacks=(ImapCallbacks)cts;
+    private MailCallbacks callBacks;
+    public LabelManager(){
         labels=new ArrayList<>();
         new LabelTask().execute();
+    }
+
+    @Override
+    public void update(@NotNull MailCallbacks callbacks) {
+        this.callBacks=callbacks;
     }
 
     private class LabelTask extends AsyncTask<Void,Void,Boolean>{

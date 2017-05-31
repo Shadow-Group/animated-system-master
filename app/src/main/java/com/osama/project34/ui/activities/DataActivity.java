@@ -23,14 +23,14 @@ import android.widget.TextView;
 
 import com.osama.project34.R;
 import com.osama.project34.imap.ConnectionManager;
-import com.osama.project34.imap.ImapCallbacks;
+import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.LabelManager;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.utils.Constants;
 
 import java.util.ArrayList;
 
-public class DataActivity extends AppCompatActivity implements ImapCallbacks{
+public class DataActivity extends AppCompatActivity implements MailCallbacks {
     private static final String TAG=DataActivity.class.getName();
     private static boolean LIGHT_THEME = false;
     private RecyclerView    mDataListView;
@@ -186,7 +186,7 @@ public class DataActivity extends AppCompatActivity implements ImapCallbacks{
     public void informConnectionStatus(boolean status) {
 if(status){
 
-    new LabelManager(this);
+    new LabelManager();
 }
     }
 
