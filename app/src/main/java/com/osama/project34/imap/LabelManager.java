@@ -1,6 +1,7 @@
 package com.osama.project34.imap;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +19,8 @@ import javax.mail.Store;
 public class LabelManager implements MailObserver {
     private ArrayList<CharSequence> labels;
     private MailCallbacks callBacks;
-    public LabelManager(){
+
+    public void startGettingLabels(){
         labels=new ArrayList<>();
         new LabelTask().execute();
     }
@@ -33,20 +35,26 @@ public class LabelManager implements MailObserver {
         @Override
         protected Boolean doInBackground(Void... voids) {
             Store store= MailsSharedData.getStore();
-            if(!store.isConnected()){
-                return false;
-            }
             try {
-                Folder[] folders=store.getPersonalNamespaces();
-                for (Folder fol :
-                        folders) {
-                    labels.add(fol.getName());
+                if(!store.isConnected()){
+                    Log.d("label", "doInBackground: store is not connected");
+                    store.connect();
                 }
+                addAllLabels(store.getDefaultFolder());
             } catch (MessagingException e) {
                 e.printStackTrace();
                 return false;
             }
             return true;
+        }
+        private void addAllLabels(Folder folder) throws MessagingException{
+            if(folder.list().length>0){
+                for (Folder f:folder.list()) {
+                    addAllLabels(f);
+                }
+            }else{
+                labels.add(folder.getName());
+            }
         }
 
         @Override

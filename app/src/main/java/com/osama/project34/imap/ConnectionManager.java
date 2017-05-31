@@ -3,7 +3,10 @@ package com.osama.project34.imap;
 import android.accounts.Account;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.provider.SyncStateContract;
 import android.util.Log;
+
+import com.osama.project34.utils.Constants;
 
 import java.util.Properties;
 
@@ -46,6 +49,9 @@ public class ConnectionManager {
         new ConnectionTask().execute();
 
     }
+    public void connect(){
+        new ConnectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
 
     public static ConnectionManager getInstance() throws UnsupportedOperationException{
         if(instance==null){
@@ -65,8 +71,12 @@ public class ConnectionManager {
         @Override
         protected String doInBackground(Void... voids) {
               try {
-            mStore=mSession.getStore("imap");
-                  return "true";
+                    mStore=mSession.getStore("imap");
+                    mStore.connect(Constants.GMAIL_HOST,Constants.GMAIL_SSL_PORT,mUserAccount.name,mAccessToken);
+                    while (!mStore.isConnected()){
+                          Log.d(TAG, "doInBackground: conecting store");
+                    }
+                    return "true";
         } catch ( MessagingException e) {
             Log.d(TAG, "ConnectionManager: Failure in connecting");
             e.printStackTrace();

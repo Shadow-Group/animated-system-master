@@ -25,6 +25,7 @@ import com.osama.project34.R;
 import com.osama.project34.imap.ConnectionManager;
 import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.LabelManager;
+import com.osama.project34.imap.MailManager;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.utils.Constants;
 
@@ -184,10 +185,9 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
 
     @Override
     public void informConnectionStatus(boolean status) {
-if(status){
-
-    new LabelManager();
-}
+        if(status){
+            MailManager.Companion.getInstance(this).getObjectFactory().getLabelManager().startGettingLabels();
+        }
     }
 
     @Override

@@ -20,5 +20,8 @@ class MailObjectFactory {
             observer.update(this.callbacks!!)
         }
     }
+    fun getLabelManager():LabelManager{
+        return this.labelManager!!
+    }
 
 }

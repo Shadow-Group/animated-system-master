@@ -7,6 +7,7 @@ package com.osama.project34.utils;
 
 public class Constants {
     public static final String GMAIL_HOST="imap.gmail.com";
+    public static final int GMAIL_SSL_PORT=993;
     public static final String SHARED_PREFS_OAUTH="oauth";
     public static final String  STRING_ACCOUNT_SHARED_PREFS="account";
     public static final String DATA_ACTIVITY_INTENT_PERM="accountName";
