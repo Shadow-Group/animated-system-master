@@ -77,6 +77,9 @@ public class ConnectionManager {
         protected void onPostExecute(String s) {
             if(s.equals("true")){
                 //init check for new messages task
+                MailsSharedData.setSession(mSession);
+                MailsSharedData.setStore(mStore);
+                MailsSharedData.setUserAccount(mUserAccount);
                 callbacks.informConnectionStatus(true);
 
             }else{

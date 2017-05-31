@@ -1,6 +1,5 @@
 package com.osama.project34.imap;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +32,7 @@ public class LabelManager implements MailObserver {
 
         @Override
         protected Boolean doInBackground(Void... voids) {
-            Store store=ConnectionManager.getInstance().getmStore();
+            Store store= MailsSharedData.getStore();
             if(!store.isConnected()){
                 return false;
             }
