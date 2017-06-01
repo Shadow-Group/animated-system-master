@@ -46,7 +46,7 @@ public class ConnectionManager {
             Log.d(TAG, "ConnectionManager: Necessary for the caller to implement interface MailCallbacks");
             return;
         }
-        new ConnectionTask().execute();
+        new ConnectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
     public void connect(){

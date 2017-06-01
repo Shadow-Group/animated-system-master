@@ -79,9 +79,12 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
         mOauthToken = getIntent().getExtras().getString(Constants.DATA_ACTIVITY_PERM_TOKEN);
         assert mAccountName != null;
         mAccountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Log.d(TAG, "setupAccount: should get account now: "+mOauthToken);
         for (Account acc :
                 mAccountManager.getAccountsByType("com.google")) {
+            Log.d(TAG, "setupAccount: getting this and that");
             if (acc.name.equalsIgnoreCase(mAccountName)) {
+                Log.d(TAG, "setupAccount: current account is: "+mAccountName);
                 this.mCurrentAccount = acc;
                 break;
             }
@@ -192,6 +195,9 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
 
     @Override
     public void updateLabels(ArrayList<CharSequence> labels) {
+
+        MailManager.Companion.getInstance(this).getObjectFactory().getMessageManager().checkMessages();
+
        // Menu menu=mNavView.getMenu();
         for (CharSequence seq:
              labels) {

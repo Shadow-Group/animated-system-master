@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.Store;
+import javax.mail.event.MessageChangedEvent;
+import javax.mail.event.MessageChangedListener;
 
 /**
  * Created by bullhead on 3/27/17.
@@ -22,7 +24,7 @@ public class LabelManager implements MailObserver {
 
     public void startGettingLabels(){
         labels=new ArrayList<>();
-        new LabelTask().execute();
+        new LabelTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @Override
@@ -53,6 +55,7 @@ public class LabelManager implements MailObserver {
                     addAllLabels(f);
                 }
             }else{
+                MailsSharedData.addFolder(folder);
                 labels.add(folder.getName());
             }
         }
