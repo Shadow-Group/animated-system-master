@@ -16,9 +16,9 @@ public class EmailView extends Activity{
     public boolean onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,Menu menu) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.email_view);
-     //   MenuInflater inflater1 = getMenuInflater();
-       // inflater1.inflate(R.menu.main, menu);
-       // return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater1 = getMenuInflater();
+        inflater1.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
 
     }
 }
