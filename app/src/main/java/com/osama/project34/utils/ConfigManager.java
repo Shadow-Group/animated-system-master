@@ -34,6 +34,9 @@ public final class ConfigManager {
 
     }
 
+    public static Profile getProfile() {
+        return profile;
+    }
 
     /**
      * This must be called at the application start.
@@ -42,7 +45,7 @@ public final class ConfigManager {
     public static void openConfig(){
         mConfigPrefs= MailApplication.getInstance().getSharedPreferences("config", Context.MODE_PRIVATE);
         darkTheme   = mConfigPrefs.getBoolean(ConfigKeys.THEME,false);
-        Profile profile=new Profile();
+        profile=new Profile();
         profile.setImage(mConfigPrefs.getString(ConfigKeys.IMAGE_URL,null));
         profile.setName(mConfigPrefs.getString(ConfigKeys.FULL_NAME,null));
     }

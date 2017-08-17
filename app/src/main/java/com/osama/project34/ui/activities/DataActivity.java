@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -30,10 +31,12 @@ import com.osama.project34.imap.MailManager;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
+import com.osama.project34.people.Profile;
 import com.osama.project34.ui.adapters.MessagesAdapter;
 import com.osama.project34.ui.fragments.MessagesFragment;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -145,6 +148,11 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private void setUpDrawerHeader() {
         View headerView=mNavView.getHeaderView(0);
         ((TextView)headerView.findViewById(R.id.user_account_name)).setText(mAccountName);
+        Profile profile=ConfigManager.getProfile();
+        ((TextView) headerView.findViewById(R.id.username_textview)).setText(profile.getName());
+        Picasso.with(this)
+                .load(profile.getImage())
+                .into(((ImageView) headerView.findViewById(R.id.user_account_icon)));
     }
 
     @Override
@@ -181,6 +189,9 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     @Override
     public void gotTheMessage(MessagesDataModel messages) {
       mFragment.updateMessages(messages);
+
+    }
+    private void setProfile(){
 
     }
 
