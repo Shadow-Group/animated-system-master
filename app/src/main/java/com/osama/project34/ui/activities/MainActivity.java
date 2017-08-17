@@ -31,14 +31,14 @@ import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.ui.adapters.AccountsAdapter;
 import com.osama.project34.ui.adapters.AdapterCallbacks;
 import com.osama.project34.oauth.OauthCallbacks;
+import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterCallbacks,OauthCallbacks {
-    private static boolean LIGHT_THEME = false;
+public class MainActivity extends BaseActivity implements AdapterCallbacks,OauthCallbacks {
     private static final String TAG = MainActivity.class.getName();
 
     private static final int REQ_PERMISSION         = 90;
@@ -56,13 +56,6 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //check if theme is light
-        if (LIGHT_THEME) {
-            super.setTheme(R.style.AppThemeLight);
-        } else {
-            super.setTheme(R.style.AppThemeDar);
-        }
-
         setContentView(R.layout.activity_main);
         setupToolbar();
         listAccounts();
@@ -109,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (LIGHT_THEME) {
+        if (!ConfigManager.isDarkTheme()) {
             menu.getItem(0).setIcon(getDrawable(R.drawable.ic_palette_black_24dp));
         } else {
             menu.getItem(0).setIcon(R.drawable.ic_palette_white_24dp);
@@ -191,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
      * miscellaneous
      */
     private void toggleTheme() {
-        LIGHT_THEME = !LIGHT_THEME;
+        ConfigManager.saveTheme(!ConfigManager.isDarkTheme());
         recreate();
     }
 

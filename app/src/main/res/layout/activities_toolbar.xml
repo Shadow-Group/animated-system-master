@@ -6,6 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/main_toolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
         >
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

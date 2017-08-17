@@ -27,13 +27,13 @@ import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.LabelManager;
 import com.osama.project34.imap.MailManager;
 import com.osama.project34.imap.MessagesDataModel;
+import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 
 import java.util.ArrayList;
 
-public class DataActivity extends AppCompatActivity implements MailCallbacks {
+public class DataActivity extends BaseActivity implements MailCallbacks {
     private static final String TAG=DataActivity.class.getName();
-    private static boolean LIGHT_THEME = false;
     private RecyclerView    mDataListView;
     private ArrayList<MessagesDataModel> mMessages;
     private View          rootContainer;
@@ -50,12 +50,7 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       //check if theme is light
-        if (LIGHT_THEME) {
-            super.setTheme(R.style.AppThemeLight);
-        } else {
-            super.setTheme(R.style.AppThemeDar);
-        }
+
         rootContainer=getLayoutInflater().inflate(R.layout.activity_data,null);
 
         setContentView(rootContainer);
@@ -128,7 +123,7 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (LIGHT_THEME) {
+        if (!ConfigManager.isDarkTheme()) {
              menu.getItem(0).setIcon(R.drawable.ic_search_black_24dp);
             menu.getItem(1).setIcon(R.drawable.ic_palette_black_24dp);
         } else {
@@ -140,7 +135,7 @@ public class DataActivity extends AppCompatActivity implements MailCallbacks {
     private void toggleTheme() {
         mMessages=null;
         mDataListView=null;
-        LIGHT_THEME = !LIGHT_THEME;
+        ConfigManager.saveTheme(!ConfigManager.isDarkTheme());
         recreate();
     }
 

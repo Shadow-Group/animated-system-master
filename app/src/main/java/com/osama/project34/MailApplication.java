@@ -2,6 +2,8 @@ package com.osama.project34;
 
 import android.app.Application;
 
+import com.osama.project34.utils.ConfigManager;
+
 /**
  * Created by home on 3/4/17.
  *
@@ -12,6 +14,7 @@ public class MailApplication extends Application {
     public MailApplication() throws Exception{
         if(instance==null){
             instance=this;
+            ConfigManager.openConfig();
         }else {
             throw new Exception("Only one instance of application is possible");
         }
