@@ -7,9 +7,6 @@
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_search_black_24dp"
         />
-    <item android:title="Change theme"
-        android:id="@+id/change_theme_menu_item"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_palette_white_24dp" />
+
 
 </menu>

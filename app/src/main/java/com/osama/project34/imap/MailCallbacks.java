@@ -13,4 +13,5 @@ public interface MailCallbacks {
     void connectionError(String error);
     void informConnectionStatus(boolean status);
     void updateLabels(ArrayList<CharSequence> labels);
+    void gotTheMessage(MessagesDataModel messages);
 }

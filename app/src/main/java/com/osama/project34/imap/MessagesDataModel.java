@@ -8,17 +8,23 @@ import javax.mail.Address;
  */
 
 public class MessagesDataModel {
-    String   messageDate;
-    String   messageNumber;
-    String   messageSubject;
-    String[] messageRecipients;
+    private String   messageDate;
+    private int   messageNumber;
+    private String   messageSubject;
+    private String[] messageRecipients;
+    private String   messageSender;
+    private String   messageText;
+
 
     //upon every new instance set the fields
 
-    public MessagesDataModel(String messageDate, String messageNumber, String messageSubject, Address[] messageRecipients) {
+    public MessagesDataModel(String messageDate,String messageSender, int messageNumber,
+                             String messageSubject,String messageText, Address[] messageRecipients) {
         this.messageDate        = messageDate;
         this.messageNumber      = messageNumber;
         this.messageSubject     = messageSubject;
+        this.messageSender      = messageSender;
+        this.messageText        = messageText;
         this.messageRecipients  = new String[messageRecipients.length];
         int index=0;
         for (Address addr:messageRecipients) {
@@ -26,11 +32,19 @@ public class MessagesDataModel {
         }
     }
 
+    public String getMessageSender() {
+        return messageSender;
+    }
+
+    public String getMessageText() {
+        return messageText;
+    }
+
     public String getMessageDate() {
         return messageDate;
     }
 
-    public String getMessageNumber() {
+    public int getMessageNumber() {
         return messageNumber;
     }
 

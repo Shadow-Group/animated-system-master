@@ -30,22 +30,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.messages_list_item,parent,false));
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_mail,parent,false));
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView textView   = holder.mMessageToTextView;
-        TextView textView1  = holder.mMessageDateTextView;
-        TextView textView2  = holder.mMessageSubjectTextView;
-
-        MessagesDataModel dataModel = mDataSet.get(position);
-
-        //set the fields
-        textView.setText(dataModel.getMessageRecipients()[0]);
-        textView1.setText(dataModel.getMessageDate());
-        textView2.setText(dataModel.getMessageSubject());
-
+       MessagesDataModel dataModel=mDataSet.get(position);
+        holder.mMessageTextTextView.setText(dataModel.getMessageText());
+        holder.mMessageSenderTextView.setText(dataModel.getMessageSender());
+        holder.mMessageSubjectTextView.setText(dataModel.getMessageSubject());
     }
 
     @Override
@@ -54,17 +47,17 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        TextView mMessageToTextView;
-        TextView mMessageDateTextView;
+        TextView mMessageSenderTextView;
+        TextView mMessageTextTextView;
         TextView mMessageSubjectTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             //bind views
-            mMessageToTextView      = (TextView)itemView.findViewById(R.id.message_to_textview);
-            mMessageDateTextView    = (TextView)itemView.findViewById(R.id.message_date);
-            mMessageSubjectTextView = (TextView)itemView.findViewById(R.id.message_subject);
+            mMessageSenderTextView      = (TextView)itemView.findViewById(R.id.list_title_text);
+            mMessageTextTextView        = (TextView)itemView.findViewById(R.id.list_message_text);
+            mMessageSubjectTextView     = (TextView)itemView.findViewById(R.id.list_subject_text);
         }
     }
 }

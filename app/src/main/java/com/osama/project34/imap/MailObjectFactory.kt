@@ -16,6 +16,7 @@ class MailObjectFactory {
         messageManager=MessagesManager()
         observers= ArrayList()
         observers?.add(labelManager as MailObserver)
+        observers?.add(messageManager as MailObserver)
     }
     fun notifyObservers(){
         for (observer in observers!!){
@@ -28,5 +29,6 @@ class MailObjectFactory {
     fun getMessageManager():MessagesManager{
         return this.messageManager!!
     }
+
 
 }

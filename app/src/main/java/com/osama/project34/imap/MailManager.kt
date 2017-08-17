@@ -18,6 +18,7 @@ class MailManager private constructor() {
             callbacks=caller
             objectFactory?.callbacks= callbacks
             objectFactory?.notifyObservers()
+
             return instance as MailManager
         }
     }

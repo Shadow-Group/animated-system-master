@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/list_sender_thumb"
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_margin="5dp"
+                 />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:baselineAligned="false">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/list_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:lines="1"
+                android:textColor="#000"
+                android:text="TextView"
+                android:layout_marginLeft="5dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/list_subject_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="TextView"
+                android:lines="1"
+                android:scrollHorizontally="false"
+                android:textSize="12sp"
+                android:layout_marginLeft="5dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:scrollHorizontally="false"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:id="@+id/list_message_text" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_favorite_border"
+            android:tint="@color/colorAccent"
+            android:layout_gravity="center_vertical|end"
+            android:id="@+id/list_fvrt_button"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#CCCCCC"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+
+</LinearLayout>
+

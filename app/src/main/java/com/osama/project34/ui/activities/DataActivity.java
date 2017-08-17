@@ -30,6 +30,8 @@ import com.osama.project34.imap.MailManager;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
+import com.osama.project34.ui.adapters.MessagesAdapter;
+import com.osama.project34.ui.fragments.MessagesFragment;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 
@@ -37,9 +39,8 @@ import java.util.ArrayList;
 
 public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
     private static final String TAG=DataActivity.class.getName();
-    private RecyclerView                    mDataListView;
-    private ArrayList<MessagesDataModel>    mMessages;
-    private View          rootContainer;
+
+    private View                    rootContainer;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout mDrawerLayout;
     private Account mCurrentAccount;
@@ -48,6 +49,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private String mOauthToken;
     private ConnectionManager connectionManager;
     private NavigationView mNavView;
+    private MessagesFragment mFragment;
+
 
 
     @Override
@@ -60,13 +63,13 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         setResult(RESULT_OK);
 
         Log.d(TAG, "onCreate: Created activity");
-        ((FrameLayout)findViewById(R.id.data_content_frame)).addView(getLayoutInflater().inflate(R.layout.data_content_layout,null));
+        mFragment=new MessagesFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.data_content_frame,mFragment)
+                .commit();
         //get the currently logged in account.
         setupAccount();
-        setUpList();
         setupToolbarAndDrawer();
-        animateWhat();
-
 
     }
 
@@ -90,12 +93,6 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     }
 
 
-    private void setUpList() {
-        mDataListView=(RecyclerView)findViewById(R.id.messages_recycler_view);
-        mDataListView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //inflate the menu
@@ -111,13 +108,13 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         }
 
         switch (item.getItemId()) {
-            case R.id.change_theme_menu_item: {
+           /* case R.id.change_theme_menu_item: {
                 //change theme
                 //I need to recreate the activity to set theme
                 //also change the menu item color
                 toggleTheme();
                 break;
-            }
+            }*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -125,23 +122,15 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
             menu.getItem(0).setIcon(R.drawable.ic_search_white_24dp);
-            menu.getItem(1).setIcon(R.drawable.ic_palette_white_24dp);
+         //   menu.getItem(1).setIcon(R.drawable.ic_palette_white_24dp);
         return super.onPrepareOptionsMenu(menu);
     }
     private void toggleTheme() {
-        mMessages=null;
-        mDataListView=null;
         ConfigManager.saveTheme(!ConfigManager.isDarkTheme());
         recreate();
     }
 
 
-    //trying to animate something
-    private void animateWhat(){
-        Animation animation=new TranslateAnimation(0f,100f,0f,100f);
-        mDataListView.setAnimation(animation);
-        mDataListView.animate();
-    }
     private void setupToolbarAndDrawer() {
         Toolbar toolbar=(Toolbar)findViewById(R.id.main_toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -186,14 +175,13 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
 
     @Override
     public void updateLabels(ArrayList<CharSequence> labels) {
-
         MailManager.Companion.getInstance(this).getObjectFactory().getMessageManager().checkMessages();
+    }
 
-       // Menu menu=mNavView.getMenu();
-        for (CharSequence seq:
-             labels) {
-            Log.d(TAG, "updateLabels: label is: "+seq);
-        }
+    @Override
+    public void gotTheMessage(MessagesDataModel messages) {
+      mFragment.updateMessages(messages);
+
     }
 
     @Override

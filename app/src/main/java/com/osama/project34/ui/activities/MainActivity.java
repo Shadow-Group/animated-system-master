@@ -89,13 +89,13 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.change_theme_menu_item: {
+           /* case R.id.change_theme_menu_item: {
                 //change theme
                 //I need to recreate the activity to set theme
                 //also change the menu item color
                 toggleTheme();
                 break;
-            }
+            }*/
         }
         return super.onOptionsItemSelected(item);
     }
