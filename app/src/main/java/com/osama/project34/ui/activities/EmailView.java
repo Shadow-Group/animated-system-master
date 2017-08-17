@@ -9,20 +9,20 @@ import com.osama.project34.R;
 
 /**
  * Created by patriot on 7/1/17.
+ *
  */
 
 public class EmailView extends Activity{
     @Override
-    public boolean onCreate(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState,Menu menu) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.email_view);
-        
-
+       // setContentView(R.layout.email_view);
     }
     //may not compile. written without IDE
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater1 = getMenuInflater();
         inflater1.inflate(R.menu.main, menu);
         return true;
+    }
 }
