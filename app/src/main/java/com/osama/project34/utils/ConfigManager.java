@@ -21,6 +21,7 @@ public final class ConfigManager {
         mConfigPrefs.edit()
                 .putBoolean(ConfigKeys.THEME,isDark)
                 .apply();
+        darkTheme=isDark;
     }
 
 

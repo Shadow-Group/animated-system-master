@@ -11,23 +11,15 @@ import com.osama.project34.utils.ConfigManager;
 
 public class MailApplication extends Application {
     private static MailApplication instance;
-    public MailApplication() throws Exception{
-        if(instance==null){
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
             instance=this;
             ConfigManager.openConfig();
-        }else {
-            throw new Exception("Only one instance of application is possible");
-        }
     }
 
     public static MailApplication getInstance(){
-        if(instance==null){
-            try {
-                instance=new MailApplication();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return instance;
     }
 }
