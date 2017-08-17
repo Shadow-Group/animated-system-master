@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.osama.project34.MailApplication;
+import com.osama.project34.people.Profile;
 
 /**
  * Created by bullhead on 8/17/17.
@@ -13,6 +14,7 @@ import com.osama.project34.MailApplication;
 public final class ConfigManager {
     private static boolean darkTheme;
     private static SharedPreferences mConfigPrefs;
+   private static Profile profile;
 
     public static boolean isDarkTheme() {
         return darkTheme;
@@ -23,6 +25,14 @@ public final class ConfigManager {
                 .apply();
         darkTheme=isDark;
     }
+    public static void saveProfileInfo(Profile profile){
+        mConfigPrefs.edit()
+                .putString(ConfigKeys.FULL_NAME,profile.getName())
+                .putString(ConfigKeys.IMAGE_URL,profile.getImage())
+                .apply();
+        ConfigManager.profile=profile;
+
+    }
 
 
     /**
@@ -32,9 +42,14 @@ public final class ConfigManager {
     public static void openConfig(){
         mConfigPrefs= MailApplication.getInstance().getSharedPreferences("config", Context.MODE_PRIVATE);
         darkTheme   = mConfigPrefs.getBoolean(ConfigKeys.THEME,false);
+        Profile profile=new Profile();
+        profile.setImage(mConfigPrefs.getString(ConfigKeys.IMAGE_URL,null));
+        profile.setName(mConfigPrefs.getString(ConfigKeys.FULL_NAME,null));
     }
 
     private static final class ConfigKeys{
         private static final String THEME="theme";
+        private static final String FULL_NAME="full_name";
+        private static final String IMAGE_URL="image_url";
     }
 }

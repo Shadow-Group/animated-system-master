@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -28,14 +29,21 @@ import android.view.animation.ScaleAnimation;
 
 import com.osama.project34.R;
 import com.osama.project34.oauth.OauthGmail;
+import com.osama.project34.people.Profile;
 import com.osama.project34.ui.adapters.AccountsAdapter;
 import com.osama.project34.ui.adapters.AdapterCallbacks;
 import com.osama.project34.oauth.OauthCallbacks;
+import com.osama.project34.utils.CommonUtils;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 
 public class MainActivity extends BaseActivity implements AdapterCallbacks,OauthCallbacks {
@@ -102,11 +110,6 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!ConfigManager.isDarkTheme()) {
-            menu.getItem(0).setIcon(getDrawable(R.drawable.ic_palette_black_24dp));
-        } else {
-            menu.getItem(0).setIcon(R.drawable.ic_palette_white_24dp);
-        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -251,8 +254,37 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     public void tokenSuccessful(String token) {
         mProgressDialog.dismiss();
         mAccessToken=token;
-        startDataActivity();
+        getProfileInfo();
 
+    }
+
+    private void getProfileInfo() {
+        new AsyncTask<Void, Void, Profile>() {
+            @Override
+            protected Profile doInBackground(Void... params) {
+                try{
+                    String url="https://www.googleapis.com/plus/v1/people/me?access_token="+mAccessToken+"&key="+Constants.API_KEY;
+                    String json= CommonUtils.getJsonfromUrl(url);
+                    JSONObject rootObject=new JSONObject(json);
+                    Profile profile=new Profile();
+                    profile.setName(rootObject.getString("displayName"));
+                    profile.setImage(rootObject.getJSONObject("image").getString("url"));
+                    return profile;
+                } catch (IOException | JSONException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+
+            @Override
+            protected void onPostExecute(Profile profile) {
+                super.onPostExecute(profile);
+                if (profile!=null){
+                    ConfigManager.saveProfileInfo(profile);
+                    startDataActivity();
+                }
+            }
+        }.execute();
     }
 
     @Override

@@ -14,7 +14,6 @@
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
     <style name="SplashStyle" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
     <style name="toolbarStyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorPrimary">@color/white</item>

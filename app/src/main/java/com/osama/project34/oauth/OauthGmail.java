@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class OauthGmail {
     private static final String TAG=OauthGmail.class.getCanonicalName();
-    private static final String SCOPE="oauth2:https://mail.google.com/";
+    private static final String SCOPE="oauth2:https://mail.google.com/ https://www.googleapis.com/auth/userinfo.profile";
 
     private OauthCallbacks   callbacks;
     private Account          account;

@@ -12,6 +12,7 @@ public class Constants {
     public static final String  STRING_ACCOUNT_SHARED_PREFS="account";
     public static final String DATA_ACTIVITY_INTENT_PERM="accountName";
     public static final String DATA_ACTIVITY_PERM_TOKEN="accessToken";
+    public static final String API_KEY="AIzaSyBEW7mWyAlDpNVqo3uBggE4FZQAdGatEJ4";
 
 
 }
