@@ -11,37 +11,41 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
-    private static final String Database_Name="User.db";
-    private static final int Database_Version=1;
-    private static final String Table_Name="Mails";
-    private static final String Table_Name1="Folders";
-    private static final String Column_ID="ID";
-    private static final String Column_User_Name="Name";
-    private static final String Column_Email="Email";
-    private static final String Column_Subject="Subject";
+    private static final String DATABASE_NAME="User.db";
+    private static final int DATABASE_VERSION=1;
+
+    //Table Names
+    private static final String TABLE_NAME="Mails";
+    private static final String TABLE_NAME1="Folders";
+
+    //column Names for Mails table
+    private static final String COLUMN_ID="ID";
+    private static final String COLUMN_USER_NAME="Name";
+    private static final String COLUMN_EMAIL="Email";
+    private static final String COLUMN_SUBJECT="Subject";
     private static final String Column_Message="Message";
 
-    private static final String Column_ID_1="ID";
-    private static final String Column_Folder_Name="FolderName";
+    //column names for Folders Table
+    private static final String COLUMN_ID_1="ID";
+    private static final String COLUMN_FOLDER_NAME="FolderName";
 
 
 
     private static final String TASK_TABLE_CREATE = "create table "
-            + Table_Name + " (" + Column_ID
-            + " integer primary key autoincrement, " + Column_Email
-            + " text not null, " + Column_User_Name + " text not null, "
-            + Column_Email + " text not null,"
-            + Column_Subject + " text,"+Column_Message+"text not null , FOREIGN KEY(Table_id) REFERENCE"+Table_Name1+"("+Column_ID_1+");";
+            + TABLE_NAME + " (" + COLUMN_ID
+            + " integer primary key autoincrement, " + COLUMN_EMAIL
+            + " text not null, " + COLUMN_USER_NAME + " text not null, "
+            + COLUMN_SUBJECT + " text,"+Column_Message+"text not null , FOREIGN KEY(Table_id) REFERENCE"+TABLE_NAME1+"("+COLUMN_ID_1+");";
 
     private static final String TASK_TABLE_CREATE_1 = "create table "
-            + Table_Name1 + " (" + Column_ID_1
-            + " integer primary key autoincrement, " + Column_Folder_Name
+            + TABLE_NAME1 + " (" + COLUMN_ID_1
+            + " integer primary key autoincrement, " + COLUMN_FOLDER_NAME
             + "text Not null);";
 
 
     SQLiteDatabase db;
     public DatabaseHelper(Context context) {
-        super(context,Database_Name,null, Database_Version);
+        super(context,DATABASE_NAME,null, DATABASE_VERSION);
     }
 
     @Override
@@ -56,12 +60,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     {
         db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        String query="select * from "+Table_Name1;
+        String query="select * from "+TABLE_NAME1 ;
         Cursor cursor=db.rawQuery(query,null);
-        values.put(Column_Folder_Name,d.getFolder_Name());
+        values.put(COLUMN_FOLDER_NAME,d.getFolderName());
 
 
-        db.insert(Table_Name1, null, values);
+        db.insert(TABLE_NAME1, null, values);
         db.close();
     }
 
@@ -69,25 +73,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     {
         db=this.getWritableDatabase();
         ContentValues values=new ContentValues();
-        String query="select * from "+Table_Name;
+        String query="select * from "+TABLE_NAME;
         Cursor cursor=db.rawQuery(query,null);
-        values.put(Column_Email,d.getEmail());
-        values.put(Column_User_Name,d.getUser_Name());
-        values.put(Column_Subject,d.getMessage());
+        values.put(COLUMN_EMAIL,d.getEmail());
+        values.put(COLUMN_USER_NAME,d.getUserName());
+        values.put(COLUMN_SUBJECT,d.getMessage());
 
-        db.insert(Table_Name, null, values);
+        db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
+
+
     public void deleteEmail(String email)
     {
-        db.execSQL("delete * from "+Table_Name+" where "+Column_Email+ " = " +email);
+        db.execSQL("delete * from "+TABLE_NAME+" where "+COLUMN_EMAIL+ " = " +email);
     }
 
     public Cursor searchData(String table_Name,String email)
     {
         db=this.getReadableDatabase();
-        String query="select * from "+table_Name+" where "+Column_Email+ " = "+email;
+        String query="select * from "+table_Name+" where "+COLUMN_EMAIL+ " = "+email;
         Cursor cursor=db.rawQuery(query,null);
         String a,b;
         b="Not found";

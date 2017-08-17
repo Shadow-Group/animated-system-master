@@ -13,7 +13,7 @@ public class Data {
     public void setFolderName(String folder_Name){
         Folder_Name=folder_Name;
     }
-    public String getFolder_Name(){
+    public String getFolderName(){
         return Folder_Name;
     }
     public void setEmail(String email){
@@ -28,10 +28,10 @@ public class Data {
     public String getSubject(){
         return Subject;
     }
-    public void setUser_Name(String user_name){
+    public void setUserName(String user_name){
         User_Name=user_name;
     }
-    public String getUser_Name(){
+    public String getUserName(){
         return User_Name;
     }
     public  void setMessage(String message){
