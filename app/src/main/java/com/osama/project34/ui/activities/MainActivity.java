@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
 
     private Account[]       mAllAccounts;
     private String[]        mUserAccountsAddress;
-    private RecyclerView mAccountsList;
+    private RecyclerView    mAccountsList;
     private AccountsAdapter mAccountsAdapter;
     private Account         mCurrentAccount;
     private String          mAccessToken;
@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
     private void startDataActivity(){
         Intent intent=new Intent(MainActivity.this,DataActivity.class);
         intent.putExtra(Constants.DATA_ACTIVITY_INTENT_PERM,mCurrentAccount.name);
+        intent.putExtra(Constants.DATA_ACTIVITY_PERM_TOKEN,mAccessToken);
         startActivityForResult(intent,1);
         finish();
     }
@@ -256,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements AdapterCallbacks,
     @Override
     public void tokenSuccessful(String token) {
         mProgressDialog.dismiss();
+        mAccessToken=token;
         startDataActivity();
 
     }
