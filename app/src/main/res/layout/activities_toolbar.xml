@@ -8,6 +8,7 @@
         android:id="@+id/main_toolbar"
         android:minHeight="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        android:theme="@style/toolbarStyle"
         >
     </android.support.v7.widget.Toolbar>
 </android.support.design.widget.AppBarLayout>

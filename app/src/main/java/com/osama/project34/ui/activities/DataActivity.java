@@ -34,8 +34,8 @@ import java.util.ArrayList;
 
 public class DataActivity extends BaseActivity implements MailCallbacks {
     private static final String TAG=DataActivity.class.getName();
-    private RecyclerView    mDataListView;
-    private ArrayList<MessagesDataModel> mMessages;
+    private RecyclerView                    mDataListView;
+    private ArrayList<MessagesDataModel>    mMessages;
     private View          rootContainer;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -123,13 +123,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (!ConfigManager.isDarkTheme()) {
-             menu.getItem(0).setIcon(R.drawable.ic_search_black_24dp);
-            menu.getItem(1).setIcon(R.drawable.ic_palette_black_24dp);
-        } else {
             menu.getItem(0).setIcon(R.drawable.ic_search_white_24dp);
             menu.getItem(1).setIcon(R.drawable.ic_palette_white_24dp);
-        }
         return super.onPrepareOptionsMenu(menu);
     }
     private void toggleTheme() {
