@@ -21,18 +21,21 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.osama.project34.R;
 import com.osama.project34.imap.ConnectionManager;
 import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.LabelManager;
 import com.osama.project34.imap.MailManager;
 import com.osama.project34.imap.MessagesDataModel;
+import com.osama.project34.oauth.OauthCallbacks;
+import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 
 import java.util.ArrayList;
 
-public class DataActivity extends BaseActivity implements MailCallbacks {
+public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
     private static final String TAG=DataActivity.class.getName();
     private RecyclerView                    mDataListView;
     private ArrayList<MessagesDataModel>    mMessages;
@@ -60,9 +63,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks {
         ((FrameLayout)findViewById(R.id.data_content_frame)).addView(getLayoutInflater().inflate(R.layout.data_content_layout,null));
         //get the currently logged in account.
         setupAccount();
-
         setUpList();
-
         setupToolbarAndDrawer();
         animateWhat();
 
@@ -71,7 +72,6 @@ public class DataActivity extends BaseActivity implements MailCallbacks {
 
     private void setupAccount() {
         mAccountName = getIntent().getExtras().getString(Constants.DATA_ACTIVITY_INTENT_PERM);
-        mOauthToken = getIntent().getExtras().getString(Constants.DATA_ACTIVITY_PERM_TOKEN);
         assert mAccountName != null;
         mAccountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d(TAG, "setupAccount: should get account now: "+mOauthToken);
@@ -85,9 +85,10 @@ public class DataActivity extends BaseActivity implements MailCallbacks {
             }
         }
         assert mCurrentAccount != null;
-        connectionManager = new ConnectionManager(mCurrentAccount, mOauthToken, this);
+        new OauthGmail(mCurrentAccount,this);
 
     }
+
 
     private void setUpList() {
         mDataListView=(RecyclerView)findViewById(R.id.messages_recycler_view);
@@ -193,5 +194,21 @@ public class DataActivity extends BaseActivity implements MailCallbacks {
              labels) {
             Log.d(TAG, "updateLabels: label is: "+seq);
         }
+    }
+
+    @Override
+    public void tokenSuccessful(String token) {
+        mOauthToken=token;
+        connectionManager = new ConnectionManager(mCurrentAccount, mOauthToken, this);
+    }
+
+    @Override
+    public void tokenError(String error) {
+        Snackbar.make(rootContainer,"There is an error.",Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void startSignInActivity(UserRecoverableAuthException e) {
+
     }
 }

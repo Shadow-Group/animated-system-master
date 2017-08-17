@@ -19,6 +19,9 @@ class MessagesManager : MailObserver {
     private class RetrieveMessagesTask : AsyncTask<Void,Void,Boolean>(){
         override fun doInBackground(vararg params: Void?): Boolean {
             for (folder in MailsSharedData.getAllFolders()){
+                if (folder.isOpen){
+                    folder.close(false)
+                }
                 folder.open(Folder.READ_WRITE)
                 for (message in folder.messages){
                     println(message.subject)
