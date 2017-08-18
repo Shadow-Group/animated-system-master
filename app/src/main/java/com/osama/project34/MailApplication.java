@@ -1,6 +1,7 @@
 package com.osama.project34;
 
 import android.app.Application;
+import android.support.multidex.MultiDex;
 
 import com.osama.project34.utils.ConfigManager;
 
@@ -15,7 +16,8 @@ public class MailApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-            instance=this;
+        MultiDex.install(this);
+        instance=this;
             ConfigManager.openConfig();
     }
 
