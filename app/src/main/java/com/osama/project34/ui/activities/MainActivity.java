@@ -17,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +28,7 @@ import android.view.animation.ScaleAnimation;
 
 import com.osama.project34.R;
 import com.osama.project34.oauth.OauthGmail;
-import com.osama.project34.people.Profile;
+import com.osama.project34.data.Profile;
 import com.osama.project34.ui.adapters.AccountsAdapter;
 import com.osama.project34.ui.adapters.AdapterCallbacks;
 import com.osama.project34.oauth.OauthCallbacks;

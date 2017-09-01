@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.osama.project34.MailApplication;
-import com.osama.project34.people.Profile;
+import com.osama.project34.data.Profile;
 
 /**
  * Created by bullhead on 8/17/17.
