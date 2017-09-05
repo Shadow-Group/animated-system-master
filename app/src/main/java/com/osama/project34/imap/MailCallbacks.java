@@ -2,6 +2,8 @@ package com.osama.project34.imap;
 
 import android.accounts.Account;
 
+import com.osama.project34.data.Mail;
+
 import java.util.ArrayList;
 
 /**
@@ -13,5 +15,5 @@ public interface MailCallbacks {
     void connectionError(String error);
     void informConnectionStatus(boolean status);
     void updateLabels(ArrayList<CharSequence> labels);
-    void gotTheMessage(MessagesDataModel messages);
+    void gotTheMessage(Mail messages);
 }

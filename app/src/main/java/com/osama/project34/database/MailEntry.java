@@ -18,6 +18,7 @@ public final class MailEntry implements BaseColumns {
     public static final String COLUMN_FAVORITE      = "favorite";
     public static final String COLUMN_READ_STATUS   = "read_status";
     public static final String COLUMN_FOLDER_ID     = "folder_id";
+    public static final String COLUMN_DATE          = "date";
 
     public static final class Indices {
         public static final int COLUMN_SUBJECT          = 1;
@@ -29,5 +30,6 @@ public final class MailEntry implements BaseColumns {
         public static final int COLUMN_FAVORITE         = 7;
         public static final int COLUMN_READ_STATUS      = 8;
         public static final int COLUMN_FOLDER_ID        = 9;
+        public static final int COLUMN_DATE             = 10;
     }
 }
