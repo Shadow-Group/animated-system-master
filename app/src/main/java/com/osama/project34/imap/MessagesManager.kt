@@ -112,7 +112,7 @@ class MessagesManager : MailObserver {
             var count=0
             val id=MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
-                if (i>id) {
+                if (i>folder.messages.size-id && id!=-1) {
                     continue
                 }
                 val message = folder.messages[i]
@@ -134,9 +134,10 @@ class MessagesManager : MailObserver {
                 model.recipients = recipientAddresses
                 MailApplication.getDb().insertMail(model)
                 if(count==10) {
+                    Log.d("bullhead","Sending broadcast")
                     val intent=Intent(Constants.GOT_MESSAGE_BROADCAST)
                     intent.putExtra(Constants.MESSAGE_FOLDER_ID,myFolder.id)
-                    MailApplication.getInstance().sendBroadcast(Intent(Constants.GOT_MESSAGE_BROADCAST))
+                    MailApplication.getInstance().sendBroadcast(intent)
                     count=0
                 }else{
                     count++
