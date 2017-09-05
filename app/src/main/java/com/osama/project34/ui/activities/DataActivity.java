@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.osama.project34.R;
+import com.osama.project34.data.Mail;
 import com.osama.project34.imap.ConnectionManager;
 import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.MailManager;
@@ -169,17 +170,12 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     @Override
     public void informConnectionStatus(boolean status) {
         if(status){
-            MailManager.Companion.getInstance(this).getObjectFactory().getLabelManager().startGettingLabels();
+            MailManager.Companion.getInstance(this).getObjectFactory().getMessageManager().checkMessages();
         }
     }
 
     @Override
-    public void updateLabels(ArrayList<CharSequence> labels) {
-        MailManager.Companion.getInstance(this).getObjectFactory().getMessageManager().checkMessages();
-    }
-
-    @Override
-    public void gotTheMessage(MessagesDataModel messages) {
+    public void gotTheMessage(Mail messages) {
       mFragment.updateMessages(messages);
 
     }

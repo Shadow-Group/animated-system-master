@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.osama.project34.data.Mail;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.R;
 
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder>{
     private Context mContext;
-    private ArrayList<MessagesDataModel> mDataSet;
+    private ArrayList<Mail> mDataSet;
     private ArrayList<String> mColors;
 
 
@@ -46,7 +47,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         mColors.add("#795548");
         mColors.add("#607D8B");
     }
-    public void setDataSet(ArrayList<MessagesDataModel> dataset){
+    public void setDataSet(ArrayList<Mail> dataset){
         this.mDataSet=dataset;
     }
 
@@ -57,14 +58,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       MessagesDataModel dataModel=mDataSet.get(position);
-        String name=dataModel.getMessageSender()==null?"Unknown":dataModel.getMessageSender();
-        holder.mMessageTextTextView.setText(dataModel.getMessageText());
+       Mail dataModel=mDataSet.get(position);
+        String name=dataModel.getSender();
+        holder.mMessageTextTextView.setText(dataModel.getMessage());
         holder.mMessageSenderTextView.setText(name);
-        holder.mMessageSubjectTextView.setText(dataModel.getMessageSubject());
+        holder.mMessageSubjectTextView.setText(dataModel.getSubject());
         ColorGenerator generator = ColorGenerator.MATERIAL;
         TextDrawable thumb=TextDrawable.builder()
-                .buildRound(name.substring(0,1), generator.getColor(dataModel.getMessageNumber()));
+                .buildRound(name.substring(0,1), generator.getColor(dataModel.getId()));
         holder.senderThumb.setImageDrawable(thumb);
     }
 

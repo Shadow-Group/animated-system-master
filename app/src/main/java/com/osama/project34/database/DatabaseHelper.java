@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertMail(final Mail mail){
         ContentValues values=new ContentValues();
         values.put(MailEntry.COLUMN_SUBJECT,mail.getSubject());
-        values.put(MailEntry.COLUMN_ATTACHMENTS,Util.makeString(mail.getAttachments()));
+        values.put(MailEntry.COLUMN_DATE,mail.getDate());
         values.put(MailEntry.COLUMN_ENCRYPT,mail.isEncrypted()?1:0);
         values.put(MailEntry.COLUMN_FAVORITE,mail.isFavorite()?1:0);
         values.put(MailEntry.COLUMN_READ_STATUS,mail.isReadStatus()?1:0);

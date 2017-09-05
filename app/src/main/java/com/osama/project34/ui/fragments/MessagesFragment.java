@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.osama.project34.R;
+import com.osama.project34.data.Mail;
 import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.ui.adapters.MessagesAdapter;
 
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 public class MessagesFragment extends Fragment {
     private View mView;
      private RecyclerView                    mDataListView;
-    private ArrayList<MessagesDataModel>     mMessages;
+    private ArrayList<Mail>     mMessages;
     private MessagesAdapter                  messagesAdapter;
 
     private Context context;
@@ -50,7 +51,7 @@ public class MessagesFragment extends Fragment {
         messagesAdapter.setDataSet(mMessages);
         mDataListView.setAdapter(messagesAdapter);
     }
-    public void updateMessages(MessagesDataModel message){
+    public void updateMessages(Mail message){
         if (mMessages!=null){
             if (mMessages.size()==0){
                 mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);

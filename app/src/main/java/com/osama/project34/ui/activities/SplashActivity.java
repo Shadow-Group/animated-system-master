@@ -3,9 +3,13 @@ package com.osama.project34.ui.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.osama.project34.MailApplication;
+import com.osama.project34.data.Folder;
+import com.osama.project34.imap.FolderNames;
 import com.osama.project34.utils.Constants;
 
 public class SplashActivity extends AppCompatActivity {
@@ -23,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
                 return;
             }
         }
-        startMainActivity();
+        new InitTask().execute();
     }
 
     private void startDataActivity(String accountName,String accessToken) {
@@ -36,7 +40,39 @@ public class SplashActivity extends AppCompatActivity {
 
     private void startMainActivity() {
         Intent intent=new Intent(this,MainActivity.class);
+
         startActivityForResult(intent,1);
         finish();
+    }
+    private class InitTask extends AsyncTask<Void,Void,Void>{
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            //write folder in database
+            Folder folder =new Folder();
+            folder.setTitle(FolderNames.INBOX);
+            folder.setId(FolderNames.ID_INBOX);
+            MailApplication.getDb().insertFolder(folder);
+            folder.setTitle(FolderNames.OUTBOX);
+            folder.setId(FolderNames.ID_OUTBOX);
+            MailApplication.getDb().insertFolder(folder);
+            folder.setTitle(FolderNames.SENT);
+            folder.setId(FolderNames.ID_SENT);
+            MailApplication.getDb().insertFolder(folder);
+            folder.setTitle(FolderNames.DRAFT);
+            folder.setId(FolderNames.ID_DRAFT);
+            MailApplication.getDb().insertFolder(folder);
+            folder.setTitle(FolderNames.TRASH);
+            folder.setId(FolderNames.ID_TRASH);
+            MailApplication.getDb().insertFolder(folder);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            startMainActivity();
+        }
     }
 }

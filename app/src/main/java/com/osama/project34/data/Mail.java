@@ -14,7 +14,6 @@ public class Mail implements Serializable {
     private boolean readStatus;
     private boolean encrypted;
     private ArrayList<String> recipients;
-    private ArrayList<String> attachments;
     private boolean favorite;
     private String message;
     private String subject;
@@ -75,14 +74,6 @@ public class Mail implements Serializable {
 
     public void setRecipients(ArrayList<String> recipients) {
         this.recipients = recipients;
-    }
-
-    public ArrayList<String> getAttachments() {
-        return attachments;
-    }
-
-    public void setAttachments(ArrayList<String> attachments) {
-        this.attachments = attachments;
     }
 
     public boolean isFavorite() {

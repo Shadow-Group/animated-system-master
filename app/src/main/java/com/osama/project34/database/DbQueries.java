@@ -17,12 +17,12 @@ package com.osama.project34.database;
                     MailEntry.COLUMN_SUBJECT+" TEXT,"+
                     MailEntry.COLUMN_SENDER+" TEXT,"+
                     MailEntry.COLUMN_RECIPIENTS+ " TEXT,"+
-                    MailEntry.COLUMN_ATTACHMENTS+ " TEXT,"+
                     MailEntry.COLUMN_MESSAGE+" TEXT,"+
                     MailEntry.COLUMN_ENCRYPT+" INTEGER,"+
                     MailEntry.COLUMN_FAVORITE+ " INTEGER,"+
                     MailEntry.COLUMN_READ_STATUS+" INTEGER,"+
-                    MailEntry.COLUMN_FOLDER_ID+" INTEGER)";
+                    MailEntry.COLUMN_FOLDER_ID+" INTEGER,"+
+                    MailEntry.COLUMN_DATE+" TEXT)";
 
      static final String CREATE_TABLE_KEY=
             "CREATE TABLE "+KeyEntry.TABLE_NAME+" ("+

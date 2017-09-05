@@ -14,6 +14,5 @@ import java.util.ArrayList;
 public interface MailCallbacks {
     void connectionError(String error);
     void informConnectionStatus(boolean status);
-    void updateLabels(ArrayList<CharSequence> labels);
     void gotTheMessage(Mail messages);
 }
