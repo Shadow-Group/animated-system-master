@@ -2,6 +2,10 @@ package com.osama.project34.ui.activities;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -17,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Mail;
 import com.osama.project34.imap.ConnectionManager;
@@ -45,7 +50,21 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private String mOauthToken;
     private ConnectionManager connectionManager;
     private NavigationView mNavView;
+    private MessagesFragment[] messagesFragments;
     private MessagesFragment mFragment;
+
+    private BroadcastReceiver receiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("bullhead", "onReceive: outsite the if in broadcast receiver");
+            if (intent.hasExtra(Constants.MESSAGE_FOLDER_ID)){
+                //get message TODO
+                Log.d("bullhead", "onReceive: called");
+                mFragment.updateMessages(MailApplication.getDb().
+                        getAllMessages(intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,0)));
+            }
+        }
+    };
 
 
 
@@ -59,7 +78,14 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         setResult(RESULT_OK);
 
         Log.d(TAG, "onCreate: Created activity");
-        mFragment=new MessagesFragment();
+        messagesFragments=new MessagesFragment[4];
+        messagesFragments[0]=new MessagesFragment();
+        messagesFragments[1]=new MessagesFragment();
+        messagesFragments[2]=new MessagesFragment();
+        messagesFragments[3]=new MessagesFragment();
+        registerReceiver(receiver,new IntentFilter(Constants.GOT_MESSAGE_BROADCAST));
+
+        mFragment=messagesFragments[0];
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.data_content_frame,mFragment)
                 .commit();
@@ -176,7 +202,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
 
     @Override
     public void gotTheMessage(Mail messages) {
-      mFragment.updateMessages(messages);
+    //  mFragment.updateMessages(messages);
 
     }
     private void setProfile(){

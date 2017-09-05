@@ -1,9 +1,11 @@
 package com.osama.project34.imap
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
 import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
+import com.osama.project34.utils.Constants
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.mail.Flags
@@ -107,6 +109,7 @@ class MessagesManager : MailObserver {
 
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
+            var count=0
             val id=MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
                 if (i>id) {
@@ -130,6 +133,14 @@ class MessagesManager : MailObserver {
                 message.allRecipients.mapTo(recipientAddresses) { (it as InternetAddress).address }
                 model.recipients = recipientAddresses
                 MailApplication.getDb().insertMail(model)
+                if(count==10) {
+                    val intent=Intent(Constants.GOT_MESSAGE_BROADCAST)
+                    intent.putExtra(Constants.MESSAGE_FOLDER_ID,myFolder.id)
+                    MailApplication.getInstance().sendBroadcast(Intent(Constants.GOT_MESSAGE_BROADCAST))
+                    count=0
+                }else{
+                    count++
+                }
             }
         }
     }

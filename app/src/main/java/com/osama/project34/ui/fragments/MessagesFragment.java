@@ -51,12 +51,12 @@ public class MessagesFragment extends Fragment {
         messagesAdapter.setDataSet(mMessages);
         mDataListView.setAdapter(messagesAdapter);
     }
-    public void updateMessages(Mail message){
+    public void updateMessages(ArrayList<Mail> message){
         if (mMessages!=null){
             if (mMessages.size()==0){
                 mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
             }
-            mMessages.add(message);
+            mMessages=message;
             messagesAdapter.setDataSet(mMessages);
             messagesAdapter.notifyItemInserted(mMessages.size()-1);
         }

@@ -88,4 +88,47 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database=getWritableDatabase();
         database.insert(KeyEntry.TABLE_NAME,null,values);
     }
+    public ArrayList<Mail> getAllMessages(int folderId){
+        String selection=MailEntry.COLUMN_FOLDER_ID+" =?";
+        String[] selectionArgs={String.valueOf(folderId)};
+        String[] projection={
+                MailEntry._ID,
+                MailEntry.COLUMN_SUBJECT,
+                MailEntry.COLUMN_SENDER,
+                MailEntry.COLUMN_RECIPIENTS,
+                MailEntry.COLUMN_MESSAGE,
+                MailEntry.COLUMN_ENCRYPT,
+                MailEntry.COLUMN_FAVORITE,
+                MailEntry.COLUMN_READ_STATUS,
+                MailEntry.COLUMN_FOLDER_ID,
+                MailEntry.COLUMN_DATE
+        };
+        Cursor cursor=getWritableDatabase().query(
+                MailEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null,
+                null
+                );
+        ArrayList<Mail> data=new ArrayList<>();
+        while (cursor.moveToNext()){
+            Mail mai=new Mail();
+            mai.setId(cursor.getInt(0));
+            mai.setDate(cursor.getString(MailEntry.Indices.COLUMN_DATE));
+            mai.setSender(cursor.getString(MailEntry.Indices.COLUMN_SENDER));
+            mai.setEncrypted(cursor.getInt(MailEntry.Indices.COLUMN_ENCRYPT) != 0);
+            mai.setFavorite(cursor.getInt(MailEntry.Indices.COLUMN_FAVORITE)!=0);
+            mai.setReadStatus(cursor.getInt(MailEntry.Indices.COLUMN_READ_STATUS)!=0);
+            mai.setFolderId(folderId);
+            mai.setRecipients(Util.makeArrayListFromString(cursor.getString(MailEntry.Indices.COLUMN_RECIPIENTS)));
+            mai.setMessage(cursor.getString(MailEntry.Indices.COLUMN_MESSAGE));
+            mai.setSubject(cursor.getString(MailEntry.Indices.COLUMN_SUBJECT));
+            data.add(mai);
+        }
+        cursor.close();
+        return data;
+    }
 }
