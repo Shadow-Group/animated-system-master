@@ -11,16 +11,15 @@ android {
         multiDexEnabled true
         versionCode 1
         versionName "1.0-release"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-    dexOptions {
-        javaMaxHeapSize "4g"
     }
     lintOptions{
         abortOnError false
@@ -46,7 +45,7 @@ dependencies {
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:multidex:1.0.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
 }
 repositories {
