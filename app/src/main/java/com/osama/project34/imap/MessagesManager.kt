@@ -107,7 +107,11 @@ class MessagesManager : MailObserver {
 
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
+            val id=MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
+                if (i>id) {
+                    continue
+                }
                 val message = folder.messages[i]
                 val model = Mail()
                 model.folderId = myFolder.id

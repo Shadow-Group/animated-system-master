@@ -2,6 +2,7 @@ package com.osama.project34.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -57,6 +58,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase database=getWritableDatabase();
         database.insert(MailEntry.TABLE_NAME,null,values);
+    }
+    public int getLastMessageId(Folder folder){
+        String selection=MailEntry.COLUMN_FOLDER_ID+" =?";
+        String[] selectionArgs=new String[]{""+folder.getId()};
+        Cursor cursor=getWritableDatabase().query(MailEntry.TABLE_NAME,
+                new String[]{""+MailEntry._ID},selection,selectionArgs,null,null,null);
+        int result=-1;
+        if (cursor.moveToFirst()){
+           result= cursor.getInt(0);
+        }else{
+            result= -1;
+        }
+        cursor.close();
+        return result;
     }
     public void insertFolder(final Folder folder){
         ContentValues values=new ContentValues();
