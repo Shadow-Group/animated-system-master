@@ -75,9 +75,8 @@ public class MailComposeActivity extends AppCompatActivity {
         if (requestCode==RC_CHOOSE_FILE && resultCode==RESULT_OK) {
             String uri = data.getDataString();
             try{
-
                 File file=new File(uri);
-            InputStream in = getContentResolver().openInputStream(Uri.parse(uri));
+                InputStream in = getContentResolver().openInputStream(Uri.parse(uri));
                 attachmentPath= FileUtils.createTempAttachment(in,file.getName());
         }catch (IOException ex){
                 ex.printStackTrace();
