@@ -143,7 +143,6 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         //set selected account
         mCurrentAccount=mAllAccounts[position];
         //check if I already have the token
-        mAccessToken=getSharedPreferences(Constants.SHARED_PREFS_OAUTH,Context.MODE_PRIVATE).getString(mCurrentAccount.name,null);
         if(mAccessToken!=null){
             startDataActivity();
         }else{
@@ -252,6 +251,8 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     @Override
     public void tokenSuccessful(String token) {
         mProgressDialog.dismiss();
+        //save email in config
+        ConfigManager.saveEmail(mCurrentAccount.name);
         mAccessToken=token;
         getProfileInfo();
 

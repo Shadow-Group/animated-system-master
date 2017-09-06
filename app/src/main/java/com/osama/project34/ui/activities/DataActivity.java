@@ -43,8 +43,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private static final String TAG=DataActivity.class.getName();
 
     private View                    rootContainer;
-    private ActionBarDrawerToggle drawerToggle;
-    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle   drawerToggle;
+    private DrawerLayout            mDrawerLayout;
     private Account mCurrentAccount;
     private String mAccountName;
     private AccountManager mAccountManager;
@@ -162,6 +162,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
             if (acc.name.equalsIgnoreCase(mAccountName)) {
                 Log.d(TAG, "setupAccount: current account is: "+mAccountName);
                 this.mCurrentAccount = acc;
+                ConfigManager.saveEmail(mAccountName);
                 break;
             }
         }

@@ -19,4 +19,5 @@ public class Constants {
     public static final String MESSAGE_NUMBER_DATA      ="message_number_data";
 
 
+    public static  String ACCESS_TOKEN ;
 }

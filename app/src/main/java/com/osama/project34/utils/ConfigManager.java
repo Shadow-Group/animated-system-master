@@ -34,6 +34,11 @@ public final class ConfigManager {
         ConfigManager.profile=profile;
 
     }
+    public static void saveEmail(final String email){
+        mConfigPrefs.edit()
+                .putString(ConfigKeys.EMAIL,email)
+                .apply();
+    }
 
     public static Profile getProfile() {
         return profile;
@@ -50,6 +55,9 @@ public final class ConfigManager {
         profile.setImage(mConfigPrefs.getString(ConfigKeys.IMAGE_URL,null));
         profile.setName(mConfigPrefs.getString(ConfigKeys.FULL_NAME,null));
         profile.setMail(mConfigPrefs.getString(ConfigKeys.EMAIL,null));
+    }
+    public static String getEmail(){
+        return mConfigPrefs.getString(ConfigKeys.EMAIL,"");
     }
 
     private static final class ConfigKeys{

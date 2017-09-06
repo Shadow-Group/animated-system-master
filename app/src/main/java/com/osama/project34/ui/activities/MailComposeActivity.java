@@ -38,6 +38,15 @@ public class MailComposeActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
 
+        bindElements();
+    }
+
+    private void bindElements() {
+        sentToEdit= (EditText) findViewById(R.id.to);
+        ccEdit= (EditText) findViewById(R.id.Cc);
+        bccEdit= (EditText) findViewById(R.id.Bcc);
+        subjectEdit= (EditText) findViewById(R.id.Subject);
+        composeEdit= (EditText) findViewById(R.id.Compose);
     }
 
     @Override

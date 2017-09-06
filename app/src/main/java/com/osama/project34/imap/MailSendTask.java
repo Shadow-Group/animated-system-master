@@ -3,12 +3,15 @@ package com.osama.project34.imap;
 import android.os.AsyncTask;
 
 import com.osama.project34.utils.ConfigManager;
+import com.osama.project34.utils.Constants;
 
 import java.util.Date;
+import java.util.Properties;
 
 import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -20,6 +23,9 @@ import javax.mail.internet.MimeMessage;
  */
 
 public class MailSendTask {
+    public static final String OAUTH_TOKEN_PROP =
+            "mail.imaps.sasl.mechanisms.oauth2.oauthToken";
+
     public static void sendMail(final String to,final String message,
                                 final String subject,final String attachment,final OnMailResponce callback){
         new AsyncTask<Void,Void,Boolean>(){
@@ -27,13 +33,23 @@ public class MailSendTask {
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
+                    Properties props=System.getProperties();
+                    props.put("mail.smtp.starttls.enable", "true");
+                    props.put("mail.smtp.starttls.required", "true");
+                    props.put("mail.smtp.sasl.enable", "true");
+                    props.put("mail.smtp.sasl.mechanisms", "XOAUTH2");
+                    props.put(OAUTH_TOKEN_PROP, Constants.ACCESS_TOKEN);
+                    Session session = Session.getInstance(props);
+                    session.setDebug(true);
+
                     Message message1 = new MimeMessage(MailsSharedData.getSession());
-                    message1.setFrom(new InternetAddress(ConfigManager.getProfile().getMail()));
+                    message1.setFrom(new InternetAddress(ConfigManager.getEmail()));
                     message1.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
                     message1.setSubject(subject);
                     message1.setSentDate(new Date());
                     message1.setText(message);
-                    Transport.send(message1);
+                    session.getTransport().connect("smtp.gmail.com",465,ConfigManager.getEmail(),"");
+                    session.getTransport().sendMessage(message1,message1.getAllRecipients());
                     return true;
                 } catch (MessagingException e) {
                     e.printStackTrace();

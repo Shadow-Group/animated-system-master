@@ -54,6 +54,7 @@ public class OauthGmail {
                         MailApplication.getInstance().getSharedPreferences(
                                 Constants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
+                Constants.ACCESS_TOKEN=mAccessToken;
                 editor.putString(accountName.name, mAccessToken);
                 editor.putString(Constants.STRING_ACCOUNT_SHARED_PREFS,accountName.name);
                 editor.apply();
