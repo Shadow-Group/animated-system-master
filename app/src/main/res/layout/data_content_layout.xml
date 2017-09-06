@@ -15,7 +15,8 @@
             android:id="@+id/messages_recycler_view"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            >
-
-        </android.support.v7.widget.RecyclerView>
+            />
+    <include layout="@layout/view_no_mail"
+        android:id="@+id/no_mail_view"
+        />
     </RelativeLayout>

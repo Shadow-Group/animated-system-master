@@ -1,7 +1,6 @@
 package com.osama.project34.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,8 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.osama.project34.data.Mail;
-import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.R;
+import com.osama.project34.data.Mail;
 
 import java.util.ArrayList;
 

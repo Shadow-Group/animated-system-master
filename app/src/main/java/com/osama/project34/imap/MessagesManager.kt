@@ -74,10 +74,10 @@ class MessagesManager : MailObserver {
                             fold.title = FolderNames.INBOX
                             executor.execute(Threaded(folder, fold))
                         }
-                        FolderNames.OUTBOX -> {
+                        FolderNames.SPAM -> {
                             val fold: com.osama.project34.data.Folder = com.osama.project34.data.Folder()
-                            fold.title = FolderNames.OUTBOX
-                            fold.id = FolderNames.ID_OUTBOX
+                            fold.title = FolderNames.SPAM
+                            fold.id = FolderNames.ID_SPAM
                             executor.execute(Threaded(folder, fold))
                         }
 
@@ -110,6 +110,7 @@ class MessagesManager : MailObserver {
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
             var count=0
+            sendMessageNumberBroadCast(folder.messageCount)
             val id=MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
                 if (i>folder.messages.size-id && id!=-1) {
@@ -133,8 +134,8 @@ class MessagesManager : MailObserver {
                 message.allRecipients.mapTo(recipientAddresses) { (it as InternetAddress).address }
                 model.recipients = recipientAddresses
                 MailApplication.getDb().insertMail(model)
-                if(count==10) {
-                    Log.d("bullhead","Sending broadcast")
+                if(count==5) {
+                    Log.d("bullhead","Sending broadcast for got messages")
                     val intent=Intent(Constants.GOT_MESSAGE_BROADCAST)
                     intent.putExtra(Constants.MESSAGE_FOLDER_ID,myFolder.id)
                     MailApplication.getInstance().sendBroadcast(intent)
@@ -143,6 +144,13 @@ class MessagesManager : MailObserver {
                     count++
                 }
             }
+        }
+
+        private fun sendMessageNumberBroadCast(messages: Int) {
+             Log.d("bullhead","Sending broadcast for messages number")
+                    val intent=Intent(Constants.MESSAGE_NUMBER_BROADCAST)
+                    intent.putExtra(Constants.MESSAGE_NUMBER_DATA,messages)
+                    MailApplication.getInstance().sendBroadcast(intent)
         }
     }
 

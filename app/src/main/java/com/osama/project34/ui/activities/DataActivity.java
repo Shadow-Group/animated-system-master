@@ -8,8 +8,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -23,20 +25,19 @@ import android.widget.TextView;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.osama.project34.MailApplication;
 import com.osama.project34.R;
+import com.osama.project34.data.Folder;
 import com.osama.project34.data.Mail;
+import com.osama.project34.data.Profile;
 import com.osama.project34.imap.ConnectionManager;
+import com.osama.project34.imap.FolderNames;
 import com.osama.project34.imap.MailCallbacks;
 import com.osama.project34.imap.MailManager;
-import com.osama.project34.imap.MessagesDataModel;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
-import com.osama.project34.data.Profile;
 import com.osama.project34.ui.fragments.MessagesFragment;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
     private static final String TAG=DataActivity.class.getName();
@@ -52,21 +53,44 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private NavigationView mNavView;
     private MessagesFragment[] messagesFragments;
     private MessagesFragment mFragment;
+    private Toolbar toolbar;
+
+    private static final int FIRST=0;
+    private static final int SECOND=1;
+    private static final int THIRD=2;
+    private static final int FOURTH=3;
+    private int previousSelectedPosition=0;
+
+    private Folder[] folders;
 
     private BroadcastReceiver receiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d("bullhead", "onReceive: outsite the if in broadcast receiver");
             if (intent.hasExtra(Constants.MESSAGE_FOLDER_ID)){
-                //get message TODO
+                //get message
                 Log.d("bullhead", "onReceive: called");
-                mFragment.updateMessages(MailApplication.getDb().
-                        getAllMessages(intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,0)));
+                int folderId=intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,-1);
+                if (folderId>messagesFragments.length || folderId==-1){
+                    Log.e(TAG, "onReceive: folder id not possible");
+                    return;
+                }
+                messagesFragments[folderId].updateMessages(MailApplication.getDb().
+                        getAllMessages(folderId));
             }
         }
     };
-
-
+    private BroadcastReceiver messageNumberReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.hasExtra(Constants.MESSAGE_NUMBER_DATA)){
+                int folderId=intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,-1);
+                Log.d(TAG, "onReceive: receiver broadcast to sent message number");
+                if (folderId!=-1 && folderId>messagesFragments.length){
+                    messagesFragments[folderId].setMessagesNumber(intent.getIntExtra(Constants.MESSAGE_NUMBER_DATA,0));
+                }
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,20 +102,35 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         setResult(RESULT_OK);
 
         Log.d(TAG, "onCreate: Created activity");
-        messagesFragments=new MessagesFragment[4];
-        messagesFragments[0]=new MessagesFragment();
-        messagesFragments[1]=new MessagesFragment();
-        messagesFragments[2]=new MessagesFragment();
-        messagesFragments[3]=new MessagesFragment();
-        registerReceiver(receiver,new IntentFilter(Constants.GOT_MESSAGE_BROADCAST));
 
-        mFragment=messagesFragments[0];
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.data_content_frame,mFragment)
-                .commit();
+        initFragments();
+        registerReceiver(receiver,new IntentFilter(Constants.GOT_MESSAGE_BROADCAST));
+        registerReceiver(messageNumberReceiver,new IntentFilter(Constants.MESSAGE_NUMBER_BROADCAST));
         //get the currently logged in account.
         setupAccount();
         setupToolbarAndDrawer();
+
+    }
+
+    private void initFragments() {
+        folders=new Folder[4];
+        folders[FIRST]=new Folder(FolderNames.ID_INBOX,FolderNames.INBOX);
+        folders[SECOND]=new Folder(FolderNames.ID_SENT,FolderNames.SENT);
+        folders[THIRD]=new Folder(FolderNames.ID_DRAFT,FolderNames.DRAFT);
+        folders[FOURTH]=new Folder(FolderNames.ID_TRASH,FolderNames.TRASH);
+
+        messagesFragments = new MessagesFragment[4];
+        messagesFragments[FIRST] = MessagesFragment.newInstance(folders[FIRST]);
+        messagesFragments[SECOND] = MessagesFragment.newInstance(folders[SECOND]);
+        messagesFragments[THIRD] = MessagesFragment.newInstance(folders[THIRD]);
+        messagesFragments[FOURTH] = MessagesFragment.newInstance(folders[FOURTH]);
+
+        mFragment = messagesFragments[0];
+
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.data_content_frame, mFragment)
+                .commit();
 
     }
 
@@ -154,14 +193,49 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
 
 
     private void setupToolbarAndDrawer() {
-        Toolbar toolbar=(Toolbar)findViewById(R.id.main_toolbar);
+        toolbar=(Toolbar)findViewById(R.id.main_toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         mDrawerLayout=(DrawerLayout)findViewById(R.id.activity_data);
         drawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close);
         mDrawerLayout.addDrawerListener(drawerToggle);
         mNavView=(NavigationView)findViewById(R.id.main_navigation_drawer);
+        setNavListener();
         setUpDrawerHeader();
+    }
+
+    private void setNavListener() {
+        mNavView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                mNavView.getMenu().getItem(previousSelectedPosition).setChecked(false); //uncheck the previous selected item
+                item.setChecked(true);
+                switch (item.getItemId()){
+                    case R.id.inbox_drawer_item:
+                        changeFragment(FIRST);
+                        break;
+                    case R.id.sent_drawer_item:
+                        changeFragment(SECOND);
+                        break;
+                    case R.id.drafts_drawer_item:
+                        changeFragment(THIRD);
+                        break;
+                    case R.id.trash_drawer_item:
+                        changeFragment(FOURTH);
+                        break;
+                }
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+    }
+    private void changeFragment(int position){
+        if (position>messagesFragments.length) return;
+        previousSelectedPosition=position;
+        toolbar.setTitle(folders[position].getTitle());
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.data_content_frame,messagesFragments[position])
+                .commit();
     }
 
     private void setUpDrawerHeader() {
@@ -171,6 +245,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         ((TextView) headerView.findViewById(R.id.username_textview)).setText(profile.getName());
         Picasso.with(this)
                 .load(profile.getImage())
+                .placeholder(R.drawable.ic_account_circle)
                 .into(((ImageView) headerView.findViewById(R.id.user_account_icon)));
     }
 

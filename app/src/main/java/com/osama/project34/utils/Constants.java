@@ -15,6 +15,8 @@ public class Constants {
     public static final String API_KEY="AIzaSyBEW7mWyAlDpNVqo3uBggE4FZQAdGatEJ4";
     public static final String GOT_MESSAGE_BROADCAST="GOT_MESSAGES";
     public static final String MESSAGE_FOLDER_ID="folder_id";
+    public static final String MESSAGE_NUMBER_BROADCAST="broadcast_number";
+    public static final String MESSAGE_NUMBER_DATA      ="message_number_data";
 
 
 }

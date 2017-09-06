@@ -11,6 +11,12 @@ public class Folder implements Serializable {
     private int id;
     private String title;
 
+    public Folder(int id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+    public Folder(){}
+
     public int getId() {
         return id;
     }

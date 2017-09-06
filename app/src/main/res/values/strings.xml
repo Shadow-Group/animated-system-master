@@ -20,4 +20,7 @@
     <string name="error_connect">An error occurred. %1$s</string>
     <string name="search">Search</string>
     <string name="favorites">Favorites</string>
+    <string name="trash">Trash</string>
+    <string name="mail_image">Mail image</string>
+    <string name="no_mails">No Mails</string>
 </resources>

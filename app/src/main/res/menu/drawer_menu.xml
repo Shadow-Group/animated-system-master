@@ -16,6 +16,11 @@
         android:icon="@drawable/ic_drafts_black_24dp"
         android:id="@+id/drafts_drawer_item"
         />
+    <item
+        android:title="@string/trash"
+        android:icon="@drawable/ic_delete"
+        android:id="@+id/trash_drawer_item"
+        />
     <item android:title="@string/favorites"
         android:icon="@drawable/ic_favorite_border"
         android:id="@+id/favorite_drawer_item"/>

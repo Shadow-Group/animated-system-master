@@ -53,8 +53,8 @@ public class SplashActivity extends AppCompatActivity {
             folder.setTitle(FolderNames.INBOX);
             folder.setId(FolderNames.ID_INBOX);
             MailApplication.getDb().insertFolder(folder);
-            folder.setTitle(FolderNames.OUTBOX);
-            folder.setId(FolderNames.ID_OUTBOX);
+            folder.setTitle(FolderNames.SPAM);
+            folder.setId(FolderNames.ID_SPAM);
             MailApplication.getDb().insertFolder(folder);
             folder.setTitle(FolderNames.SENT);
             folder.setId(FolderNames.ID_SENT);
