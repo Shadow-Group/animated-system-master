@@ -4,16 +4,15 @@ import android.os.AsyncTask;
 
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.Constants;
+import com.sun.mail.smtp.SMTPTransport;
 
 import java.util.Date;
 import java.util.Properties;
 
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
+import javax.mail.URLName;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -36,11 +35,11 @@ public class MailSendTask {
                     Properties props=System.getProperties();
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.starttls.required", "true");
-                    props.put("mail.smtp.sasl.enable", "true");
-                    props.put("mail.smtp.sasl.mechanisms", "XOAUTH2");
-                    props.put(OAUTH_TOKEN_PROP, Constants.ACCESS_TOKEN);
+                    props.put("mail.smtp.ssl.enable", "true");
+                    props.put("mail.smtp.auth.mechanisms", "XOAUTH2");
                     Session session = Session.getInstance(props);
                     session.setDebug(true);
+
 
                     Message message1 = new MimeMessage(MailsSharedData.getSession());
                     message1.setFrom(new InternetAddress(ConfigManager.getEmail()));
@@ -48,8 +47,12 @@ public class MailSendTask {
                     message1.setSubject(subject);
                     message1.setSentDate(new Date());
                     message1.setText(message);
-                    session.getTransport().connect("smtp.gmail.com",465,ConfigManager.getEmail(),"");
-                    session.getTransport().sendMessage(message1,message1.getAllRecipients());
+                    final URLName unusedUrlName = null;
+
+                    SMTPTransport transport = new SMTPTransport(session, unusedUrlName);
+
+                    transport.connect("smtp.gmail.com",465,ConfigManager.getEmail(), Constants.ACCESS_TOKEN);
+                    transport.sendMessage(message1,message1.getAllRecipients());
                     return true;
                 } catch (MessagingException e) {
                     e.printStackTrace();
