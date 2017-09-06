@@ -62,11 +62,14 @@ public class MessagesFragment extends Fragment {
         return mView;
     }
 
+    public void setMessages(ArrayList<Mail> mMessages) {
+        this.mMessages = mMessages;
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getActivity();
-        Log.d("bullhead", "onActivityCreated: activity created");
         if (messageCount==0){
             noMialView.setVisibility(View.VISIBLE);
             mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);

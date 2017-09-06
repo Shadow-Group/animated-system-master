@@ -59,6 +59,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private static final int SECOND=1;
     private static final int THIRD=2;
     private static final int FOURTH=3;
+    private static final int FIVE=4;
     private int previousSelectedPosition=0;
 
     private Folder[] folders;
@@ -113,17 +114,22 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     }
 
     private void initFragments() {
-        folders=new Folder[4];
+        folders=new Folder[5];
         folders[FIRST]=new Folder(FolderNames.ID_INBOX,FolderNames.INBOX);
         folders[SECOND]=new Folder(FolderNames.ID_SENT,FolderNames.SENT);
         folders[THIRD]=new Folder(FolderNames.ID_DRAFT,FolderNames.DRAFT);
         folders[FOURTH]=new Folder(FolderNames.ID_TRASH,FolderNames.TRASH);
+        folders[FIVE]=new Folder(FolderNames.ID_FAVORITE,FolderNames.FAVORITE);
 
-        messagesFragments = new MessagesFragment[4];
+        messagesFragments = new MessagesFragment[5];
         messagesFragments[FIRST] = MessagesFragment.newInstance(folders[FIRST]);
         messagesFragments[SECOND] = MessagesFragment.newInstance(folders[SECOND]);
         messagesFragments[THIRD] = MessagesFragment.newInstance(folders[THIRD]);
         messagesFragments[FOURTH] = MessagesFragment.newInstance(folders[FOURTH]);
+        messagesFragments[FIVE]=MessagesFragment.newInstance(folders[FIVE]);
+
+        //as five is local folder fragment so set its field
+        messagesFragments[FIVE].setMessages(MailApplication.getDb().getAllMessages(folders[FIVE].getId()));
 
         mFragment = messagesFragments[0];
 
@@ -222,6 +228,9 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
                         break;
                     case R.id.trash_drawer_item:
                         changeFragment(FOURTH);
+                        break;
+                    case R.id.favorite_drawer_item:
+                        changeFragment(FIVE);
                         break;
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
