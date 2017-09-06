@@ -109,8 +109,19 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         registerReceiver(messageNumberReceiver,new IntentFilter(Constants.MESSAGE_NUMBER_BROADCAST));
         //get the currently logged in account.
         setupAccount();
+        findViewById(R.id.floating_compose_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                composeEmail();
+            }
+        });
         setupToolbarAndDrawer();
 
+    }
+
+    private void composeEmail() {
+        Intent intent=new Intent(this,MailComposeActivity.class);
+        startActivity(intent);
     }
 
     private void initFragments() {

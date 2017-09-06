@@ -3,17 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.crypto.shadow.myapplication.MainActivity">
 
-    <item
-        android:id="@+id/action_draft"
-        android:orderInCategory="100"
-        android:title="@string/action_draft"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/action_discard"
-        android:orderInCategory="100"
-        android:title="@string/action_discard"
-        app:showAsAction="never" />
-
 
     <item
         android:id="@+id/action_attach_file"

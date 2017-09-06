@@ -31,6 +31,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_edit"
         android:tint="#FFF"
+        android:id="@+id/floating_compose_button"
         android:layout_alignParentEnd="true"
         />
         </RelativeLayout>
