@@ -9,7 +9,7 @@ public final class FolderNames {
     public static final String INBOX    = "inbox";
     public static final String SPAM     = "Spam";
     public static final String SENT     = "sent";
-    public static final String DRAFT    = "draft";
+    public static final String DRAFT    = "drafts";
     public static final String TRASH    = "trash";
 
     public static final int ID_INBOX=0;

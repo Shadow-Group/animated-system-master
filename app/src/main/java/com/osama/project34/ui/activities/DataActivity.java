@@ -84,8 +84,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(Constants.MESSAGE_NUMBER_DATA)){
                 int folderId=intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,-1);
-                Log.d(TAG, "onReceive: receiver broadcast to sent message number");
-                if (folderId!=-1 && folderId>messagesFragments.length){
+                Log.d("bullhead", "onReceive: receiver broadcast to sent message number: "+folderId);
+                if (folderId!=-1 && folderId<messagesFragments.length){
                     messagesFragments[folderId].setMessagesNumber(intent.getIntExtra(Constants.MESSAGE_NUMBER_DATA,0));
                 }
             }

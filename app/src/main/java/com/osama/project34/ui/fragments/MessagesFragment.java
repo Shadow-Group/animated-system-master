@@ -43,7 +43,8 @@ public class MessagesFragment extends Fragment {
         return fragment;
     }
     public void setMessagesNumber(int number){
-        if (noMialView!=null){
+        Log.d("bullhead", "setMessagesNumber: setting message number: "+number);
+        if (noMialView!=null && number==0){
             noMialView.setVisibility(View.VISIBLE);
             mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
         }
@@ -65,11 +66,12 @@ public class MessagesFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         context=getActivity();
+        Log.d("bullhead", "onActivityCreated: activity created");
         if (messageCount==0){
             noMialView.setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
             return;
         }
-        Log.d("bullhead", "onActivityCreated: activity created");
         setUpList();
     }
 

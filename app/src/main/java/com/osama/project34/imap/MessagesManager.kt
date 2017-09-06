@@ -41,7 +41,7 @@ class MessagesManager : MailObserver {
                             fol.close(false)
                         }
                         fol.open(Folder.READ_WRITE)
-                        when (fol.name) {
+                        when (fol.name.toLowerCase()) {
                             FolderNames.DRAFT -> {
                                 val fold: com.osama.project34.data.Folder = com.osama.project34.data.Folder()
                                 fold.id = FolderNames.ID_DRAFT
@@ -54,7 +54,7 @@ class MessagesManager : MailObserver {
                                 fold.id = FolderNames.ID_TRASH
                                 executor.execute(Threaded(fol, fold))
                             }
-                            FolderNames.SENT, "Sent Mail" -> {
+                            FolderNames.SENT, "sent mail" -> {
                                 val fold: com.osama.project34.data.Folder = com.osama.project34.data.Folder()
                                 fold.title = FolderNames.SENT
                                 fold.id = FolderNames.ID_SENT
@@ -109,11 +109,11 @@ class MessagesManager : MailObserver {
 
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
-            var count=0
-            sendMessageNumberBroadCast(folder.messageCount)
-            val id=MailApplication.getDb().getLastMessageId(myFolder)
+            var count = 0
+            sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
+            val id = MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
-                if (i>folder.messages.size-id && id!=-1) {
+                if (i > folder.messages.size - id && id != -1) {
                     continue
                 }
                 val message = folder.messages[i]
@@ -134,23 +134,24 @@ class MessagesManager : MailObserver {
                 message.allRecipients.mapTo(recipientAddresses) { (it as InternetAddress).address }
                 model.recipients = recipientAddresses
                 MailApplication.getDb().insertMail(model)
-                if(count==5) {
-                    Log.d("bullhead","Sending broadcast for got messages")
-                    val intent=Intent(Constants.GOT_MESSAGE_BROADCAST)
-                    intent.putExtra(Constants.MESSAGE_FOLDER_ID,myFolder.id)
+                if (count == 5) {
+                    Log.d("bullhead", "Sending broadcast for got messages")
+                    val intent = Intent(Constants.GOT_MESSAGE_BROADCAST)
+                    intent.putExtra(Constants.MESSAGE_FOLDER_ID, myFolder.id)
                     MailApplication.getInstance().sendBroadcast(intent)
-                    count=0
-                }else{
+                    count = 0
+                } else {
                     count++
                 }
             }
         }
 
-        private fun sendMessageNumberBroadCast(messages: Int) {
-             Log.d("bullhead","Sending broadcast for messages number")
-                    val intent=Intent(Constants.MESSAGE_NUMBER_BROADCAST)
-                    intent.putExtra(Constants.MESSAGE_NUMBER_DATA,messages)
-                    MailApplication.getInstance().sendBroadcast(intent)
+        private fun sendMessageNumberBroadCast(messages: Int, folderNumber: Int) {
+            Log.d("bullhead", "Sending broadcast for messages number: "+folderNumber)
+            val intent = Intent(Constants.MESSAGE_NUMBER_BROADCAST)
+            intent.putExtra(Constants.MESSAGE_NUMBER_DATA, messages)
+            intent.putExtra(Constants.MESSAGE_FOLDER_ID, folderNumber)
+            MailApplication.getInstance().sendBroadcast(intent)
         }
     }
 
