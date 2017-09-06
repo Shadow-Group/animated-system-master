@@ -8,6 +8,15 @@ package com.osama.project34.data;
 public class Profile {
     private String name;
     private String image;
+    private String mail;
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     public String getImage() {
         return image;

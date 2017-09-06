@@ -29,6 +29,7 @@ public final class ConfigManager {
         mConfigPrefs.edit()
                 .putString(ConfigKeys.FULL_NAME,profile.getName())
                 .putString(ConfigKeys.IMAGE_URL,profile.getImage())
+                .putString(ConfigKeys.EMAIL,profile.getMail())
                 .apply();
         ConfigManager.profile=profile;
 
@@ -48,11 +49,13 @@ public final class ConfigManager {
         profile=new Profile();
         profile.setImage(mConfigPrefs.getString(ConfigKeys.IMAGE_URL,null));
         profile.setName(mConfigPrefs.getString(ConfigKeys.FULL_NAME,null));
+        profile.setMail(mConfigPrefs.getString(ConfigKeys.EMAIL,null));
     }
 
     private static final class ConfigKeys{
         private static final String THEME="theme";
         private static final String FULL_NAME="full_name";
+        private static final String EMAIL="user_email";
         private static final String IMAGE_URL="image_url";
     }
 }

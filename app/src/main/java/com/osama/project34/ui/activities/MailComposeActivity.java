@@ -1,5 +1,6 @@
 package com.osama.project34.ui.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.osama.project34.R;
+import com.osama.project34.imap.MailSendTask;
 import com.osama.project34.utils.FileUtils;
 import com.sun.jna.platform.win32.Winspool;
 
@@ -118,6 +120,21 @@ public class MailComposeActivity extends AppCompatActivity {
     }
 
     private void confirmSend(String to, String subject, String message) {
+        final ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setMessage("Sending message. Please wait...");
+        dialog.setTitle("Message");
+        dialog.setCancelable(false);
+        dialog.show();
+        MailSendTask.sendMail(to, subject, message, attachmentPath, new MailSendTask.OnMailResponce() {
+            @Override
+            public void onSuccess() {
+                dialog.dismiss();
+            }
 
+            @Override
+            public void onError() {
+                dialog.dismiss();
+            }
+        });
     }
 }
