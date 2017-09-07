@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.osama.project34.MailApplication;
+import com.osama.project34.firebase.FirebaseHandler;
 import com.osama.project34.utils.CommonConstants;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
@@ -42,6 +43,7 @@ public class OauthGmail {
         protected Boolean doInBackground(Account... params) {
             Account accountName = params[0];
             try {
+                FirebaseHandler.getInstance().loadAllKeys();
                 if (mAccessToken == null) {
                     Log.d(TAG, "doInBackground: getting token: " + accountName.name);
                     mAccessToken = GoogleAuthUtil.getToken(MailApplication.getInstance(), accountName, SCOPE);
