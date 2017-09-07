@@ -4,7 +4,6 @@ import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,7 +33,7 @@ import com.osama.project34.ui.adapters.AdapterCallbacks;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.utils.CommonUtils;
 import com.osama.project34.utils.ConfigManager;
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -237,8 +236,8 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     }
     private void startDataActivity(){
         Intent intent=new Intent(MainActivity.this,DataActivity.class);
-        intent.putExtra(Constants.DATA_ACTIVITY_INTENT_PERM,mCurrentAccount.name);
-        intent.putExtra(Constants.DATA_ACTIVITY_PERM_TOKEN,mAccessToken);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_INTENT_PERM,mCurrentAccount.name);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_PERM_TOKEN,mAccessToken);
         startActivityForResult(intent,1);
         finish();
     }
@@ -263,7 +262,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             @Override
             protected Profile doInBackground(Void... params) {
                 try{
-                    String url="https://www.googleapis.com/plus/v1/people/me?access_token="+mAccessToken+"&key="+Constants.API_KEY;
+                    String url="https://www.googleapis.com/plus/v1/people/me?access_token="+mAccessToken+"&key="+ CommonConstants.API_KEY;
                     String json= CommonUtils.getJsonfromUrl(url);
                     JSONObject rootObject=new JSONObject(json);
                     Profile profile=new Profile();

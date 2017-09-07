@@ -3,7 +3,7 @@ package com.osama.project34.imap;
 import android.os.AsyncTask;
 
 import com.osama.project34.utils.ConfigManager;
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 import com.sun.mail.smtp.SMTPTransport;
 
 import java.util.Date;
@@ -51,7 +51,7 @@ public class MailSendTask {
 
                     SMTPTransport transport = new SMTPTransport(session, unusedUrlName);
 
-                    transport.connect("smtp.gmail.com",465,ConfigManager.getEmail(), Constants.ACCESS_TOKEN);
+                    transport.connect("smtp.gmail.com",465,ConfigManager.getEmail(), CommonConstants.ACCESS_TOKEN);
                     transport.sendMessage(message1,message1.getAllRecipients());
                     return true;
                 } catch (MessagingException e) {

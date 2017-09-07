@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.osama.project34.MailApplication;
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -52,11 +52,11 @@ public class OauthGmail {
                 //save the account token in shared preferences
                 SharedPreferences prefs =
                         MailApplication.getInstance().getSharedPreferences(
-                                Constants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
+                                CommonConstants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                Constants.ACCESS_TOKEN=mAccessToken;
+                CommonConstants.ACCESS_TOKEN=mAccessToken;
                 editor.putString(accountName.name, mAccessToken);
-                editor.putString(Constants.STRING_ACCOUNT_SHARED_PREFS,accountName.name);
+                editor.putString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS,accountName.name);
                 editor.apply();
                 editor.commit();
 

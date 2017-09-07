@@ -25,7 +25,7 @@ import com.osama.project34.data.Folder;
 import com.osama.project34.imap.FolderNames;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 
 public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
     private static final int RC_PERMISSION=123;
@@ -44,9 +44,9 @@ public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
         }else{
             hasRequiredPermission=true;
         }
-        SharedPreferences prefs=getSharedPreferences(Constants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
+        SharedPreferences prefs=getSharedPreferences(CommonConstants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
         //check if prefs has the values set.
-        accountName=prefs.getString(Constants.STRING_ACCOUNT_SHARED_PREFS,null);
+        accountName=prefs.getString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS,null);
         if(accountName!=null){
             if(hasRequiredPermission){
                 setupAccount(accountName);
@@ -80,8 +80,8 @@ public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
 
     private void startDataActivity(String accountName, String accessToken) {
         Intent intent=new Intent(this,DataActivity.class);
-        intent.putExtra(Constants.DATA_ACTIVITY_INTENT_PERM,accountName);
-        intent.putExtra(Constants.DATA_ACTIVITY_PERM_TOKEN,accessToken);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_INTENT_PERM,accountName);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_PERM_TOKEN,accessToken);
         startActivityForResult(intent,1);
         finish();
     }
@@ -99,7 +99,7 @@ public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
 
     @Override
     public void tokenSuccessful(String token) {
-        Constants.ACCESS_TOKEN=token;
+        CommonConstants.ACCESS_TOKEN=token;
         startDataActivity(accountName,token);
     }
 

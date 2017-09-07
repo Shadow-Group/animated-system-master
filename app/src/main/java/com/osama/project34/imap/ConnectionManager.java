@@ -3,10 +3,9 @@ package com.osama.project34.imap;
 import android.accounts.Account;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.provider.SyncStateContract;
 import android.util.Log;
 
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 
 import java.util.Properties;
 
@@ -72,7 +71,7 @@ public class ConnectionManager {
         protected String doInBackground(Void... voids) {
               try {
                     mStore=mSession.getStore("imap");
-                    mStore.connect(Constants.GMAIL_HOST,Constants.GMAIL_SSL_PORT,mUserAccount.name,mAccessToken);
+                    mStore.connect(CommonConstants.GMAIL_HOST, CommonConstants.GMAIL_SSL_PORT,mUserAccount.name,mAccessToken);
                     while (!mStore.isConnected()){
                           Log.d(TAG, "doInBackground: conecting store");
                     }

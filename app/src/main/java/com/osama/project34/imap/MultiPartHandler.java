@@ -17,14 +17,14 @@ import javax.mail.internet.MimeMultipart;
  */
 
 public class MultiPartHandler {
-    private String text;
+    private String[] text;
     private String[] attachments;
 
-    public String getText() {
+    public String[] getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String[] text) {
         this.text = text;
     }
 
@@ -41,7 +41,7 @@ public class MultiPartHandler {
         try {
 
             Multipart multipart = (Multipart) message.getContent();
-            String text="";
+            ArrayList<String> text=new ArrayList<>();
         ArrayList<String> attachments=new ArrayList<>();
         for (int i = 0; i < multipart.getCount(); i++) {
             Part bodyPart=multipart.getBodyPart(i);
@@ -49,13 +49,13 @@ public class MultiPartHandler {
                 DataHandler data=bodyPart.getDataHandler();
                 attachments.add(data.getName());
             }
-            text=text+getText(bodyPart);
+            text.add(getText(bodyPart));
         }
         handler.setAttachments(attachments.toArray(new String[attachments.size()]));
-        handler.setText(text);
+        handler.setText(text.toArray(new String[text.size()]));
         }catch (ClassCastException ex){
             ex.printStackTrace();
-           handler.setText(message.getContent().toString());
+           handler.setText(new String[]{message.getContent().toString()});
             handler.setAttachments(new String[0]);
         }
 

@@ -5,7 +5,7 @@ import android.os.AsyncTask
 import android.util.Log
 import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
-import com.osama.project34.utils.Constants
+import com.osama.project34.utils.CommonConstants
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.mail.Flags
@@ -127,8 +127,8 @@ class MessagesManager : MailObserver {
                 MailApplication.getDb().insertMail(model)
                 if (count == 5) {
                     Log.d("bullhead", "Sending broadcast for got messages")
-                    val intent = Intent(Constants.GOT_MESSAGE_BROADCAST)
-                    intent.putExtra(Constants.MESSAGE_FOLDER_ID, myFolder.id)
+                    val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
+                    intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
                     MailApplication.getInstance().sendBroadcast(intent)
                     count = 0
                 } else {
@@ -139,9 +139,9 @@ class MessagesManager : MailObserver {
 
         private fun sendMessageNumberBroadCast(messages: Int, folderNumber: Int) {
             Log.d("bullhead", "Sending broadcast for messages number: "+folderNumber)
-            val intent = Intent(Constants.MESSAGE_NUMBER_BROADCAST)
-            intent.putExtra(Constants.MESSAGE_NUMBER_DATA, messages)
-            intent.putExtra(Constants.MESSAGE_FOLDER_ID, folderNumber)
+            val intent = Intent(CommonConstants.MESSAGE_NUMBER_BROADCAST)
+            intent.putExtra(CommonConstants.MESSAGE_NUMBER_DATA, messages)
+            intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, folderNumber)
             MailApplication.getInstance().sendBroadcast(intent)
         }
     }

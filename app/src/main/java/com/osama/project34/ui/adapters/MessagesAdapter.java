@@ -1,6 +1,7 @@
 package com.osama.project34.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.google.gson.Gson;
 import com.osama.project34.R;
 import com.osama.project34.data.Mail;
 import com.osama.project34.imap.MultiPartHandler;
+import com.osama.project34.ui.activities.MailViewActivity;
+import com.osama.project34.utils.CommonConstants;
 
 import java.util.ArrayList;
 
@@ -59,7 +63,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
        Mail dataModel=mDataSet.get(position);
         String name=dataModel.getSender();
-        holder.mMessageTextTextView.setText(dataModel.getMessage().getText());
+        holder.mMessageTextTextView.setText(dataModel.getMessage().getText()[0]);
         holder.mMessageSenderTextView.setText(name);
         holder.mMessageSubjectTextView.setText(dataModel.getSubject());
         ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -87,6 +91,15 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             mMessageTextTextView        = (TextView)itemView.findViewById(R.id.list_message_text);
             mMessageSubjectTextView     = (TextView)itemView.findViewById(R.id.list_subject_text);
             senderThumb                 = ((ImageView) itemView.findViewById(R.id.list_sender_thumb));
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(mContext, MailViewActivity.class);
+                    intent.putExtra(CommonConstants.MAIL_VIEW_INTENT,new Gson().toJson(mDataSet.get(getAdapterPosition())));
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 }

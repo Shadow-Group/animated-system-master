@@ -36,7 +36,7 @@ import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.ui.fragments.MessagesFragment;
 import com.osama.project34.utils.ConfigManager;
-import com.osama.project34.utils.Constants;
+import com.osama.project34.utils.CommonConstants;
 import com.squareup.picasso.Picasso;
 
 public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
@@ -67,10 +67,10 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private BroadcastReceiver receiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.MESSAGE_FOLDER_ID)){
+            if (intent.hasExtra(CommonConstants.MESSAGE_FOLDER_ID)){
                 //get message
                 Log.d("bullhead", "onReceive: called");
-                int folderId=intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,-1);
+                int folderId=intent.getIntExtra(CommonConstants.MESSAGE_FOLDER_ID,-1);
                 if (folderId>messagesFragments.length || folderId==-1){
                     Log.e(TAG, "onReceive: folder id not possible");
                     return;
@@ -83,11 +83,11 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private BroadcastReceiver messageNumberReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(Constants.MESSAGE_NUMBER_DATA)){
-                int folderId=intent.getIntExtra(Constants.MESSAGE_FOLDER_ID,-1);
+            if (intent.hasExtra(CommonConstants.MESSAGE_NUMBER_DATA)){
+                int folderId=intent.getIntExtra(CommonConstants.MESSAGE_FOLDER_ID,-1);
                 Log.d("bullhead", "onReceive: receiver broadcast to sent message number: "+folderId);
                 if (folderId!=-1 && folderId<messagesFragments.length){
-                    messagesFragments[folderId].setMessagesNumber(intent.getIntExtra(Constants.MESSAGE_NUMBER_DATA,0));
+                    messagesFragments[folderId].setMessagesNumber(intent.getIntExtra(CommonConstants.MESSAGE_NUMBER_DATA,0));
                 }
             }
         }
@@ -105,8 +105,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         Log.d(TAG, "onCreate: Created activity");
 
         initFragments();
-        registerReceiver(receiver,new IntentFilter(Constants.GOT_MESSAGE_BROADCAST));
-        registerReceiver(messageNumberReceiver,new IntentFilter(Constants.MESSAGE_NUMBER_BROADCAST));
+        registerReceiver(receiver,new IntentFilter(CommonConstants.GOT_MESSAGE_BROADCAST));
+        registerReceiver(messageNumberReceiver,new IntentFilter(CommonConstants.MESSAGE_NUMBER_BROADCAST));
         //get the currently logged in account.
         setupAccount();
         findViewById(R.id.floating_compose_button).setOnClickListener(new View.OnClickListener() {
@@ -152,7 +152,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     }
 
     private void setupAccount() {
-        mAccountName = getIntent().getExtras().getString(Constants.DATA_ACTIVITY_INTENT_PERM);
+        mAccountName = getIntent().getExtras().getString(CommonConstants.DATA_ACTIVITY_INTENT_PERM);
         assert mAccountName != null;
         mAccountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d(TAG, "setupAccount: should get account now: "+mOauthToken);
