@@ -3,6 +3,7 @@ package com.osama.project34.ui.activities;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,13 +20,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.EditText;
 
 import com.osama.project34.R;
+import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.data.Profile;
 import com.osama.project34.ui.adapters.AccountsAdapter;
@@ -249,11 +254,11 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
 
     @Override
     public void tokenSuccessful(String token) {
-        mProgressDialog.dismiss();
         //save email in config
         ConfigManager.saveEmail(mCurrentAccount.name);
         mAccessToken=token;
         getProfileInfo();
+
 
     }
 
@@ -280,11 +285,67 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             protected void onPostExecute(Profile profile) {
                 super.onPostExecute(profile);
                 if (profile!=null){
+                    mProgressDialog.dismiss();
                     ConfigManager.saveProfileInfo(profile);
-                    startDataActivity();
+                    showGenerateKeysDialog();
                 }
             }
         }.execute();
+    }
+    private void showGenerateKeysDialog(){
+        final Dialog dialog=new Dialog(this);
+        dialog.setContentView(R.layout.password_dialog_layout);
+        dialog.findViewById(R.id.generate_key_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText editText= (EditText) dialog.findViewById(R.id.key_password);
+                String password=editText.getText().toString();
+                if (password.length()<6){
+                    editText.setError("Password length must be greater than 3");
+                    return;
+                }
+                generateKeys(password);
+            }
+        });
+    }
+    private void generateKeys(final String password){
+        final ProgressDialog dialog=new ProgressDialog(this);
+        dialog.setMessage("Generating keys. please wait....");
+        dialog.setTitle("Keys Generation");
+        dialog.setCancelable(false);
+        dialog.show();
+        EncryptionHandler.genererateKeys(mCurrentAccount.name, password, new EncryptionHandler.OnKeysGenerated() {
+            @Override
+            public void onSuccess() {
+                dialog.dismiss();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                startDataActivity();
+                            }
+                        })
+                        .setCancelable(false)
+                        .setMessage("Keys successfully generated.")
+                        .show();
+            }
+
+            @Override
+            public void onError() {
+                dialog.dismiss();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                generateKeys(password);
+                            }
+                        })
+                        .setCancelable(false)
+                        .setTitle("Error")
+                        .setMessage("Unable to generate keys.")
+                        .show();
+            }
+        });
     }
 
     @Override
