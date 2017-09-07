@@ -49,6 +49,7 @@ dependencies {
     compile 'com.sun.mail:android-activation:1.6.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.google.code.gson:gson:2.8.1'
     compile "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
 
     compile 'com.madgag.spongycastle:prov:1.54.0.0'

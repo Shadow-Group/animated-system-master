@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.gson.Gson;
 import com.osama.project34.data.Folder;
 import com.osama.project34.data.Key;
 import com.osama.project34.data.Mail;
+import com.osama.project34.imap.MultiPartHandler;
 
 import java.util.ArrayList;
 
@@ -54,7 +56,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(MailEntry.COLUMN_FAVORITE, mail.isFavorite() ? 1 : 0);
             values.put(MailEntry.COLUMN_READ_STATUS, mail.isReadStatus() ? 1 : 0);
             values.put(MailEntry.COLUMN_FOLDER_ID, mail.getFolderId());
-            values.put(MailEntry.COLUMN_MESSAGE, mail.getMessage());
+            values.put(MailEntry.COLUMN_MESSAGE, new Gson().toJson(mail.getMessage()));
             values.put(MailEntry.COLUMN_RECIPIENTS, Util.makeString(mail.getRecipients()));
             values.put(MailEntry.COLUMN_SENDER, mail.getSender());
 
@@ -127,7 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             mai.setReadStatus(cursor.getInt(MailEntry.Indices.COLUMN_READ_STATUS)!=0);
             mai.setFolderId(folderId);
             mai.setRecipients(Util.makeArrayListFromString(cursor.getString(MailEntry.Indices.COLUMN_RECIPIENTS)));
-            mai.setMessage(cursor.getString(MailEntry.Indices.COLUMN_MESSAGE));
+            mai.setMessage(new Gson().fromJson(cursor.getString(MailEntry.Indices.COLUMN_MESSAGE), MultiPartHandler.class));
             mai.setSubject(cursor.getString(MailEntry.Indices.COLUMN_SUBJECT));
             data.add(mai);
         }

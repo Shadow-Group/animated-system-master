@@ -111,7 +111,7 @@ class MessagesManager : MailObserver {
                 model.isEncrypted = message.isMimeType(MimeTypes.PGP)
                 model.subject = message.subject
                 model.date = message.receivedDate.toString()
-                model.message = message.content.toString()
+                model.message = MultiPartHandler.createFromMessage(message)
                 val address: InternetAddress = message.from[0] as InternetAddress
                 model.sender = address.personal
                 message.flags.userFlags

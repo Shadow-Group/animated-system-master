@@ -12,6 +12,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.osama.project34.R;
 import com.osama.project34.data.Mail;
+import com.osama.project34.imap.MultiPartHandler;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
        Mail dataModel=mDataSet.get(position);
         String name=dataModel.getSender();
-        holder.mMessageTextTextView.setText(dataModel.getMessage());
+        holder.mMessageTextTextView.setText(dataModel.getMessage().getText());
         holder.mMessageSenderTextView.setText(name);
         holder.mMessageSubjectTextView.setText(dataModel.getSubject());
         ColorGenerator generator = ColorGenerator.MATERIAL;

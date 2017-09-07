@@ -1,7 +1,11 @@
 package com.osama.project34.data;
 
+import com.osama.project34.imap.MultiPartHandler;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.mail.Multipart;
 
 /**
  * Created by bullhead on 9/5/17.
@@ -15,7 +19,7 @@ public class Mail implements Serializable {
     private boolean encrypted;
     private ArrayList<String> recipients;
     private boolean favorite;
-    private String message;
+    private MultiPartHandler message;
     private String subject;
     private String sender;
     private String date;
@@ -93,11 +97,11 @@ public class Mail implements Serializable {
         this.favorite = favorite;
     }
 
-    public String getMessage() {
+    public MultiPartHandler getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(MultiPartHandler message) {
         this.message = message;
     }
 
