@@ -5,6 +5,7 @@ import android.os.AsyncTask
 import android.util.Log
 import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
+import com.osama.project34.database.DatabaseHelper
 import com.osama.project34.utils.CommonConstants
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -97,12 +98,15 @@ class MessagesManager : MailObserver {
 
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
-            var count = 0
+            val db=DatabaseHelper.getInstance(MailApplication.getInstance())
             sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
-            val id = MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
-
                 val message = folder.messages[i]
+                val id=(folder as UIDFolder).getUID(message)
+               if (db.hasMessage(id)){
+                   db.updateMessageNumber(message.messageNumber,id)
+                   continue
+               }
                 val model = Mail()
                 model.messageNumber=message.messageNumber
                 model.folderId = myFolder.id
@@ -125,15 +129,11 @@ class MessagesManager : MailObserver {
                 }
                 model.recipients = recipientAddresses
                 MailApplication.getDb().insertMail(model)
-                if (count == 5) {
+
                     Log.d("bullhead", "Sending broadcast for got messages")
                     val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
                     intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
                     MailApplication.getInstance().sendBroadcast(intent)
-                    count = 0
-                } else {
-                    count++
-                }
             }
         }
 

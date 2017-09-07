@@ -3,13 +3,16 @@ package com.osama.project34.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.osama.project34.data.Folder;
 import com.osama.project34.data.Key;
 import com.osama.project34.data.Mail;
+import com.osama.project34.imap.MessagesManager;
 import com.osama.project34.imap.MultiPartHandler;
 
 import java.util.ArrayList;
@@ -135,5 +138,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return data;
+    }
+    public boolean hasMessage(long uid){
+        String selection=MailEntry._ID +" =?";
+        String[] selectionArgs={String.valueOf(uid)};
+        Cursor cursor=getWritableDatabase().query(
+                MailEntry.TABLE_NAME,
+                new String[]{MailEntry.COLUMN_MESSAGE_NUMEBR},
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+                );
+        if (cursor.moveToFirst()){
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
+
+    public void updateMessageNumber(int messageNumber, long id) {
+        Log.d("bullhead", "updateMessageNumber: updating message");
+        String query="update "+MailEntry.TABLE_NAME+" set "+
+                MailEntry.COLUMN_MESSAGE_NUMEBR+" ="+messageNumber +
+                " WHERE "+MailEntry._ID+"="+id;
+        getWritableDatabase().execSQL(query);
+    }
+    public long getMailCount(){
+        return DatabaseUtils.queryNumEntries(getWritableDatabase(),MailEntry.TABLE_NAME);
     }
 }
