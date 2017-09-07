@@ -9,12 +9,16 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.activation.MimeType;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.URLName;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 /**
  * Created by bullhead on 9/6/17.
@@ -47,10 +51,29 @@ public class MailSendTask {
                     message1.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
                     message1.setSubject(subject);
                     message1.setSentDate(new Date());
-                    message1.setText(message);
+//                    if (isEncrypted){
+//                        message1.setText(CommonConstants.OUR_ID_FOR_ENCRYPTED+message);
+//                    }else{
+//                        message1.setText(message);
+//                    }
+                    BodyPart part=new MimeBodyPart();
+                      MimeMultipart mimeMultipart;
                     if (isEncrypted){
-                        message1.setFlags(new PgpFlag(),true);
+                        mimeMultipart=new MimeMultipart("encrypted");
+                    }else{
+                        mimeMultipart=new MimeMultipart("alternative");
                     }
+                    part.setText(message);
+                    mimeMultipart.addBodyPart(part);
+                    if (isEncrypted){
+                        MimeBodyPart encryptedPart=new MimeBodyPart();
+                        encryptedPart.setHeader("Content-Type",MimeTypes.PGP);
+                        encryptedPart.setText(message);
+                        mimeMultipart.addBodyPart(encryptedPart);
+
+                    }
+                    part.setHeader("Content-Type",MimeTypes.TEXT);
+                    message1.setContent(mimeMultipart,MimeTypes.PGP);
                     final URLName unusedUrlName = null;
 
                     SMTPTransport transport = new SMTPTransport(session, unusedUrlName);

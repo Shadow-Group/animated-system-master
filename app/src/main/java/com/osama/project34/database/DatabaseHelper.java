@@ -159,7 +159,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void updateMessageNumber(int messageNumber, long id) {
-        Log.d("bullhead", "updateMessageNumber: updating message");
         String query="update "+MailEntry.TABLE_NAME+" set "+
                 MailEntry.COLUMN_MESSAGE_NUMEBR+" ="+messageNumber +
                 " WHERE "+MailEntry._ID+"="+id;

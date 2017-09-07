@@ -7,12 +7,10 @@ import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
 import com.osama.project34.database.DatabaseHelper
 import com.osama.project34.utils.CommonConstants
+import kotlinx.android.synthetic.main.activity_mail_view.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import javax.mail.Flags
-import javax.mail.Folder
-import javax.mail.MessagingException
-import javax.mail.UIDFolder
+import javax.mail.*
 import javax.mail.internet.InternetAddress
 
 /**
@@ -100,40 +98,44 @@ class MessagesManager : MailObserver {
         override fun run() {
             val db=DatabaseHelper.getInstance(MailApplication.getInstance())
             sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
-            for (i in folder.messages.size - 1 downTo 0) {
-                val message = folder.messages[i]
-                val id=(folder as UIDFolder).getUID(message)
-               if (db.hasMessage(id)){
-                   db.updateMessageNumber(message.messageNumber,id)
-                   continue
-               }
-                val model = Mail()
-                model.messageNumber=message.messageNumber
-                model.folderId = myFolder.id
-                model.isFavorite = false
-                model.id=(folder as UIDFolder).getUID(message)
-                model.isEncrypted = message.isMimeType(MimeTypes.PGP)
-                model.subject = message.subject
-                model.date = message.receivedDate.toString()
-                model.message = MultiPartHandler.createFromMessage(message)
-                val address: InternetAddress = message.from[0] as InternetAddress
-                model.sender = address.personal
-                message.flags.userFlags
-                        .filter { it.equals(Flags.Flag.SEEN) }
-                        .forEach { model.isReadStatus = true }
-                val recipientAddresses = ArrayList<String>()
-                if(message.allRecipients!=null) {
-                    message.allRecipients.mapTo(recipientAddresses) { (it as InternetAddress).address }
-                }else{
-                    recipientAddresses.add("Draft") //drafts don't have recipient
-                }
-                model.recipients = recipientAddresses
-                MailApplication.getDb().insertMail(model)
+            try {
+                for (i in folder.messages.size - 1 downTo 0) {
+                    val message = folder.messages[i]
+                    val id = (folder as UIDFolder).getUID(message)
+                    if (db.hasMessage(id)) {
+                        db.updateMessageNumber(message.messageNumber, id)
+                        continue
+                    }
+                    val model = Mail()
+                    model.messageNumber = message.messageNumber
+                    model.folderId = myFolder.id
+                    model.isFavorite = false
+                    model.id = (folder as UIDFolder).getUID(message)
+                    model.isEncrypted=message.contentType.toLowerCase().contains("multipart/encrypted")
+                    model.subject = message.subject
+                    model.date = message.receivedDate.toString()
+                    model.message = MultiPartHandler.createFromMessage(message)
+                    val address: InternetAddress = message.from[0] as InternetAddress
+                    model.sender = address.personal
+                    message.flags.userFlags
+                            .filter { it.equals(Flags.Flag.SEEN) }
+                            .forEach { model.isReadStatus = true }
+                    val recipientAddresses = ArrayList<String>()
+                    if (message.allRecipients != null) {
+                        message.allRecipients.mapTo(recipientAddresses) { (it as InternetAddress).address }
+                    } else {
+                        recipientAddresses.add("Draft") //drafts don't have recipient
+                    }
+                    model.recipients = recipientAddresses
+                    MailApplication.getDb().insertMail(model)
 
                     Log.d("bullhead", "Sending broadcast for got messages")
                     val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
                     intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
                     MailApplication.getInstance().sendBroadcast(intent)
+                }
+            }catch (ex:FolderClosedException){
+                ex.printStackTrace()
             }
         }
 

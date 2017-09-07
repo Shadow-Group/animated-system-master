@@ -2,7 +2,9 @@ package com.osama.project34.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         String name=dataModel.getSender();
         holder.mMessageTextTextView.setText(dataModel.getMessage().getText()[0]);
         holder.mMessageSenderTextView.setText(name);
+        if (dataModel.isEncrypted()){
+            Log.d("hello", "onBindViewHolder: message is encrypted");
+            holder.mMessageSenderTextView.setCompoundDrawables(ContextCompat.getDrawable(mContext,R.drawable.ic_lock_outline),null,null,null);
+        }
         holder.mMessageSubjectTextView.setText(dataModel.getSubject());
         ColorGenerator generator = ColorGenerator.MATERIAL;
         TextDrawable thumb=TextDrawable.builder()
