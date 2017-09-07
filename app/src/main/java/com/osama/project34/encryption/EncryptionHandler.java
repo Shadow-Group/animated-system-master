@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.osama.project34.MailApplication;
+import com.osama.project34.data.Key;
+import com.osama.project34.firebase.FirebaseHandler;
 
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
@@ -22,7 +24,7 @@ import java.io.FileOutputStream;
  */
 
 public class EncryptionHandler {
-    public static void genererateKeys(final String username,final String password,final OnKeysGenerated listener){
+    public static void generateKeys(final String username, final String password, final OnKeysGenerated listener){
         new AsyncTask<Void,Void,Boolean>(){
 
             @Override
@@ -45,6 +47,16 @@ public class EncryptionHandler {
                     secretKeys.encode(secOut);
                     secOut.close();
 
+                    //insert user public key on server database
+                    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+                    ArmoredOutputStream armoredOutputStream=new ArmoredOutputStream(outputStream);
+                    publicKeys.encode(armoredOutputStream);
+                    armoredOutputStream.close();
+
+                    Key key=new Key();
+                    key.setText(outputStream.toString());
+                    key.setUser(username);
+                    FirebaseHandler.getInstance().saveKey(key);
                     return true;
 
 

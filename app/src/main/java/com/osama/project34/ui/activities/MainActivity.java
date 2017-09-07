@@ -20,7 +20,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -288,6 +287,9 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
                     mProgressDialog.dismiss();
                     ConfigManager.saveProfileInfo(profile);
                     showGenerateKeysDialog();
+                }else{
+                    mProgressDialog.dismiss();
+                    showGenerateKeysDialog();
                 }
             }
         }.execute();
@@ -300,13 +302,15 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             public void onClick(View view) {
                 EditText editText= (EditText) dialog.findViewById(R.id.key_password);
                 String password=editText.getText().toString();
-                if (password.length()<6){
+                if (password.length()<4){
                     editText.setError("Password length must be greater than 3");
                     return;
                 }
+                dialog.dismiss();
                 generateKeys(password);
             }
         });
+        dialog.show();
     }
     private void generateKeys(final String password){
         final ProgressDialog dialog=new ProgressDialog(this);
@@ -314,7 +318,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         dialog.setTitle("Keys Generation");
         dialog.setCancelable(false);
         dialog.show();
-        EncryptionHandler.genererateKeys(mCurrentAccount.name, password, new EncryptionHandler.OnKeysGenerated() {
+        EncryptionHandler.generateKeys(mCurrentAccount.name, password, new EncryptionHandler.OnKeysGenerated() {
             @Override
             public void onSuccess() {
                 dialog.dismiss();
