@@ -4,38 +4,34 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.osama.project34.MailApplication"
+        android:name=".MailApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppThemeDar">
         <activity
-            android:name="com.osama.project34.ui.activities.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
-
-        </activity>
+            android:name=".ui.activities.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
         <activity
-            android:name="com.osama.project34.ui.activities.DataActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize">
-
-        </activity>
-
-<activity android:name=".ui.activities.MailComposeActivity"
-    android:configChanges="keyboardHidden|orientation|screenSize"/>
+            android:name=".ui.activities.DataActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"></activity>
         <activity
-            android:name="com.osama.project34.ui.activities.SplashActivity"
-            android:theme="@style/SplashStyle"
-            >
-              <intent-filter>
+            android:name=".ui.activities.MailComposeActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity
+            android:name=".ui.activities.SplashActivity"
+            android:theme="@style/SplashStyle">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activities.MailViewActivity"></activity>
     </application>
 
 </manifest>
