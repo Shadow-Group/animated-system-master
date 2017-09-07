@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
@@ -31,6 +33,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private Context mContext;
     private ArrayList<Mail> mDataSet;
     private ArrayList<String> mColors;
+    private boolean isLoading=true;
 
 
     public MessagesAdapter(Context context){
@@ -52,6 +55,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         mColors.add("#795548");
         mColors.add("#607D8B");
     }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
     public void setDataSet(ArrayList<Mail> dataset){
         this.mDataSet=dataset;
     }
@@ -63,13 +71,23 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-       Mail dataModel=mDataSet.get(position);
+        if (position>=mDataSet.size() && isLoading){
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.mailItem.setVisibility(View.GONE);
+            return;
+        }else{
+            holder.progressBar.setVisibility(View.GONE);
+            holder.mailItem.setVisibility(View.VISIBLE);
+        }
+        Mail dataModel=mDataSet.get(position);
         String name=dataModel.getSender();
         holder.mMessageTextTextView.setText(dataModel.getMessage().getText()[0]);
         holder.mMessageSenderTextView.setText(name);
         if (dataModel.isEncrypted()){
             Log.d("hello", "onBindViewHolder: message is encrypted");
-            holder.mMessageSenderTextView.setCompoundDrawables(ContextCompat.getDrawable(mContext,R.drawable.ic_lock_outline),null,null,null);
+            holder.encryptionStatusImage.setVisibility(View.VISIBLE);
+        }else{
+            holder.encryptionStatusImage.setVisibility(View.GONE);
         }
         holder.mMessageSubjectTextView.setText(dataModel.getSubject());
         ColorGenerator generator = ColorGenerator.MATERIAL;
@@ -80,7 +98,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
+        return mDataSet.size()+1;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -88,7 +106,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         TextView mMessageTextTextView;
         TextView mMessageSubjectTextView;
         ImageView senderThumb;
-
+        ImageView encryptionStatusImage;
+        ProgressBar progressBar;
+        LinearLayout mailItem;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -97,6 +117,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             mMessageTextTextView        = (TextView)itemView.findViewById(R.id.list_message_text);
             mMessageSubjectTextView     = (TextView)itemView.findViewById(R.id.list_subject_text);
             senderThumb                 = ((ImageView) itemView.findViewById(R.id.list_sender_thumb));
+            encryptionStatusImage       = (ImageView) itemView.findViewById(R.id.encryptedStatusImage);
+            progressBar                 = (ProgressBar) itemView.findViewById(R.id.last_progress_bar);
+            mailItem                    = (LinearLayout) itemView.findViewById(R.id.mail_item);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -47,6 +47,9 @@ public class MessagesFragment extends Fragment {
         if (noMialView!=null && number==0){
             noMialView.setVisibility(View.VISIBLE);
             mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
+            if (messagesAdapter!=null) {
+                messagesAdapter.setLoading(false);
+            }
         }
         this.messageCount=number;
     }
@@ -89,6 +92,11 @@ public class MessagesFragment extends Fragment {
         }
         messagesAdapter.setDataSet(mMessages);
         mDataListView.setAdapter(messagesAdapter);
+    }
+    public void setLoading(boolean loading){
+        if (messagesAdapter!=null) {
+            messagesAdapter.setLoading(loading);
+        }
     }
 
     public void updateMessages(ArrayList<Mail> message){

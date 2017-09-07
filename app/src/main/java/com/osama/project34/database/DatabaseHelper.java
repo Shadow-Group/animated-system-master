@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
-    public void insertMail(final Mail mail){
+    public int insertMail(final Mail mail){
             ContentValues values = new ContentValues();
             values.put(MailEntry._ID, mail.getId());
         values.put(MailEntry.COLUMN_MESSAGE_NUMEBR,mail.getMessageNumber());
@@ -64,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put(MailEntry.COLUMN_SENDER, mail.getSender());
 
             SQLiteDatabase database = getWritableDatabase();
-            database.insertWithOnConflict(MailEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
+           return (int) database.insertWithOnConflict(MailEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
     }
     public long getLastMessageId(Folder folder){
         String selection=MailEntry.COLUMN_FOLDER_ID+" =?";

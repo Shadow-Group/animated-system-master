@@ -18,7 +18,7 @@ public class CommonConstants {
     public static final String MESSAGE_NUMBER_BROADCAST="broadcast_number";
     public static final String MESSAGE_NUMBER_DATA      ="message_number_data";
     public static final String MAIL_VIEW_INTENT="mail_view_intent";
-    public static final String OUR_ID_FOR_ENCRYPTED="com.osama.project34.mail.encrypted";
+    public static final String LOADING_INTENT="loading_intent";
 
     public static  String ACCESS_TOKEN ;
 }

@@ -127,11 +127,12 @@ class MessagesManager : MailObserver {
                         recipientAddresses.add("Draft") //drafts don't have recipient
                     }
                     model.recipients = recipientAddresses
-                    MailApplication.getDb().insertMail(model)
-
+                   val count= MailApplication.getDb().insertMail(model)
                     Log.d("bullhead", "Sending broadcast for got messages")
+                    val isLoading=count!=folder.messageCount
                     val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
                     intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
+                    intent.putExtra(CommonConstants.LOADING_INTENT,isLoading)
                     MailApplication.getInstance().sendBroadcast(intent)
                 }
             }catch (ex:FolderClosedException){

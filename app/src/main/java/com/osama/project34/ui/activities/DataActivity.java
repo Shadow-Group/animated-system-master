@@ -77,6 +77,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
                 }
                 messagesFragments[folderId].updateMessages(MailApplication.getDb().
                         getAllMessages(folderId));
+                messagesFragments[folderId].setLoading(intent.getBooleanExtra(CommonConstants.LOADING_INTENT,false));
             }
         }
     };
