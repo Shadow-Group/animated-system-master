@@ -198,7 +198,7 @@ public class MailComposeActivity extends AppCompatActivity {
 
     }
     private void sendNow(String to, String subject, String message, final ProgressDialog dialog){
-        MailSendTask.sendMail(to, subject, message, attachmentPath, shouldEncrypt,new MailSendTask.OnMailResponce() {
+        MailSendTask.sendMail(to, subject, message, attachmentPath, shouldEncrypt,new MailSendTask.OnMailResponse() {
                             @Override
                             public void onSuccess() {
                                 dialog.dismiss();

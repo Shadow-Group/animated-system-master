@@ -2,19 +2,13 @@ package com.osama.project34.imap;
 
 import android.os.AsyncTask;
 
-import com.osama.project34.data.Key;
-import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.CommonConstants;
-import com.osama.project34.utils.FileUtils;
 import com.sun.mail.smtp.SMTPTransport;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -32,7 +26,7 @@ public class MailSendTask {
             "mail.imaps.sasl.mechanisms.oauth2.oauthToken";
 
     public static void sendMail(final String to, final String subject,
-                                final String message, final String attachment, final boolean isEncrypted, final OnMailResponce callback){
+                                final String message, final String attachment, final boolean isEncrypted, final OnMailResponse callback){
         new AsyncTask<Void,Void,Boolean>(){
 
             @Override
@@ -82,7 +76,7 @@ public class MailSendTask {
         }.execute();
 
     }
-    public interface OnMailResponce{
+    public interface OnMailResponse {
         void onSuccess();
         void onError();
     }
