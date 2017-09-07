@@ -3,7 +3,6 @@ package com.osama.project34.ui.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.View
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.google.gson.Gson
@@ -24,7 +23,7 @@ class MailViewActivity : AppCompatActivity() {
         senderName.text=currentMail!!.sender
         val generator = ColorGenerator.MATERIAL
         val thumb = TextDrawable.builder()
-                .buildRound(currentMail!!.sender.substring(0, 1), generator.getColor(currentMail!!.getId()))
+                .buildRound(currentMail!!.sender.substring(0, 1), generator.getColor(currentMail!!.id))
         viewerSenderIcon.setImageDrawable(thumb)
       for (data in currentMail!!.message.text){
            email_viewer.loadData(data,"text/html; charset=utf-8", "UTF-8")
