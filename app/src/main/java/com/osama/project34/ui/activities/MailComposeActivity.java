@@ -16,7 +16,6 @@ import android.widget.EditText;
 import com.osama.project34.R;
 import com.osama.project34.imap.MailSendTask;
 import com.osama.project34.utils.FileUtils;
-import com.sun.jna.platform.win32.Winspool;
 
 import java.io.File;
 import java.io.IOException;
