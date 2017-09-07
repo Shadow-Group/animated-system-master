@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_main">
+    tools:showIn="@layout/activity_compose">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -31,7 +31,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-
         android:background="#9E9E9E"/>
     <LinearLayout
     android:layout_width="match_parent"
@@ -40,7 +39,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:text="To"/>
+         <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+             android:layout_gravity="center_vertical"
+             android:layout_marginStart="10dp"
+            android:id="@+id/encryption_status_image"
+            android:src="@drawable/ic_lock_outline"
+            />
     <EditText
         android:id="@+id/to"
         android:layout_width="match_parent"
@@ -49,6 +57,7 @@
         android:paddingBottom="10dp"
         android:maxLines="1"
         android:background="@android:color/transparent"/>
+
 
 </LinearLayout>
     <View

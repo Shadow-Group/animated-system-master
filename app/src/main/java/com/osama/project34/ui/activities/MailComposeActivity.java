@@ -3,6 +3,7 @@ package com.osama.project34.ui.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -11,15 +12,20 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.osama.project34.R;
+import com.osama.project34.data.Key;
+import com.osama.project34.firebase.FirebaseHandler;
 import com.osama.project34.imap.MailSendTask;
 import com.osama.project34.utils.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
 public class MailComposeActivity extends AppCompatActivity {
 
@@ -29,6 +35,8 @@ public class MailComposeActivity extends AppCompatActivity {
     private EditText subjectEdit;
     private EditText composeEdit;
     private String attachmentPath;
+
+    private boolean shouldEncrypt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,30 @@ public class MailComposeActivity extends AppCompatActivity {
         bccEdit= (EditText) findViewById(R.id.Bcc);
         subjectEdit= (EditText) findViewById(R.id.Subject);
         composeEdit= (EditText) findViewById(R.id.Compose);
+
+        sentToEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus){
+                    //. check if recipient has our key in our db
+                    String email=sentToEdit.getText().toString();
+                    for (Key key:FirebaseHandler.getInstance().getKeys()) {
+                        if (key.getUser().equals(email)){
+                            shouldEncrypt=true;
+                            break;
+                        }
+                        shouldEncrypt=false;
+                    }
+                    if (shouldEncrypt){
+                        ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#4caf50"));
+                    }else{
+                        ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#818181"));
+                    }
+                }
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

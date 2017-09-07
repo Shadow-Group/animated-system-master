@@ -59,5 +59,7 @@ public class FirebaseHandler {
        }); 
     }
 
-
+    public ArrayList<Key> getKeys() {
+        return keys;
+    }
 }
