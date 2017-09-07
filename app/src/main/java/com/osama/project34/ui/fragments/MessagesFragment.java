@@ -59,7 +59,9 @@ public class MessagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView=inflater.inflate(R.layout.data_content_layout,container,false);
-        mMessages= MailApplication.getDb().getAllMessages(associatedFolder.getId());
+        if (mMessages==null) {
+            mMessages = MailApplication.getDb().getAllMessages(associatedFolder.getId());
+        }
         noMialView=mView.findViewById(R.id.no_mail_view);
         noMialView.setVisibility(View.GONE);
         return mView;
