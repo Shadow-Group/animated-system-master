@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,23 +9,104 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.osama.project34.ui.activities.MailViewActivity">
+    <include layout="@layout/activities_toolbar"
+        android:id="@+id/toolbar"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/viewer_header_layout"
+        android:weightSum="5"
+        android:layout_margin="5dp"
         >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewerMailSubject"
-        android:textSize="20sp"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:layout_weight="4"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         />
 
+        <com.like.LikeButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon_size="25dp"
+            app:icon_type="star"
+            android:layout_weight="1"
+            android:id="@+id/likeButtonViewer"
+            android:layout_gravity="center_vertical"
+            />
+        </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:id="@+id/sender_info_layout"
+        >
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/viewerSenderIcon"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/viewerSenderIcon"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:id="@+id/senderName"
+                android:textColor="#000"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:id="@+id/hiddenDetailLayout"
+                >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginTop="10dp"
+                android:id="@+id/to"
+                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/messageSendDate"
+                    />
+                </LinearLayout>
         </LinearLayout>
 
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_margin="5dp"
+        android:background="#818181"/>
+
+
 <WebView
+    android:layout_margin="10dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/email_viewer"
     />
 </LinearLayout>
+    </ScrollView>
