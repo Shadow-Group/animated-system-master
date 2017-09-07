@@ -79,6 +79,36 @@ public class EncryptionHandler {
             }
         }.execute();
     }
+    public static void encryptFile(final File inputFile, final File outputFile, final File pubKey, final OnFileEncrypted listener){
+       new AsyncTask<Void,Void,Boolean>(){
+
+           @Override
+           protected Boolean doInBackground(Void... voids) {
+               try {
+
+                   return EncryptionWrapper.encryptFile(inputFile,outputFile,pubKey,true);
+
+               } catch (Exception e) {
+                   e.printStackTrace();
+                   return false;
+               }
+           }
+
+           @Override
+           protected void onPostExecute(Boolean aBoolean) {
+               super.onPostExecute(aBoolean);
+                if (aBoolean){
+                    listener.onSuccess();
+                }else{
+                    listener.onError();
+                }
+           }
+       }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    public interface OnFileEncrypted{
+        void onSuccess();
+        void onError();
+    }
     public interface OnKeysGenerated{
         void onSuccess();
         void onError();

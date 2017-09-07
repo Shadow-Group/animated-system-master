@@ -2,13 +2,19 @@ package com.osama.project34.imap;
 
 import android.os.AsyncTask;
 
+import com.osama.project34.data.Key;
+import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.FileUtils;
 import com.sun.mail.smtp.SMTPTransport;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -25,13 +31,14 @@ public class MailSendTask {
     public static final String OAUTH_TOKEN_PROP =
             "mail.imaps.sasl.mechanisms.oauth2.oauthToken";
 
-    public static void sendMail(final String to,final String message,
-                                final String subject,final String attachment,final OnMailResponce callback){
+    public static void sendMail(final String to, final String subject,
+                                final String message, final String attachment, final boolean isEncrypted, final OnMailResponce callback){
         new AsyncTask<Void,Void,Boolean>(){
 
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
+
                     Properties props=System.getProperties();
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.starttls.required", "true");
@@ -47,6 +54,9 @@ public class MailSendTask {
                     message1.setSubject(subject);
                     message1.setSentDate(new Date());
                     message1.setText(message);
+                    if (isEncrypted){
+                        message1.setFlags(new PgpFlag(),true);
+                    }
                     final URLName unusedUrlName = null;
 
                     SMTPTransport transport = new SMTPTransport(session, unusedUrlName);

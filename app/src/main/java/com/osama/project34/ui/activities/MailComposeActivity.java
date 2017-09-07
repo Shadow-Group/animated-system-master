@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 
 import com.osama.project34.R;
 import com.osama.project34.data.Key;
+import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.firebase.FirebaseHandler;
 import com.osama.project34.imap.MailSendTask;
 import com.osama.project34.utils.FileUtils;
@@ -25,7 +28,6 @@ import com.osama.project34.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 
 public class MailComposeActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class MailComposeActivity extends AppCompatActivity {
     private String attachmentPath;
 
     private boolean shouldEncrypt;
+    private Key recipientKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MailComposeActivity extends AppCompatActivity {
                     String email=sentToEdit.getText().toString();
                     for (Key key:FirebaseHandler.getInstance().getKeys()) {
                         if (key.getUser().equals(email)){
+                            recipientKey = key;
                             shouldEncrypt=true;
                             break;
                         }
@@ -158,22 +162,55 @@ public class MailComposeActivity extends AppCompatActivity {
        confirmSend(to,subject,message);
     }
 
-    private void confirmSend(String to, String subject, String message) {
+    private void confirmSend(final String to, final String subject, final String message) {
         final ProgressDialog dialog=new ProgressDialog(this);
         dialog.setMessage("Sending message. Please wait...");
         dialog.setTitle("Message");
         dialog.setCancelable(false);
         dialog.show();
-        MailSendTask.sendMail(to, subject, message, attachmentPath, new MailSendTask.OnMailResponce() {
-            @Override
-            public void onSuccess() {
-                dialog.dismiss();
-            }
+        try {
+            if (shouldEncrypt) {
+                File fileToEncrypt = FileUtils.createFromString(message, "mess.pgp");
+                Log.d("hello", "confirmSend: key is:  "+recipientKey.getText());
+                File pubKeyFile = FileUtils.createFromString(recipientKey.getText(), "key.pub");
+                Log.d("hello", "confirmSend: "+FileUtils.getStringFromFile(pubKeyFile));
+                final File outputFile = FileUtils.createTempFile();
 
-            @Override
-            public void onError() {
-                dialog.dismiss();
+                EncryptionHandler.encryptFile(fileToEncrypt, outputFile, pubKeyFile, new EncryptionHandler.OnFileEncrypted() {
+                    @Override
+                    public void onSuccess() {
+                       sendNow(to,subject,FileUtils.getStringFromFile(outputFile),dialog);
+                    }
+
+                    @Override
+                    public void onError() {
+                            dialog.dismiss();
+                        Snackbar.make(sentToEdit,"Unable to send mail.",Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+
             }
-        });
+        }catch (IOException ex){
+            ex.printStackTrace();
+            dialog.dismiss();
+            Snackbar.make(sentToEdit,"Unable to send mail.",Snackbar.LENGTH_SHORT).show();
+        }
+
+    }
+    private void sendNow(String to, String subject, String message, final ProgressDialog dialog){
+        MailSendTask.sendMail(to, subject, message, attachmentPath, shouldEncrypt,new MailSendTask.OnMailResponce() {
+                            @Override
+                            public void onSuccess() {
+                                dialog.dismiss();
+                                Snackbar.make(sentToEdit,"Mail sent.",Snackbar.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError() {
+                                dialog.dismiss();
+
+                                Snackbar.make(sentToEdit,"Unable to send mail.",Snackbar.LENGTH_SHORT).show();
+                            }
+                        });
     }
 }
