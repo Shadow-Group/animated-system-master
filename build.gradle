@@ -7,6 +7,7 @@ buildscript {
         maven {
             url 'http://dl.bintray.com/amulyakhare/maven'
         }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -24,6 +25,8 @@ allprojects {
         maven {
             url "https://maven.java.net/content/groups/public/"
         }
+        maven { url "https://jitpack.io" }
+
     }
     tasks.withType(JavaCompile) {
         sourceCompatibility = 1.7

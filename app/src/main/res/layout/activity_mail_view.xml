@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.osama.project34.ui.activities.MailViewActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewerMailSubject"
+        android:textSize="20sp"
+        />
+
+        </LinearLayout>
+
 <WebView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
