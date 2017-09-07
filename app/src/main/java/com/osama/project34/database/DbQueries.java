@@ -22,9 +22,10 @@ package com.osama.project34.database;
                     MailEntry.COLUMN_FAVORITE+ " INTEGER,"+
                     MailEntry.COLUMN_READ_STATUS+" INTEGER,"+
                     MailEntry.COLUMN_FOLDER_ID+" INTEGER,"+
-                    MailEntry.COLUMN_DATE+" TEXT)";
+                    MailEntry.COLUMN_DATE+" TEXT,"+
+                    MailEntry.COLUMN_MESSAGE_NUMEBR+" INTEGER)";
 
-     static final String CREATE_TABLE_KEY=
+    static final String CREATE_TABLE_KEY=
             "CREATE TABLE "+KeyEntry.TABLE_NAME+" ("+
                     KeyEntry._ID+" INTEGER PRIMARY KEY,"+
                     KeyEntry.COLUMN_EMAIL+" TEXT,"+

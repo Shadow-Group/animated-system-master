@@ -11,6 +11,7 @@ import java.util.concurrent.Executors
 import javax.mail.Flags
 import javax.mail.Folder
 import javax.mail.MessagingException
+import javax.mail.UIDFolder
 import javax.mail.internet.InternetAddress
 
 /**
@@ -100,14 +101,13 @@ class MessagesManager : MailObserver {
             sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
             val id = MailApplication.getDb().getLastMessageId(myFolder)
             for (i in folder.messages.size - 1 downTo 0) {
-                if (i > folder.messages.size - id && id != -1) {
-                    continue
-                }
+
                 val message = folder.messages[i]
                 val model = Mail()
+                model.messageNumber=message.messageNumber
                 model.folderId = myFolder.id
-                model.id = message.messageNumber
                 model.isFavorite = false
+                model.id=(folder as UIDFolder).getUID(message)
                 model.isEncrypted = message.isMimeType(MimeTypes.PGP)
                 model.subject = message.subject
                 model.date = message.receivedDate.toString()

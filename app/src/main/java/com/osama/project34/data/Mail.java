@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 
 public class Mail implements Serializable {
-    private int     id;
+    private long     id;
     private int     folderId;
     private boolean readStatus;
     private boolean encrypted;
@@ -19,6 +19,15 @@ public class Mail implements Serializable {
     private String subject;
     private String sender;
     private String date;
+    private int messageNumber;
+
+    public int getMessageNumber() {
+        return messageNumber;
+    }
+
+    public void setMessageNumber(int messageNumber) {
+        this.messageNumber = messageNumber;
+    }
 
     public String getDate() {
         return date;
@@ -36,11 +45,11 @@ public class Mail implements Serializable {
         this.sender = sender==null?"Unknown":sender;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

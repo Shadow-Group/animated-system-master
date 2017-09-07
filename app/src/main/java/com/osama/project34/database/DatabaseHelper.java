@@ -45,29 +45,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
     public void insertMail(final Mail mail){
-        ContentValues values=new ContentValues();
-        values.put(MailEntry._ID,mail.getId());
-        values.put(MailEntry.COLUMN_SUBJECT,mail.getSubject());
-        values.put(MailEntry.COLUMN_DATE,mail.getDate());
-        values.put(MailEntry.COLUMN_ENCRYPT,mail.isEncrypted()?1:0);
-        values.put(MailEntry.COLUMN_FAVORITE,mail.isFavorite()?1:0);
-        values.put(MailEntry.COLUMN_READ_STATUS,mail.isReadStatus()?1:0);
-        values.put(MailEntry.COLUMN_FOLDER_ID,mail.getFolderId());
-        values.put(MailEntry.COLUMN_MESSAGE,mail.getMessage());
-        values.put(MailEntry.COLUMN_RECIPIENTS,Util.makeString(mail.getRecipients()));
-        values.put(MailEntry.COLUMN_SENDER,mail.getSender());
+            ContentValues values = new ContentValues();
+            values.put(MailEntry._ID, mail.getId());
+        values.put(MailEntry.COLUMN_MESSAGE_NUMEBR,mail.getMessageNumber());
+            values.put(MailEntry.COLUMN_SUBJECT, mail.getSubject());
+            values.put(MailEntry.COLUMN_DATE, mail.getDate());
+            values.put(MailEntry.COLUMN_ENCRYPT, mail.isEncrypted() ? 1 : 0);
+            values.put(MailEntry.COLUMN_FAVORITE, mail.isFavorite() ? 1 : 0);
+            values.put(MailEntry.COLUMN_READ_STATUS, mail.isReadStatus() ? 1 : 0);
+            values.put(MailEntry.COLUMN_FOLDER_ID, mail.getFolderId());
+            values.put(MailEntry.COLUMN_MESSAGE, mail.getMessage());
+            values.put(MailEntry.COLUMN_RECIPIENTS, Util.makeString(mail.getRecipients()));
+            values.put(MailEntry.COLUMN_SENDER, mail.getSender());
 
-        SQLiteDatabase database=getWritableDatabase();
-        database.insert(MailEntry.TABLE_NAME,null,values);
+            SQLiteDatabase database = getWritableDatabase();
+            database.insertWithOnConflict(MailEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
     }
-    public int getLastMessageId(Folder folder){
+    public long getLastMessageId(Folder folder){
         String selection=MailEntry.COLUMN_FOLDER_ID+" =?";
         String[] selectionArgs=new String[]{""+folder.getId()};
         Cursor cursor=getWritableDatabase().query(MailEntry.TABLE_NAME,
                 new String[]{""+MailEntry._ID},selection,selectionArgs,null,null,null);
-        int result=-1;
+        long result=-1;
         if (cursor.moveToFirst()){
-           result= cursor.getInt(0);
+           result= cursor.getLong(0);
         }else{
             result= -1;
         }
@@ -102,22 +103,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MailEntry.COLUMN_FAVORITE,
                 MailEntry.COLUMN_READ_STATUS,
                 MailEntry.COLUMN_FOLDER_ID,
-                MailEntry.COLUMN_DATE
+                MailEntry.COLUMN_DATE,
+                MailEntry.COLUMN_MESSAGE_NUMEBR
         };
+        String orderBy=MailEntry.COLUMN_MESSAGE_NUMEBR+" DESC";
         Cursor cursor=getWritableDatabase().query(
                 MailEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
+               null,
                 null,
-                null,
-                null,
-                null
+                orderBy
                 );
         ArrayList<Mail> data=new ArrayList<>();
         while (cursor.moveToNext()){
             Mail mai=new Mail();
-            mai.setId(cursor.getInt(0));
+            mai.setId(cursor.getLong(0));
             mai.setDate(cursor.getString(MailEntry.Indices.COLUMN_DATE));
             mai.setSender(cursor.getString(MailEntry.Indices.COLUMN_SENDER));
             mai.setEncrypted(cursor.getInt(MailEntry.Indices.COLUMN_ENCRYPT) != 0);
