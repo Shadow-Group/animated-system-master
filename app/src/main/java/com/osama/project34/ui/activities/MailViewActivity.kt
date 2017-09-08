@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
+import android.view.View
 import android.widget.EditText
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
@@ -81,6 +82,7 @@ class MailViewActivity : AppCompatActivity() {
         EncryptionHandler.decryptFile(encryptedFile, decryptedFile, pubKeyFile, secKeyFile, password,
                 object : EncryptionHandler.OnFileDecrypted {
                     override fun onSuccess() {
+                        mail_loading_bar.visibility = View.GONE
                         email_viewer.loadData(FileUtils.getStringFromFile(decryptedFile), "text/html; charset=utf-8", "UTF-8")
                     }
 
