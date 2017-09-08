@@ -80,7 +80,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             holder.mailItem.setVisibility(View.VISIBLE);
         }
         Mail dataModel=mDataSet.get(position);
-        String name=dataModel.getSender();
+        String name=dataModel.getSender().getName()==null?dataModel.getSender().getMail():dataModel.getSender().getName();
         holder.mMessageTextTextView.setText(dataModel.getMessage().getText()[0]);
         holder.mMessageSenderTextView.setText(name);
         if (dataModel.isEncrypted()){

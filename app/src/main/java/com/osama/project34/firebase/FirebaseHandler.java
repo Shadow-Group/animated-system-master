@@ -45,7 +45,6 @@ public class FirebaseHandler {
                for (DataSnapshot child:dataSnapshot.getChildren()) {
                    Key key=child.getValue(Key.class);
                    if (key!=null) {
-                       Log.d(TAG, "onDataChange: loading key: " + key.getText());
                        keys.add(key);
                    }else{
                        Log.d(TAG, "onDataChange: key is null");

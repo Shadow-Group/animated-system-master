@@ -21,7 +21,7 @@ public class Mail implements Serializable {
     private boolean favorite;
     private MultiPartHandler message;
     private String subject;
-    private String sender;
+    private Sender sender;
     private String date;
     private int messageNumber;
 
@@ -41,12 +41,12 @@ public class Mail implements Serializable {
         this.date = date;
     }
 
-    public String getSender() {
+    public Sender getSender() {
         return sender;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender==null?"Unknown":sender;
+    public void setSender(Sender sender) {
+        this.sender = sender;
     }
 
     public long getId() {

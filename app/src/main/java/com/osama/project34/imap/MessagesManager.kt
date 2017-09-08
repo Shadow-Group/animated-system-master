@@ -5,8 +5,10 @@ import android.os.AsyncTask
 import android.util.Log
 import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
+import com.osama.project34.data.Sender
 import com.osama.project34.database.DatabaseHelper
 import com.osama.project34.utils.CommonConstants
+import com.osama.project34.utils.ConfigManager
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.mail.*
@@ -72,6 +74,7 @@ class MessagesManager : MailObserver {
 
                 } catch (ex: MessagingException) {
                 Log.e("bullhead", "unable to open folder.")
+
                     ex.printStackTrace()
                 }
             return false
@@ -116,9 +119,15 @@ class MessagesManager : MailObserver {
                     model.message = MultiPartHandler.createFromMessage(message)
                     if (message.from != null && message.from.isNotEmpty()) {
                         val address: InternetAddress = message.from[0] as InternetAddress
-                        model.sender = address.personal
+                        val sender= Sender()
+                        sender.mail=address.address.toString()
+                        sender.name=address.personal
+                        model.sender = sender
                     } else {
-                        model.sender = "Draft"
+                        val sender=Sender()
+                        sender.mail=ConfigManager.getEmail()
+                        sender.name="Draft"
+                        model.sender = sender
                     }
                     message.flags.userFlags
                             .filter { it.equals(Flags.Flag.SEEN) }
