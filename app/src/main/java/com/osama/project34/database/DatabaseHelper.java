@@ -7,30 +7,33 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.gson.Gson;
 import com.osama.project34.data.Folder;
 import com.osama.project34.data.Key;
 import com.osama.project34.data.Mail;
+import com.osama.project34.imap.MultiPartHandler;
 
 import java.util.ArrayList;
 
 /**
  * Created by bullhead on 9/5/17.
- *
+
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME   = "sec";
-    private static final int VERSION            = 1;
+    private static final String DATABASE_NAME = "sec";
+    private static final int VERSION = 1;
     private static DatabaseHelper instance;
-    private DatabaseHelper(Context context){
-        super(context,DATABASE_NAME,null,VERSION);
+
+    private DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
     }
 
     public static DatabaseHelper getInstance(Context context) {
-        if (instance==null){
-            instance=new DatabaseHelper(context);
+        if (instance == null) {
+            instance = new DatabaseHelper(context);
         }
-        return  instance;
+        return instance;
     }
 
     @Override
@@ -39,6 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(DbQueries.CREATE_TABLE_FOLDERS);
         sqLiteDatabase.execSQL(DbQueries.CREATE_TABLE_MAILS);
         sqLiteDatabase.execSQL(DbQueries.CREATE_TABLE_KEY);
+        sqLiteDatabase.execSQL(DbQueries.CREATE_TABLE_MESSAGE_CONTENT);
     }
 
     @Override
@@ -46,21 +50,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
     public int insertMail(final Mail mail){
-            ContentValues values = new ContentValues();
-            values.put(MailEntry._ID, mail.getId());
-        values.put(MailEntry.COLUMN_MESSAGE_NUMEBR,mail.getMessageNumber());
-            values.put(MailEntry.COLUMN_SUBJECT, mail.getSubject());
-            values.put(MailEntry.COLUMN_DATE, mail.getDate());
-            values.put(MailEntry.COLUMN_ENCRYPT, mail.isEncrypted() ? 1 : 0);
-            values.put(MailEntry.COLUMN_FAVORITE, mail.isFavorite() ? 1 : 0);
-            values.put(MailEntry.COLUMN_READ_STATUS, mail.isReadStatus() ? 1 : 0);
-            values.put(MailEntry.COLUMN_FOLDER_ID, mail.getFolderId());
-            values.put(MailEntry.COLUMN_MESSAGE, mail.getMessage().getText()[0]);
-            values.put(MailEntry.COLUMN_RECIPIENTS, Util.makeString(mail.getRecipients()));
-            values.put(MailEntry.COLUMN_SENDER, mail.getSender());
+        ContentValues values = new ContentValues();
+        values.put(MailEntry._ID, mail.getId());
+        values.put(MailEntry.COLUMN_MESSAGE_NUMBER, mail.getMessageNumber());
+        values.put(MailEntry.COLUMN_SUBJECT, mail.getSubject());
+        values.put(MailEntry.COLUMN_DATE, mail.getDate());
+        values.put(MailEntry.COLUMN_ENCRYPT, mail.isEncrypted() ? 1 : 0);
+        values.put(MailEntry.COLUMN_FAVORITE, mail.isFavorite() ? 1 : 0);
+        values.put(MailEntry.COLUMN_READ_STATUS, mail.isReadStatus() ? 1 : 0);
+        values.put(MailEntry.COLUMN_FOLDER_ID, mail.getFolderId());
+        values.put(MailEntry.COLUMN_MESSAGE, mail.getMessage().getText()[0]);
+        values.put(MailEntry.COLUMN_RECIPIENTS, Util.makeString(mail.getRecipients()));
+        values.put(MailEntry.COLUMN_SENDER, mail.getSender());
 
-            SQLiteDatabase database = getWritableDatabase();
-           return (int) database.insertWithOnConflict(MailEntry.TABLE_NAME, null, values,SQLiteDatabase.CONFLICT_REPLACE);
+        //insert message content
+        insertMailContent(mail.getMessage(), mail.getId());
+
+        SQLiteDatabase database = getWritableDatabase();
+        return (int) database.insertWithOnConflict(MailEntry.TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
     public long getLastMessageId(Folder folder){
         String selection=MailEntry.COLUMN_FOLDER_ID+" =?";
@@ -91,6 +98,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database=getWritableDatabase();
         database.insert(KeyEntry.TABLE_NAME,null,values);
     }
+
+    public long insertMailContent(MultiPartHandler content, long mailId) {
+        ContentValues values = new ContentValues();
+        values.put(MessageContentEntry.COLUMN_CONTENT, new Gson().toJson(content));
+        values.put(MessageContentEntry.COLUMN_MAIL_ID, mailId);
+
+        return getWritableDatabase().insert(MessageContentEntry.TABLE_NAME, null, values);
+    }
+
+    public MultiPartHandler getMessageContent(long mailId) {
+        String selection = MessageContentEntry.COLUMN_MAIL_ID + " =?";
+        String[] selectionArgs = {String.valueOf(mailId)};
+        String[] projection = {MessageContentEntry.COLUMN_CONTENT};
+        Cursor cursor = getWritableDatabase().query(
+                MessageContentEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
+        );
+        if (cursor.moveToFirst()) {
+            String json = cursor.getString(0);
+            cursor.close();
+            return new Gson().fromJson(json, MultiPartHandler.class);
+        }
+        return null;
+    }
     public ArrayList<Mail> getAllMessages(int folderId){
         String selection=MailEntry.COLUMN_FOLDER_ID+" =?";
         String[] selectionArgs={String.valueOf(folderId)};
@@ -105,9 +141,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 MailEntry.COLUMN_READ_STATUS,
                 MailEntry.COLUMN_FOLDER_ID,
                 MailEntry.COLUMN_DATE,
-                MailEntry.COLUMN_MESSAGE_NUMEBR
+                MailEntry.COLUMN_MESSAGE_NUMBER
         };
-        String orderBy=MailEntry.COLUMN_MESSAGE_NUMEBR+" DESC";
+        String orderBy = MailEntry.COLUMN_MESSAGE_NUMBER + " DESC";
         Cursor cursor=getWritableDatabase().query(
                 MailEntry.TABLE_NAME,
                 projection,
@@ -135,12 +171,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return data;
     }
+
     public boolean hasMessage(long uid){
         String selection=MailEntry._ID +" =?";
         String[] selectionArgs={String.valueOf(uid)};
         Cursor cursor=getWritableDatabase().query(
                 MailEntry.TABLE_NAME,
-                new String[]{MailEntry.COLUMN_MESSAGE_NUMEBR},
+                new String[]{MailEntry.COLUMN_MESSAGE_NUMBER},
                 selection,
                 selectionArgs,
                 null,
@@ -156,7 +193,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateMessageNumber(int messageNumber, long id) {
         String query="update "+MailEntry.TABLE_NAME+" set "+
-                MailEntry.COLUMN_MESSAGE_NUMEBR+" ="+messageNumber +
+                MailEntry.COLUMN_MESSAGE_NUMBER + " =" + messageNumber +
                 " WHERE "+MailEntry._ID+"="+id;
         getWritableDatabase().execSQL(query);
     }

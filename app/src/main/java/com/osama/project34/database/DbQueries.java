@@ -23,7 +23,7 @@ package com.osama.project34.database;
                     MailEntry.COLUMN_READ_STATUS+" INTEGER,"+
                     MailEntry.COLUMN_FOLDER_ID+" INTEGER,"+
                     MailEntry.COLUMN_DATE+" TEXT,"+
-                    MailEntry.COLUMN_MESSAGE_NUMEBR+" INTEGER)";
+                    MailEntry.COLUMN_MESSAGE_NUMBER + " INTEGER)";
 
     static final String CREATE_TABLE_KEY=
             "CREATE TABLE "+KeyEntry.TABLE_NAME+" ("+
@@ -32,5 +32,9 @@ package com.osama.project34.database;
                     KeyEntry.COLUMN_KEY+" TEXT,"+
                     KeyEntry.COLUMN_VALID+" INTEGER)";
 
-
+    static final String CREATE_TABLE_MESSAGE_CONTENT =
+            "CREATE TABLE " + MessageContentEntry.TABLE_NAME + " (" +
+                    MessageContentEntry._ID + " INTEGER PRIMARY KEY," +
+                    MessageContentEntry.COLUMN_CONTENT + " TEXT," +
+                    MessageContentEntry.COLUMN_MAIL_ID + " INTEGER)";
 }
