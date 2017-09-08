@@ -19,6 +19,7 @@ public final class MailEntry implements BaseColumns {
     public static final String COLUMN_FOLDER_ID     = "folder_id";
     public static final String COLUMN_DATE          = "date";
     public static final String COLUMN_MESSAGE_NUMBER = "message_number";
+
     public static final class Indices {
         public static final int COLUMN_SUBJECT          = 1;
         public static final int COLUMN_SENDER           = 2;

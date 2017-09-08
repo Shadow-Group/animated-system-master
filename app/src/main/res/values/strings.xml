@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Project34</string>
+    <string name="app_name">OpenPGP Secure Mail</string>
     <string name="email">Email</string>
     <string name="choose_account_message">Choose Account</string>
     <string name="play_services_failed_message">

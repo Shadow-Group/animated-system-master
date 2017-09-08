@@ -271,7 +271,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
                     JSONObject rootObject=new JSONObject(json);
                     Profile profile=new Profile();
                     profile.setName(rootObject.getString("displayName"));
-                    profile.setMail(rootObject.getJSONArray("mails").getJSONObject(0).getString("value"));
+                    profile.setMail(mCurrentAccount.name);
                     profile.setImage(rootObject.getJSONObject("image").getString("url"));
                     return profile;
                 } catch (IOException | JSONException e) {

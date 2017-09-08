@@ -34,10 +34,10 @@ class MailViewActivity : AppCompatActivity() {
 
 
         viewerMailSubject.text=currentMail!!.subject
-        senderName.text=currentMail!!.sender
+        senderName.text=currentMail!!.sender.name?:currentMail!!.sender.mail
         val generator = ColorGenerator.MATERIAL
         val thumb = TextDrawable.builder()
-                .buildRound(currentMail!!.sender.substring(0, 1), generator.getColor(currentMail!!.id))
+                .buildRound(currentMail!!.sender.mail.substring(0, 1), generator.getColor(currentMail!!.id))
         viewerSenderIcon.setImageDrawable(thumb)
 
         //check if email is encrypted
