@@ -7,7 +7,6 @@ import com.osama.project34.MailApplication
 import com.osama.project34.data.Mail
 import com.osama.project34.database.DatabaseHelper
 import com.osama.project34.utils.CommonConstants
-import kotlinx.android.synthetic.main.activity_mail_view.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.mail.*
@@ -115,8 +114,12 @@ class MessagesManager : MailObserver {
                     model.subject = message.subject
                     model.date = message.receivedDate.toString()
                     model.message = MultiPartHandler.createFromMessage(message)
-                    val address: InternetAddress = message.from[0] as InternetAddress
-                    model.sender = address.personal
+                    if (message.from != null && message.from.isNotEmpty()) {
+                        val address: InternetAddress = message.from[0] as InternetAddress
+                        model.sender = address.personal
+                    } else {
+                        model.sender = "Draft"
+                    }
                     message.flags.userFlags
                             .filter { it.equals(Flags.Flag.SEEN) }
                             .forEach { model.isReadStatus = true }

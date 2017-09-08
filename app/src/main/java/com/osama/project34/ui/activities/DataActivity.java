@@ -35,8 +35,8 @@ import com.osama.project34.imap.MailManager;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.ui.fragments.MessagesFragment;
-import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.ConfigManager;
 import com.squareup.picasso.Picasso;
 
 public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
@@ -118,6 +118,13 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         });
         setupToolbarAndDrawer();
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(receiver);
+        unregisterReceiver(messageNumberReceiver);
     }
 
     private void composeEmail() {

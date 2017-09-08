@@ -51,7 +51,7 @@ class MailViewActivity : AppCompatActivity() {
 
     private fun showDecryptDialog() {
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.password_dialog_layout)
+        dialog.setContentView(R.layout.dialog_decrypt_mail)
         dialog.findViewById(R.id.generate_key_button).setOnClickListener({
             val editText = dialog.findViewById(R.id.key_password) as EditText
             val password = editText.text.toString()
@@ -86,6 +86,7 @@ class MailViewActivity : AppCompatActivity() {
 
                     override fun onError() {
                         Snackbar.make(email_viewer, "Unable to decrypt message.", Snackbar.LENGTH_LONG).show()
+
                     }
                 })
     }

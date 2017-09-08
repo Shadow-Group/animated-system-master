@@ -43,7 +43,7 @@ public class EncryptionHandler {
                     publicKeys.encode(pubOut);
                     pubOut.close();
 
-                    file                        = new File(MailApplication.getInstance().getCacheDir(),"sec.asc");
+                    file = new File(MailApplication.getInstance().getFilesDir(), "sec.asc");
                     ArmoredOutputStream secOut  = new ArmoredOutputStream(new FileOutputStream(file));
                     secretKeys.encode(secOut);
                     secOut.close();
