@@ -104,6 +104,10 @@ public class Mail implements Serializable {
     public void setMessage(MultiPartHandler message) {
         this.message = message;
     }
+    public void setMessage(String text){
+        this.message=new MultiPartHandler();
+        this.message.setText(new String[]{text} );
+    }
 
     public String getSubject() {
         return subject;
