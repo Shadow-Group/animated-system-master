@@ -123,8 +123,8 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(receiver);
-        unregisterReceiver(messageNumberReceiver);
+//        unregisterReceiver(receiver);
+        //      unregisterReceiver(messageNumberReceiver);
     }
 
     private void composeEmail() {

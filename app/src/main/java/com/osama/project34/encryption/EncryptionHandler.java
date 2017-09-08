@@ -7,6 +7,7 @@ import android.util.Log;
 import com.osama.project34.MailApplication;
 import com.osama.project34.data.Key;
 import com.osama.project34.firebase.FirebaseHandler;
+import com.osama.project34.utils.FileUtils;
 
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
@@ -118,6 +119,7 @@ public class EncryptionHandler {
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
+                    Log.d("Message is: ", "doInBackground: " + FileUtils.getStringFromFile(encryptedFile));
                     return EncryptionWrapper.decryptFile(encryptedFile, decryptedFile, publicKey, new FileInputStream(secKey), password.toCharArray());
                 } catch (Exception ex) {
                     ex.printStackTrace();

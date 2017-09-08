@@ -2,14 +2,13 @@ package com.osama.project34.imap;
 
 import android.os.AsyncTask;
 
-import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.ConfigManager;
 import com.sun.mail.smtp.SMTPTransport;
 
 import java.util.Date;
 import java.util.Properties;
 
-import javax.activation.MimeType;
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -65,13 +64,7 @@ public class MailSendTask {
                     }
                     part.setText(message);
                     mimeMultipart.addBodyPart(part);
-                    if (isEncrypted){
-                        MimeBodyPart encryptedPart=new MimeBodyPart();
-                        encryptedPart.setHeader("Content-Type",MimeTypes.PGP);
-                        encryptedPart.setText(message);
-                        mimeMultipart.addBodyPart(encryptedPart);
 
-                    }
                     part.setHeader("Content-Type",MimeTypes.TEXT);
                     message1.setContent(mimeMultipart,MimeTypes.PGP);
                     final URLName unusedUrlName = null;

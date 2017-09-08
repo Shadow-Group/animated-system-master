@@ -209,7 +209,13 @@ public class MailComposeActivity extends AppCompatActivity {
                             public void onError() {
                                 dialog.dismiss();
 
-                                Snackbar.make(sentToEdit,"Unable to send mail.",Snackbar.LENGTH_SHORT).show();
+                                Snackbar bar = Snackbar.make(sentToEdit, "Unable to send mail.", Snackbar.LENGTH_SHORT);
+                                bar.addCallback(new Snackbar.Callback() {
+                                    @Override
+                                    public void onDismissed(Snackbar transientBottomBar, int event) {
+                                        super.onDismissed(transientBottomBar, event);
+                                    }
+                                }).show();
                             }
                         });
     }

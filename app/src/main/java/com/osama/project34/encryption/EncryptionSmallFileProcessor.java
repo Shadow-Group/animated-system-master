@@ -20,6 +20,7 @@ package com.osama.project34.encryption;
 
 import android.util.Log;
 
+import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.openpgp.PGPCompressedData;
 import org.spongycastle.openpgp.PGPEncryptedData;
@@ -64,8 +65,9 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
     public boolean encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {
         try
         {
+            Log.d("mail", "encryptFile: encrypting armored ");
             byte[] bytes = MyPGPUtil.compressFile(inputFile.getAbsolutePath(),PGPCompressedData.ZIP);
-            OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
+            ArmoredOutputStream out = new ArmoredOutputStream(new FileOutputStream(outputFile));
             Security.addProvider(new BouncyCastleProvider());
             PGPEncryptedDataGenerator encGen = new PGPEncryptedDataGenerator(
                     new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).setWithIntegrityPacket(integrityCheck).setSecureRandom(new SecureRandom()));
@@ -73,7 +75,6 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation{
             encGen.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(key).setProvider("BC"));
 
             OutputStream cOut = encGen.open(out, bytes.length);
-
             cOut.write(bytes);
             cOut.close();
 
