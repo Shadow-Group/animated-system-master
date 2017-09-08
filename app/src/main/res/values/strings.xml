@@ -24,4 +24,6 @@
     <string name="trash">Trash</string>
     <string name="mail_image">Mail image</string>
     <string name="no_mails">No Mails</string>
+    <string name="keydetail">Key Detail</string>
+    <string name="about">About</string>
 </resources>

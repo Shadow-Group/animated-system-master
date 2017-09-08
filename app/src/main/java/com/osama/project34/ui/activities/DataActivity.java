@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.osama.project34.About.AboutActivity;
+import com.osama.project34.About.KeyDetailsActivity;
 import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Folder;
@@ -251,6 +253,14 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
                         break;
                     case R.id.favorite_drawer_item:
                         changeFragment(FIVE);
+                        break;
+                    case R.id.keydeatail_drawer_item:
+                        Intent detail=new Intent(DataActivity.this, KeyDetailsActivity.class);
+                        startActivity(detail);
+                        break;
+                    case R.id.About_drawer_item:
+                        Intent about=new Intent(DataActivity.this, AboutActivity.class);
+                        startActivity(about);
                         break;
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
