@@ -101,12 +101,21 @@
         android:layout_margin="5dp"
         android:background="#818181"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<WebView
-    android:layout_margin="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/email_viewer"
-    />
+        <WebView
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/email_viewer" />
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:id="@+id/mail_loading_bar" />
+    </FrameLayout>
 </LinearLayout>
     </ScrollView>
