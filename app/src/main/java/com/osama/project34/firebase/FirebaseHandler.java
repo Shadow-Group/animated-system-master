@@ -11,6 +11,7 @@ import com.osama.project34.data.Key;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by bullhead on 9/7/17.
@@ -35,7 +36,7 @@ public class FirebaseHandler {
     }
 
     public void saveKey(Key key){
-        databaseReference.child("key").setValue(key);
+        databaseReference.child("key"+new Random().nextInt(10000)).setValue(key);
     }
     public void loadAllKeys(){
        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
