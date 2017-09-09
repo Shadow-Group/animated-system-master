@@ -1,6 +1,6 @@
 
 
-package com.osama.project34.startup;
+package com.osama.project34.ui.startup;
 
 
 import android.content.Intent;
@@ -16,16 +16,14 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
-
 import com.osama.project34.R;
-import com.osama.project34.startup.PagerAdapter;
 import com.osama.project34.ui.activities.SplashActivity;
 
-//import me.relex.circleindicator.CircleIndicator;
+import me.relex.circleindicator.CircleIndicator;
 
 public class PreStartActivity extends AppCompatActivity {
     private RelativeLayout  preStartLayout;
-/*
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,6 @@ public class PreStartActivity extends AppCompatActivity {
         });
     }
 
-    @ActionHandler(layoutResource = R.id.pre_start_skip_button)
     public void onSkipButtonClick(View v){
         //start the intent for the password activity
         Intent intent=new Intent(this,SplashActivity.class);
@@ -105,7 +102,7 @@ public class PreStartActivity extends AppCompatActivity {
         //animate
         Animation animation= AnimationUtils.loadAnimation(this,R.anim.done_button_anim);
         button.startAnimation(animation);
-    }*/
+    }
     private void setColors(int color){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(color);

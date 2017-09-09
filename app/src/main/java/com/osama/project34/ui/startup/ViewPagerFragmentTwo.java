@@ -1,6 +1,6 @@
 
 
-package com.osama.project34.startup;
+package com.osama.project34.ui.startup;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
