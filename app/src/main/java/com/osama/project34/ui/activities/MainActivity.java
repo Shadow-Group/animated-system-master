@@ -297,6 +297,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     private void showGenerateKeysDialog(){
         final Dialog dialog=new Dialog(this);
         dialog.setContentView(R.layout.password_dialog_layout);
+        dialog.setCancelable(false);
         dialog.findViewById(R.id.generate_key_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
