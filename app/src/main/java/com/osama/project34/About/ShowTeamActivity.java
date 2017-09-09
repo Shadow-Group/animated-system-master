@@ -4,13 +4,14 @@ package com.osama.project34.About;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.osama.project34.R;
 
 
 public class ShowTeamActivity extends AppCompatActivity {
- private String mfirstDevelporName="Usama Bin Omar";
+ private String mfirstDevelporName="Osama Bin Omar";
     private String msecondDevelporsName="Hamza Muhammad Latif";
     private String mthirdDevelporsName="Muahmmad Ahmad Nasim";
     private String mworkFirstDevelpor="Encryption Specialist";
@@ -21,6 +22,9 @@ public class ShowTeamActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_team);
+        Toolbar toolbar= (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView fdtextview=(TextView)findViewById(R.id.firstdevelpor_textview);
         TextView sdtextview=(TextView)findViewById(R.id.seconddevelpor_textview);
         TextView tdtextview=(TextView)findViewById(R.id.thirddevelpor_textview);

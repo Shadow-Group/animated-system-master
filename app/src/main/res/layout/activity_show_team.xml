@@ -7,6 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <include layout="@layout/activities_toolbar"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/activity_about"
@@ -106,4 +112,5 @@
         </LinearLayout>
 
 </LinearLayout>
+    </LinearLayout>
     </ScrollView>

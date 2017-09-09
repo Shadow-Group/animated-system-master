@@ -9,9 +9,9 @@
     android:id="@+id/activity_about"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.slownet5.pgprootexplorer.about.AboutActivity">
+    <include layout="@layout/activities_toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
