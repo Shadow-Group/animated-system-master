@@ -169,5 +169,11 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
 
     @Override
     public void toRight(int position) {
+        //show message content
+        try{
+            messagesAdapter.showMailText(position);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

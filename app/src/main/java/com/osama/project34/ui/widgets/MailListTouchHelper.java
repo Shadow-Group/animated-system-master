@@ -23,7 +23,7 @@ public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
     private Context mContext;
     private OnSwiped callback;
     public MailListTouchHelper(Context context,OnSwiped callback){
-        super(0,ItemTouchHelper.LEFT);
+        super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
         p=new Paint();
         this.mContext=context;
         this.callback=callback;
@@ -38,6 +38,9 @@ public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         if (direction==ItemTouchHelper.LEFT){
             callback.toLeft(viewHolder.getAdapterPosition());
+        }
+        if (direction==ItemTouchHelper.RIGHT){
+            callback.toRight(viewHolder.getAdapterPosition());
         }
     }
     @Override
@@ -61,7 +64,7 @@ public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
                 RectF background = new RectF((float) itemView.getLeft(),
                         (float) itemView.getTop(), dX,(float) itemView.getBottom());
                 c.drawRect(background,p);
-                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_mark_unread_scalar);
+                icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_show_mail);
                 RectF icon_dest = new RectF((float) itemView.getLeft() + width ,
                         (float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,
                         (float)itemView.getBottom() - width);

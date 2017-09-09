@@ -35,9 +35,12 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private ArrayList<String> mColors;
     private boolean isLoading=true;
 
+    private ArrayList<Integer> shownPosition;
+
 
     public MessagesAdapter(Context context){
         this.mContext=context;
+        shownPosition=new ArrayList<>();
         mColors = new ArrayList<>();
         mColors.add("#F44336");
         mColors.add("#E91E63");
@@ -94,6 +97,18 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         TextDrawable thumb=TextDrawable.builder()
                 .buildRound(name.substring(0,1), generator.getColor(dataModel.getId()));
         holder.senderThumb.setImageDrawable(thumb);
+
+
+        //hide the mail text
+        if (shownPosition.contains(position)){
+            holder.mailTextContent.setVisibility(View.VISIBLE);
+        }else{
+            holder.mailTextContent.setVisibility(View.GONE);
+        }
+    }
+    public void showMailText(int position){
+            shownPosition.add(position);
+        notifyItemChanged(position);
     }
 
     @Override
@@ -109,6 +124,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         ImageView encryptionStatusImage;
         ProgressBar progressBar;
         LinearLayout mailItem;
+        LinearLayout mailTextContent;
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -120,6 +136,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             encryptionStatusImage       = (ImageView) itemView.findViewById(R.id.encryptedStatusImage);
             progressBar                 = (ProgressBar) itemView.findViewById(R.id.last_progress_bar);
             mailItem                    = (LinearLayout) itemView.findViewById(R.id.mail_item);
+            mailTextContent             = (LinearLayout) itemView.findViewById(R.id.mail_text_content);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
