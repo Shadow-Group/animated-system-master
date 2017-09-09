@@ -63,7 +63,6 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     private static final int SECOND=1;
     private static final int THIRD=2;
     private static final int FOURTH=3;
-    private static final int FIVE=4;
     private int previousSelectedPosition=0;
 
     private Folder[] folders;
@@ -137,26 +136,24 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     }
 
     private void initFragments() {
-        folders=new Folder[5];
+        folders=new Folder[4];
         folders[FIRST]=new Folder(FolderNames.ID_INBOX,FolderNames.INBOX);
         folders[SECOND]=new Folder(FolderNames.ID_SENT,FolderNames.SENT);
         folders[THIRD]=new Folder(FolderNames.ID_DRAFT,FolderNames.DRAFT);
-        folders[FOURTH]=new Folder(FolderNames.ID_TRASH,FolderNames.TRASH);
-        folders[FIVE]=new Folder(FolderNames.ID_FAVORITE,FolderNames.FAVORITE);
+        folders[FOURTH]=new Folder(FolderNames.ID_FAVORITE,FolderNames.FAVORITE);
 
-        messagesFragments = new MessagesFragment[5];
+        messagesFragments = new MessagesFragment[4];
         messagesFragments[FIRST] = MessagesFragment.newInstance(folders[FIRST]);
         messagesFragments[SECOND] = MessagesFragment.newInstance(folders[SECOND]);
         messagesFragments[THIRD] = MessagesFragment.newInstance(folders[THIRD]);
         messagesFragments[FOURTH] = MessagesFragment.newInstance(folders[FOURTH]);
-        messagesFragments[FIVE]=MessagesFragment.newInstance(folders[FIVE]);
 
         //as five is local folder fragment so set its field
         ArrayList<Mail> data=MailApplication.getDb().getAllFavoriteMails();
 
-        messagesFragments[FIVE].setMessages(data);
+        messagesFragments[FOURTH].setMessages(data);
         Log.d("bullhead", "initFragments: "+data.size());
-        messagesFragments[FIVE].setMessagesNumber(data.size());
+        messagesFragments[FOURTH].setMessagesNumber(data.size());
 
         mFragment = messagesFragments[0];
 
@@ -254,11 +251,9 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
                     case R.id.drafts_drawer_item:
                         changeFragment(THIRD);
                         break;
-                    case R.id.trash_drawer_item:
-                        changeFragment(FOURTH);
-                        break;
+
                     case R.id.favorite_drawer_item:
-                        changeFragment(FIVE);
+                        changeFragment(FOURTH);
                         break;
                     case R.id.keydeatail_drawer_item:
                         Intent detail=new Intent(DataActivity.this, KeyDetailsActivity.class);
