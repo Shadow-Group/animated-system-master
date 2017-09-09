@@ -13,11 +13,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.osama.project34.R;
 import com.osama.project34.ui.activities.SplashActivity;
+import com.osama.project34.utils.ConfigManager;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -28,6 +28,12 @@ public class PreStartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //check if not first run
+        if (!ConfigManager.isFirstRun()){
+            startSplash();
+            return;
+        }
+        ConfigManager.voidFirstRun();
         setContentView(R.layout.activity_pre_start);
 
         preStartLayout =(RelativeLayout)findViewById(R.id.pre_start);
@@ -69,7 +75,10 @@ public class PreStartActivity extends AppCompatActivity {
     }
 
     public void onSkipButtonClick(View v){
-        //start the intent for the password activity
+       startSplash();
+    }
+    private void startSplash(){
+       //start the intent for the password activity
         Intent intent=new Intent(this,SplashActivity.class);
         //start the activity but not let the user get back to this activity
         startActivity(intent);

@@ -25,6 +25,12 @@ public final class ConfigManager {
                 .apply();
         darkTheme=isDark;
     }
+    public static boolean isFirstRun(){
+        return mConfigPrefs.getBoolean(ConfigKeys.FIRST_RUN,true);
+    }
+    public static void voidFirstRun(){
+        mConfigPrefs.edit().putBoolean(ConfigKeys.FIRST_RUN,false).apply();
+    }
     public static void saveProfileInfo(Profile profile){
         mConfigPrefs.edit()
                 .putString(ConfigKeys.FULL_NAME,profile.getName())
@@ -65,5 +71,6 @@ public final class ConfigManager {
         private static final String FULL_NAME="full_name";
         private static final String EMAIL="user_email";
         private static final String IMAGE_URL="image_url";
+        private static final String FIRST_RUN="first_run";
     }
 }
