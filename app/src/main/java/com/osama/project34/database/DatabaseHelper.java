@@ -191,6 +191,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         return false;
     }
+    public void deleteMail(Mail mail){
+        String whereClause=MailEntry._ID+" =?";
+        String[] args={String.valueOf(mail.getId())};
+        getWritableDatabase().delete(MailEntry.TABLE_NAME,whereClause,args);
+    }
 
     public void updateMessageNumber(int messageNumber, long id) {
         String query="update "+MailEntry.TABLE_NAME+" set "+

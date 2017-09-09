@@ -1,11 +1,15 @@
 package com.osama.project34.ui.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +19,9 @@ import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Folder;
 import com.osama.project34.data.Mail;
+import com.osama.project34.imap.EmailTasks;
 import com.osama.project34.ui.adapters.MessagesAdapter;
+import com.osama.project34.ui.widgets.MailListTouchHelper;
 
 import java.util.ArrayList;
 
@@ -24,7 +30,7 @@ import java.util.ArrayList;
  *
  */
 
-public class MessagesFragment extends Fragment {
+public class MessagesFragment extends Fragment implements MailListTouchHelper.OnSwiped {
     private View mView;
      private RecyclerView                    mDataListView;
     private ArrayList<Mail>                  mMessages;
@@ -32,6 +38,13 @@ public class MessagesFragment extends Fragment {
     private int messageCount=-1;
     private Folder associatedFolder;
     private View noMialView;
+    private Context context;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
+    }
 
     public static MessagesFragment newInstance(final Folder folder) {
 
@@ -54,7 +67,6 @@ public class MessagesFragment extends Fragment {
         this.messageCount=number;
     }
 
-    private Context context;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,6 +97,9 @@ public class MessagesFragment extends Fragment {
 
     private void setUpList() {
         mDataListView=(RecyclerView)mView.findViewById(R.id.messages_recycler_view);
+        MailListTouchHelper touchHelper=new MailListTouchHelper(context,this);
+        ItemTouchHelper helper=new ItemTouchHelper(touchHelper);
+        helper.attachToRecyclerView(mDataListView);
         mDataListView.setLayoutManager(new LinearLayoutManager(context));
         messagesAdapter=new MessagesAdapter(context);
         if (mMessages==null){
@@ -110,5 +125,49 @@ public class MessagesFragment extends Fragment {
             messagesAdapter.setDataSet(mMessages);
             messagesAdapter.notifyItemInserted(mMessages.size()-1);
         }
+    }
+
+    @Override
+    public void toLeft(int position) {
+      showDeletionDialog(position);
+
+    }
+    private void showDeletionDialog(final int position){
+        new AlertDialog.Builder(context)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteMessage(position);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        messagesAdapter.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                })
+                .setTitle("Deleting mail")
+                .setMessage("Do you really want to delete this message")
+                .show();
+    }
+    private void deleteMessage(final int position){
+         Log.d("bullhead", "toLeft: hello world");
+        //delete mail
+        try{
+            Mail mail=mMessages.get(position);
+            mMessages.remove(mail);
+            messagesAdapter.notifyDataSetChanged();
+            EmailTasks.deleteMail(mail);
+            Log.d("bullhead", "toLeft: message deleted");
+            Snackbar.make(mView,"Message deleted.",Snackbar.LENGTH_SHORT).show();
+        }catch (Exception ex){
+            ex.printStackTrace();
+            Log.d("bullhead", "toLeft: ");
+        }
+    }
+
+    @Override
+    public void toRight(int position) {
     }
 }

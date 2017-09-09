@@ -1,5 +1,8 @@
 package com.osama.project34.imap;
 
+import javax.mail.Folder;
+import javax.mail.MessagingException;
+
 /**
  * Created by bullhead on 9/5/17.
  *
@@ -24,7 +27,26 @@ public final class FolderNames {
         public static final String SENT     ="Sent Mail";
         public static final String TRASH     = "Trash";
         public static final String INBOX     = "INBOX";
-
+    }
+    public static Folder getImapFolder(int localFolderId) throws MessagingException{
+        Folder folder;
+        switch (localFolderId){
+            case ID_INBOX:
+                folder = MailsSharedData.getStore().getDefaultFolder().getFolder(ImapNames.INBOX);
+                break;
+            case ID_DRAFT:
+                folder=MailsSharedData.getStore().getDefaultFolder().getFolder(GMAIL).getFolder(ImapNames.DRAFTS);
+                break;
+            case ID_SENT:
+                folder=MailsSharedData.getStore().getDefaultFolder().getFolder(GMAIL).getFolder(ImapNames.SENT);
+                break;
+            case ID_TRASH:
+                folder=MailsSharedData.getStore().getDefaultFolder().getFolder(TRASH);
+                break;
+            default:
+                throw new MessagingException("no folder found");
+        }
+        return folder;
     }
 
 }
