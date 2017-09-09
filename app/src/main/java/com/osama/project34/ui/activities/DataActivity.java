@@ -258,11 +258,17 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
                     case R.id.keydeatail_drawer_item:
                         Intent detail=new Intent(DataActivity.this, KeyDetailsActivity.class);
                         startActivity(detail);
+                        item.setChecked(false);
                         break;
                     case R.id.About_drawer_item:
                         Intent about=new Intent(DataActivity.this, AboutActivity.class);
                         startActivity(about);
+                        item.setChecked(false);
                         break;
+                    case R.id.drawer_setting_item:
+                        Intent settings=new Intent(DataActivity.this,SettingsActivity.class);
+                        startActivity(settings);
+                        item.setChecked(false);
                 }
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;

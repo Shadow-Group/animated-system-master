@@ -24,7 +24,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity
             android:name=".ui.activities.SplashActivity"
-            android:theme="@style/SplashStyle"></activity>
+            android:theme="@style/SplashStyle" />
         <activity
             android:name=".ui.activities.MailViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -50,7 +50,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.GenerateKeysActivity"></activity>
+        <activity android:name=".ui.activities.GenerateKeysActivity" />
+        <activity android:name=".ui.activities.SettingsActivity"></activity>
     </application>
 
 </manifest>

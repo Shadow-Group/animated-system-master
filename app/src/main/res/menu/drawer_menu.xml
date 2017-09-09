@@ -32,6 +32,10 @@
     <item android:title="@string/about"
         android:icon="@drawable/ic_info_outline_black_24dp"
         android:id="@+id/About_drawer_item"/>
+            <item android:title="@string/settings"
+                android:icon="@drawable/ic_settings_black"
+                android:id="@+id/drawer_setting_item"
+                />
         </menu>
     </item>
 
