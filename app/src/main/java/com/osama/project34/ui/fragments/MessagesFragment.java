@@ -20,6 +20,7 @@ import com.osama.project34.R;
 import com.osama.project34.data.Folder;
 import com.osama.project34.data.Mail;
 import com.osama.project34.imap.EmailTasks;
+import com.osama.project34.imap.FolderNames;
 import com.osama.project34.ui.adapters.MessagesAdapter;
 import com.osama.project34.ui.widgets.MailListTouchHelper;
 
@@ -40,6 +41,9 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
     private View noMialView;
     private Context context;
 
+    private boolean favorite;
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -53,16 +57,19 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
         MessagesFragment fragment = new MessagesFragment();
         fragment.setArguments(args);
         fragment.associatedFolder=folder;
+        fragment.favorite=folder.getId()== FolderNames.ID_FAVORITE;
         return fragment;
     }
     public void setMessagesNumber(int number){
-        Log.d("bullhead", "setMessagesNumber: setting message number: "+number);
         if (noMialView!=null && number==0){
             noMialView.setVisibility(View.VISIBLE);
             mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
             if (messagesAdapter!=null) {
                 messagesAdapter.setLoading(false);
             }
+        }
+        if (messagesAdapter!=null){
+            messagesAdapter.setMessageNumber(number);
         }
         this.messageCount=number;
     }
@@ -73,6 +80,10 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
         mView=inflater.inflate(R.layout.data_content_layout,container,false);
         if (mMessages==null) {
             mMessages = MailApplication.getDb().getAllMessages(associatedFolder.getId());
+        }
+        if (favorite){
+            mMessages=MailApplication.getDb().getAllFavoriteMails();
+            setMessagesNumber(mMessages.size());
         }
         noMialView=mView.findViewById(R.id.no_mail_view);
         noMialView.setVisibility(View.GONE);
@@ -107,7 +118,7 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
         }else{
             mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
         }
-        messagesAdapter.setDataSet(mMessages);
+        messagesAdapter.setDataSet(mMessages,messageCount);
         mDataListView.setAdapter(messagesAdapter);
     }
     public void setLoading(boolean loading){
@@ -122,7 +133,7 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
                 mView.findViewById(R.id.loading_inbox_bar).setVisibility(View.GONE);
             }
             mMessages=message;
-            messagesAdapter.setDataSet(mMessages);
+            messagesAdapter.setDataSet(mMessages,messageCount);
             messagesAdapter.notifyItemInserted(mMessages.size()-1);
         }
     }

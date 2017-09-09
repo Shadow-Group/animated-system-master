@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -80,13 +81,14 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatImageView
+        <com.like.LikeButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_favorite_border"
             android:tint="@color/colorAccent"
             android:layout_gravity="center_vertical|end"
-            android:id="@+id/list_fvrt_button"
+            android:id="@+id/mail_like_button"
+            app:icon_type="heart"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp" />
     </LinearLayout>

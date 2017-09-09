@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "sec";
     private static final int VERSION = 1;
+    private static final String FAVORITE_TABLE_NAME="favorites";
     private static DatabaseHelper instance;
 
     private DatabaseHelper(Context context) {
@@ -164,6 +165,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             mai.setFavorite(cursor.getInt(MailEntry.Indices.COLUMN_FAVORITE)!=0);
             mai.setReadStatus(cursor.getInt(MailEntry.Indices.COLUMN_READ_STATUS)!=0);
             mai.setFolderId(folderId);
+            mai.setRecipients(Util.makeArrayListFromString(cursor.getString(MailEntry.Indices.COLUMN_RECIPIENTS)));
+            mai.setMessage(cursor.getString(MailEntry.Indices.COLUMN_MESSAGE));
+            mai.setSubject(cursor.getString(MailEntry.Indices.COLUMN_SUBJECT));
+            data.add(mai);
+        }
+        cursor.close();
+        return data;
+    }
+    public void insertFavorite(Mail mail){
+        //set favorite in mail table
+        mail.setFavorite(true);
+        insertMail(mail);
+    }
+    public void removeFromFavorite(Mail mail){
+
+        //mark not favorite in mails table
+        mail.setFavorite(false);
+        insertMail(mail);
+    }
+    public ArrayList<Mail> getAllFavoriteMails(){
+        String selection=MailEntry.COLUMN_FAVORITE+"=?";
+        String[] selectionArgs={String.valueOf(1)};
+        String[] projection={
+                MailEntry._ID,
+                MailEntry.COLUMN_SUBJECT,
+                MailEntry.COLUMN_SENDER,
+                MailEntry.COLUMN_RECIPIENTS,
+                MailEntry.COLUMN_MESSAGE,
+                MailEntry.COLUMN_ENCRYPT,
+                MailEntry.COLUMN_FAVORITE,
+                MailEntry.COLUMN_READ_STATUS,
+                MailEntry.COLUMN_FOLDER_ID,
+                MailEntry.COLUMN_DATE,
+                MailEntry.COLUMN_MESSAGE_NUMBER
+        };
+        String orderBy = MailEntry.COLUMN_MESSAGE_NUMBER + " DESC";
+        Cursor cursor=getWritableDatabase().query(
+                MailEntry.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                orderBy
+        );
+        ArrayList<Mail> data=new ArrayList<>();
+        while (cursor.moveToNext()){
+            Mail mai=new Mail();
+            mai.setId(cursor.getLong(0));
+            mai.setDate(cursor.getString(MailEntry.Indices.COLUMN_DATE));
+            mai.setSender(new Gson().fromJson(cursor.getString(MailEntry.Indices.COLUMN_SENDER),Sender.class));
+            mai.setEncrypted(cursor.getInt(MailEntry.Indices.COLUMN_ENCRYPT) != 0);
+            mai.setFavorite(cursor.getInt(MailEntry.Indices.COLUMN_FAVORITE)!=0);
+            mai.setReadStatus(cursor.getInt(MailEntry.Indices.COLUMN_READ_STATUS)!=0);
+            mai.setFolderId(cursor.getInt(MailEntry.Indices.COLUMN_FOLDER_ID));
             mai.setRecipients(Util.makeArrayListFromString(cursor.getString(MailEntry.Indices.COLUMN_RECIPIENTS)));
             mai.setMessage(cursor.getString(MailEntry.Indices.COLUMN_MESSAGE));
             mai.setSubject(cursor.getString(MailEntry.Indices.COLUMN_SUBJECT));

@@ -2,6 +2,7 @@ package com.osama.project34.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.google.gson.Gson;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Mail;
 import com.osama.project34.imap.MultiPartHandler;
@@ -34,9 +38,20 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private ArrayList<Mail> mDataSet;
     private ArrayList<String> mColors;
     private boolean isLoading=true;
+    private int messageNumber;
 
     private ArrayList<Integer> shownPosition;
 
+
+    public void setMessageNumber(int messageNumber) {
+        this.messageNumber = messageNumber;
+        Log.d("bullhead", "setMessageNumber: "+messageNumber);
+        if (mDataSet!=null && messageNumber==mDataSet.size()){
+            Log.d("bullhead", "setMessageNumber: loading is set to false");
+            isLoading=false;
+            notifyDataSetChanged();
+        }
+    }
 
     public MessagesAdapter(Context context){
         this.mContext=context;
@@ -63,8 +78,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         isLoading = loading;
     }
 
-    public void setDataSet(ArrayList<Mail> dataset){
+    public void setDataSet(ArrayList<Mail> dataset,int messageCount){
         this.mDataSet=dataset;
+        //to check if we reached at end
+        setMessageNumber(messageCount);
     }
 
     @Override
@@ -87,7 +104,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         holder.mMessageTextTextView.setText(dataModel.getMessage().getText()[0]);
         holder.mMessageSenderTextView.setText(name);
         if (dataModel.isEncrypted()){
-            Log.d("hello", "onBindViewHolder: message is encrypted");
             holder.encryptionStatusImage.setVisibility(View.VISIBLE);
         }else{
             holder.encryptionStatusImage.setVisibility(View.GONE);
@@ -105,6 +121,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }else{
             holder.mailTextContent.setVisibility(View.GONE);
         }
+
+        //check if mail is favorite or not and set view according to that
+        if (dataModel.isFavorite()){
+            holder.likeButton.setLiked(true);
+        }else{
+            holder.likeButton.setLiked(false);
+        }
     }
     public void showMailText(int position){
             shownPosition.add(position);
@@ -113,7 +136,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mDataSet.size()+1;
+      return isLoading?mDataSet.size()+1:mDataSet.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -125,7 +148,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         ProgressBar progressBar;
         LinearLayout mailItem;
         LinearLayout mailTextContent;
-        public ViewHolder(View itemView) {
+        LikeButton likeButton;
+        public ViewHolder(final View itemView) {
             super(itemView);
 
             //bind views
@@ -137,7 +161,19 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             progressBar                 = (ProgressBar) itemView.findViewById(R.id.last_progress_bar);
             mailItem                    = (LinearLayout) itemView.findViewById(R.id.mail_item);
             mailTextContent             = (LinearLayout) itemView.findViewById(R.id.mail_text_content);
+            likeButton                  = (LikeButton) itemView.findViewById(R.id.mail_like_button);
 
+            likeButton.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    markMessageFavorite(getAdapterPosition(),mDataSet.get(getAdapterPosition()),likeButton);
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    markMessageFavorite(getAdapterPosition(),mDataSet.get(getAdapterPosition()),likeButton);
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -147,5 +183,27 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
                 }
             });
         }
+    }
+     private void markMessageFavorite(final int position,final Mail message, final LikeButton itemView){
+        if (message.isFavorite()){
+            //message is already favorite
+            message.setFavorite(false);
+            itemView.setLiked(false);
+            MailApplication.getDb().removeFromFavorite(message); //remove message from favorites
+            Snackbar.make(itemView,"Mail removed from favorite", Snackbar.LENGTH_LONG).
+                    setAction("Undo", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            message.setFavorite(false);
+                            markMessageFavorite(position,message,itemView);
+                        }
+                    }).show();
+        }else{
+            MailApplication.getDb().insertFavorite(message);
+            message.setFavorite(true);
+            itemView.setLiked(true);
+        }
+        mDataSet.remove(position);
+        mDataSet.add(position,message);
     }
 }

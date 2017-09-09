@@ -41,6 +41,8 @@ import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class DataActivity extends BaseActivity implements MailCallbacks,OauthCallbacks {
     private static final String TAG=DataActivity.class.getName();
 
@@ -150,7 +152,11 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         messagesFragments[FIVE]=MessagesFragment.newInstance(folders[FIVE]);
 
         //as five is local folder fragment so set its field
-        messagesFragments[FIVE].setMessages(MailApplication.getDb().getAllMessages(folders[FIVE].getId()));
+        ArrayList<Mail> data=MailApplication.getDb().getAllFavoriteMails();
+
+        messagesFragments[FIVE].setMessages(data);
+        Log.d("bullhead", "initFragments: "+data.size());
+        messagesFragments[FIVE].setMessagesNumber(data.size());
 
         mFragment = messagesFragments[0];
 
