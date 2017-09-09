@@ -176,13 +176,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertFavorite(Mail mail){
         //set favorite in mail table
         mail.setFavorite(true);
-        insertMail(mail);
+        String query="update "+MailEntry.TABLE_NAME+" set "+
+                MailEntry.COLUMN_FAVORITE + " =" +1 +
+                " WHERE "+MailEntry._ID+"="+mail.getId();
+        getWritableDatabase().execSQL(query);
     }
     public void removeFromFavorite(Mail mail){
-
         //mark not favorite in mails table
         mail.setFavorite(false);
-        insertMail(mail);
+        String query="update "+MailEntry.TABLE_NAME+" set "+
+                MailEntry.COLUMN_FAVORITE + " =" +0 +
+                " WHERE "+MailEntry._ID+"="+mail.getId();
+        getWritableDatabase().execSQL(query);
     }
     public ArrayList<Mail> getAllFavoriteMails(){
         String selection=MailEntry.COLUMN_FAVORITE+"=?";
