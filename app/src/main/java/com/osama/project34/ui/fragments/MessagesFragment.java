@@ -160,6 +160,12 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
                 })
                 .setTitle("Deleting mail")
                 .setMessage("Do you really want to delete this message")
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        messagesAdapter.notifyItemChanged(position);
+                    }
+                })
                 .show();
     }
     private void deleteMessage(final int position){
