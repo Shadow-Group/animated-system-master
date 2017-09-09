@@ -23,6 +23,7 @@ import com.osama.project34.data.Key;
 import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.firebase.FirebaseHandler;
 import com.osama.project34.imap.MailSendTask;
+import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.FileUtils;
 
 import java.io.File;
@@ -58,6 +59,9 @@ public class MailComposeActivity extends AppCompatActivity {
         subjectEdit= (EditText) findViewById(R.id.Subject);
         composeEdit= (EditText) findViewById(R.id.Compose);
 
+        EditText formEdit=((EditText) findViewById(R.id.from));
+        formEdit.setText(ConfigManager.getEmail());
+        formEdit.setEnabled(false);
         sentToEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
