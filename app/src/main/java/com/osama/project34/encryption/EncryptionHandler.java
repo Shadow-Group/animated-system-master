@@ -1,17 +1,22 @@
 package com.osama.project34.encryption;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.osama.project34.MailApplication;
 import com.osama.project34.data.Key;
 import com.osama.project34.firebase.FirebaseHandler;
+import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.FileUtils;
 
 import org.spongycastle.bcpg.ArmoredOutputStream;
 import org.spongycastle.openpgp.PGPKeyRingGenerator;
+import org.spongycastle.openpgp.PGPPublicKey;
 import org.spongycastle.openpgp.PGPPublicKeyRing;
+import org.spongycastle.openpgp.PGPSecretKey;
 import org.spongycastle.openpgp.PGPSecretKeyRing;
 
 import java.io.ByteArrayOutputStream;
@@ -74,6 +79,7 @@ public class EncryptionHandler {
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
                 if (aBoolean){
+                    ConfigManager.setKeysGenerated();
                     listener.onSuccess();
                 }else{
                     listener.onError();
@@ -137,6 +143,57 @@ public class EncryptionHandler {
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+    public static void importKeys(final String secKeyFileName, final OnKeysGenerated callback){
+        new AsyncTask<Void,Void,Boolean>(){
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    PGPSecretKey key=MyPGPUtil.readSecretKey(secKeyFileName);
+                    // if secret key is correct get the public key from it and save it
+                    PGPPublicKey pub=key.getPublicKey();
+                    //output keys in ascii armored format
+                    File file                   = new File(MailApplication.getInstance().getFilesDir(),"pub.asc");
+                    ArmoredOutputStream pubOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    pub.encode(pubOut);
+                    pubOut.close();
+
+
+                    file = new File(MailApplication.getInstance().getFilesDir(), "sec.asc");
+                    ArmoredOutputStream secOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    key.encode(secOut);
+                    secOut.close();
+
+                    //insert user public key on server database
+                    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+                    ArmoredOutputStream armoredOutputStream=new ArmoredOutputStream(outputStream);
+                    pub.encode(armoredOutputStream);
+                    armoredOutputStream.close();
+
+                    Key user=new Key();
+                    user.setText(outputStream.toString());
+                    user.setUser(ConfigManager.getEmail());
+                    FirebaseHandler.getInstance().saveKey(user);
+                    return true;
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                if (aBoolean) {
+                    ConfigManager.setKeysGenerated();
+                    callback.onSuccess();
+                } else {
+                    callback.onError();
+                }
+            }
+        }.execute();
+
     }
 
 

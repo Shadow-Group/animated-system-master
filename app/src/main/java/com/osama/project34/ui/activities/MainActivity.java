@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         mCurrentAccount=mAllAccounts[position];
         //check if I already have the token
         if(mAccessToken!=null){
-            startDataActivity();
+            showGenerateKeysDialog();
         }else{
             getToken(position);
         }
@@ -213,13 +213,6 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         addAccountIntent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {"com.google"});
         startActivityForResult(addAccountIntent,REQ_ADD_ACCOUNT);
     }
-    private void startDataActivity(){
-        Intent intent=new Intent(MainActivity.this,DataActivity.class);
-        intent.putExtra(CommonConstants.DATA_ACTIVITY_INTENT_PERM,mCurrentAccount.name);
-        intent.putExtra(CommonConstants.DATA_ACTIVITY_PERM_TOKEN,mAccessToken);
-        startActivityForResult(intent,1);
-        finish();
-    }
 
     /**
      * Task for setup section
@@ -270,62 +263,8 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         }.execute();
     }
     private void showGenerateKeysDialog(){
-        final Dialog dialog=new Dialog(this);
-        dialog.setContentView(R.layout.password_dialog_layout);
-        dialog.setCancelable(false);
-        dialog.findViewById(R.id.generate_key_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText editText= (EditText) dialog.findViewById(R.id.key_password);
-                String password=editText.getText().toString();
-                if (password.length()<4){
-                    editText.setError("Password length must be greater than 3");
-                    return;
-                }
-                dialog.dismiss();
-                generateKeys(password);
-            }
-        });
-        dialog.show();
-    }
-    private void generateKeys(final String password){
-        final ProgressDialog dialog=new ProgressDialog(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
-        dialog.setMessage("Generating keys. please wait....");
-        dialog.setTitle("Keys Generation");
-        dialog.setCancelable(false);
-        dialog.show();
-        EncryptionHandler.generateKeys(mCurrentAccount.name, password, new EncryptionHandler.OnKeysGenerated() {
-            @Override
-            public void onSuccess() {
-                dialog.dismiss();
-                new AlertDialog.Builder(MainActivity.this)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                startDataActivity();
-                            }
-                        })
-                        .setCancelable(false)
-                        .setMessage("Keys successfully generated.")
-                        .show();
-            }
-
-            @Override
-            public void onError() {
-                dialog.dismiss();
-                new AlertDialog.Builder(MainActivity.this)
-                        .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                generateKeys(password);
-                            }
-                        })
-                        .setCancelable(false)
-                        .setTitle("Error")
-                        .setMessage("Unable to generate keys.")
-                        .show();
-            }
-        });
+       startActivityForResult(new Intent(this,GenerateKeysActivity.class),100);
+        finish();
     }
 
     @Override

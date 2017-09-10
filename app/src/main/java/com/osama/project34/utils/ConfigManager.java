@@ -33,6 +33,12 @@ public final class ConfigManager {
                 .putBoolean(ConfigKeys.SHOW_MAIL,value)
                 .apply();
     }
+    public static boolean isKeyGenerated(){
+        return mConfigPrefs.getBoolean(ConfigKeys.KEY_CONFIG,false);
+    }
+    public static void setKeysGenerated(){
+        mConfigPrefs.edit().putBoolean(ConfigKeys.KEY_CONFIG,true).apply();
+    }
     public static boolean isFirstRun(){
         return mConfigPrefs.getBoolean(ConfigKeys.FIRST_RUN,true);
     }
@@ -81,5 +87,6 @@ public final class ConfigManager {
         private static final String IMAGE_URL="image_url";
         private static final String FIRST_RUN="first_run";
         private static final String SHOW_MAIL="show_mail";
+        private static final String KEY_CONFIG="key_config";
     }
 }
