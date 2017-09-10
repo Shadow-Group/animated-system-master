@@ -3,13 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.crypto.shadow.myapplication.MainActivity">
 
-
-    <item
-        android:id="@+id/action_attach_file"
-        android:orderInCategory="200"
-        android:title="User"
-        android:icon="@drawable/ic_attachment_black_24dp"
-        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_send"
         android:orderInCategory="300"

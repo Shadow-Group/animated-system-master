@@ -146,10 +146,6 @@ public class MailComposeActivity extends BaseActivity {
            sendMail();
         }
 
-        if(id==R.id.action_attach_file){
-            attachFile();
-        }
-
         return super.onOptionsItemSelected(item);
     }
     private static final int RC_CHOOSE_FILE=10;
