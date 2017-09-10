@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -173,6 +174,9 @@ public class MailComposeActivity extends BaseActivity {
     }
 
     private void sendMail() {
+        //hide keyboard
+        InputMethodManager inputMethodManager= (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(composeEdit.getWindowToken(),0);
         //check for the fields
         final String to = sentToEdit.getText().toString();
         final String subject = subjectEdit.getText().toString();
@@ -257,6 +261,7 @@ public class MailComposeActivity extends BaseActivity {
                     @Override
                     public void onDismissed(Snackbar transientBottomBar, int event) {
                         super.onDismissed(transientBottomBar, event);
+                        finish();
                     }
                 }).show();
             }
