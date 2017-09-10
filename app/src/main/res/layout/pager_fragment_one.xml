@@ -10,7 +10,7 @@
     android:layout_centerHorizontal="true">
 
     <TextView
-        android:text="Welcome to PGP Root Explorer"
+        android:text="Welcome to OpenPGP Secure Mail"
         android:layout_width="wrap_content"
         android:textColor="#FAFAFA"
         android:textStyle="bold"

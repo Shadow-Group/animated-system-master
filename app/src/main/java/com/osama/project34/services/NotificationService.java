@@ -70,7 +70,7 @@ public class NotificationService extends Service {
                 Log.d(TAG, "run: service started");
                 final Folder inbox = FolderNames.getImapFolder(FolderNames.ID_INBOX);
                 while (true) {
-                    Thread.sleep(1500);
+                    Thread.sleep(2000);
                     Message[] messages = checkMail(inbox);
                     if (messages != null) {
                         for (int i = 0; i < messages.length; i++) {
