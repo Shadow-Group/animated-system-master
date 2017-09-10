@@ -48,6 +48,7 @@
              android:layout_marginStart="10dp"
             android:id="@+id/encryption_status_image"
             android:src="@drawable/ic_lock_outline"
+             android:tint="#818181"
             />
     <EditText
         android:id="@+id/to"
@@ -118,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
+            android:textColorHint="#cacaca"
             android:background="@android:color/transparent"/>
 
     </LinearLayout>
@@ -132,6 +134,7 @@
         <EditText
             android:id="@+id/Compose"
             android:hint="Compose email"
+            android:textColorHint="#CACACA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"/>
