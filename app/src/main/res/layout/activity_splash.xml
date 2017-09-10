@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimaryDark"
+    android:background="@color/colorPrimaryDarkTheme"
     tools:context="com.osama.project34.ui.activities.SplashActivity">
 
     <com.osama.project34.ui.widgets.FancyTextView
