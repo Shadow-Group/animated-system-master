@@ -16,7 +16,7 @@
  *       along with RootPGPExplorer.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.osama.project34.ui.startup;
+package com.osama.project34.ui.adapters;
 
 /**
  * Created by Shadow on 1/12/2017.

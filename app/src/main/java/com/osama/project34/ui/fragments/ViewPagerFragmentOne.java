@@ -1,5 +1,5 @@
 
-package com.osama.project34.ui.startup;
+package com.osama.project34.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

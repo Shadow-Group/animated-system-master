@@ -1,5 +1,6 @@
 
-package com.osama.project34.ui.startup;
+
+package com.osama.project34.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,17 +11,16 @@ import android.view.ViewGroup;
 
 import com.osama.project34.R;
 
-
 /**
  * Created by Shadow on 1/12/2017.
  */
 
-public class ViewPagerFragmentThree extends Fragment {
+public class ViewPagerFragmentTwo extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.pager_fragment_three,container,false);
+        return inflater.inflate(R.layout.pager_fragment_two,container,false);
     }
 
 }

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.osama.project34.About.KeyDetailsActivity">
+    tools:context=".ui.activities.about.KeyDetailsActivity">
 <include layout="@layout/activities_toolbar"/>
     <LinearLayout
         android:layout_width="match_parent"

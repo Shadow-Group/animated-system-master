@@ -23,8 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.osama.project34.About.AboutActivity;
-import com.osama.project34.About.KeyDetailsActivity;
+import com.osama.project34.ui.activities.about.AboutActivity;
+import com.osama.project34.ui.activities.about.KeyDetailsActivity;
 import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Folder;

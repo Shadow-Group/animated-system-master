@@ -25,6 +25,7 @@ import com.osama.project34.data.Mail;
 import com.osama.project34.imap.MultiPartHandler;
 import com.osama.project34.ui.activities.MailViewActivity;
 import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.ConfigManager;
 
 import java.util.ArrayList;
 
@@ -118,7 +119,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         //hide the mail text
         if (shownPosition.contains(position)){
             holder.mailTextContent.setVisibility(View.VISIBLE);
-        }else{
+        }else if (!ConfigManager.showMailEnabled()){
             holder.mailTextContent.setVisibility(View.GONE);
         }
 

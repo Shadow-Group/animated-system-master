@@ -1,16 +1,16 @@
 
 
-package com.osama.project34.About;
+package com.osama.project34.ui.activities.about;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.osama.project34.R;
+import com.osama.project34.ui.activities.BaseActivity;
 
 
-public class ShowTeamActivity extends AppCompatActivity {
+public class ShowTeamActivity extends BaseActivity {
  private String mfirstDevelporName="Osama Bin Omar";
     private String msecondDevelporsName="Hamza Muhammad Latif";
     private String mthirdDevelporsName="Muahmmad Ahmad Nasim";

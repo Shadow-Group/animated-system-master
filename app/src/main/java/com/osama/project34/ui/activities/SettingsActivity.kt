@@ -17,10 +17,23 @@ class SettingsActivity : BaseActivity() {
 
         val themeSwitch=prefs_theme_box
         themeSwitch.isChecked=ConfigManager.isDarkTheme()
+        prefs_show_mail_box.isChecked=ConfigManager.showMailEnabled()
         main_toolbar.title = "Settings"
         themeSwitch.setOnClickListener({
             switchTheme()
         })
+        prefs_show_mail_box.setOnClickListener({
+            switchShowMail()
+        })
+    }
+
+    private fun switchShowMail() {
+        if (ConfigManager.showMailEnabled()){
+            ConfigManager.setShowMail(false)
+        }else{
+            ConfigManager.setShowMail(true)
+        }
+        prefs_show_mail_box.isChecked=ConfigManager.showMailEnabled()
     }
 
     private fun switchTheme() {

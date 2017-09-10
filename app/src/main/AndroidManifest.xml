@@ -30,19 +30,19 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.activities.MainActivity" />
         <activity
-            android:name=".About.KeyDetailsActivity"
+            android:name=".ui.activities.about.KeyDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.activities.DataActivity" />
         <activity
-            android:name=".About.AboutActivity"
+            android:name=".ui.activities.about.AboutActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.activities.DataActivity" />
         <activity
-            android:name=".About.ShowTeamActivity"
+            android:name=".ui.activities.about.ShowTeamActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".About.AboutActivity" />
+            android:parentActivityName=".ui.activities.about.AboutActivity" />
         <activity
-            android:name=".ui.startup.PreStartActivity"
+            android:name=".ui.activities.startup.PreStartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

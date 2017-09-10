@@ -1,13 +1,13 @@
 
-package com.osama.project34.About;
+package com.osama.project34.ui.activities.about;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.osama.project34.R;
 import com.osama.project34.encryption.MyPGPUtil;
+import com.osama.project34.ui.activities.BaseActivity;
 import com.osama.project34.utils.ConfigManager;
 
 import org.spongycastle.openpgp.PGPException;
@@ -15,7 +15,7 @@ import org.spongycastle.openpgp.PGPPublicKey;
 
 import java.io.IOException;
 
-public class KeyDetailsActivity extends AppCompatActivity {
+public class KeyDetailsActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

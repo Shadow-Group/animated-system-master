@@ -1,6 +1,6 @@
 
 
-package com.osama.project34.ui.startup;
+package com.osama.project34.ui.activities;
 
 
 import android.content.Intent;
