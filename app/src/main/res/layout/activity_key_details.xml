@@ -21,14 +21,14 @@
             android:layout_height="wrap_content"
             android:text="Username"
             android:textSize="18dp"
-            android:textColor="#212121" />
+             />
 
         <TextView
             android:id="@+id/key_details_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:textColor="#9E9E9E" />
+             />
     </LinearLayout>
 
     <TextView
@@ -38,7 +38,7 @@
         android:padding="10dp"
         android:text="Key details"
         android:textSize="18dp"
-        android:textColor="#212121" />
+         />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="Size"
                 android:textSize="17dp"
-                android:textColor="#212121" />
+                 />
 
             <TextView
                 android:id="@+id/key_details_keysize_textview"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:text="null"
                 android:textSize="15dp"
-                android:textColor="#9E9E9E" />
+                 />
 
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:text="ID"
                 android:textSize="17dp"
-                android:textColor="#212121" />
+                 />
 
             <TextView
                 android:id="@+id/key_details_keyid_textview"
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:text="null"
                 android:textSize="15dp"
-                android:textColor="#9E9E9E" />
+                 />
 
         </LinearLayout>
     </LinearLayout>
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:text="Creation time"
                 android:textSize="17dp"
-                android:textColor="#212121"/>
+                />
 
             <TextView
                 android:id="@+id/key_details_keytime_textview"
