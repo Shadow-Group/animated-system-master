@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         //check the google play services availability
         if(!isRequiredService()){
             //show dialog
-            final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            final AlertDialog.Builder builder=new AlertDialog.Builder(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
             builder.setMessage(R.string.play_services_failed_message);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override

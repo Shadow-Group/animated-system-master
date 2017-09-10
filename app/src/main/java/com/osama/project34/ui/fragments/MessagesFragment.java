@@ -23,6 +23,7 @@ import com.osama.project34.imap.EmailTasks;
 import com.osama.project34.imap.FolderNames;
 import com.osama.project34.ui.adapters.MessagesAdapter;
 import com.osama.project34.ui.widgets.MailListTouchHelper;
+import com.osama.project34.utils.ConfigManager;
 
 import java.util.ArrayList;
 
@@ -144,7 +145,7 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
 
     }
     private void showDeletionDialog(final int position){
-        new AlertDialog.Builder(context)
+        new AlertDialog.Builder(context, ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -145,7 +145,7 @@ public class MailComposeActivity extends BaseActivity {
             return;
         }
         if (TextUtils.isEmpty(subject)){
-            new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight)
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

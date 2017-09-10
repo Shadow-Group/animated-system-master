@@ -26,6 +26,7 @@ import com.osama.project34.imap.FolderNames;
 import com.osama.project34.oauth.OauthCallbacks;
 import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.ConfigManager;
 
 public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
     private static final int RC_PERMISSION=123;
@@ -105,7 +106,7 @@ public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
 
     @Override
     public void tokenError(String error) {
-        new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this, ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight)
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
