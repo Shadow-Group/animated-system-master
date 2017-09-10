@@ -23,6 +23,7 @@ import com.osama.project34.data.Key;
 import com.osama.project34.encryption.EncryptionHandler;
 import com.osama.project34.firebase.FirebaseHandler;
 import com.osama.project34.imap.MailSendTask;
+import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
 import com.osama.project34.utils.FileUtils;
 
@@ -50,7 +51,45 @@ public class MailComposeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         bindElements();
+
+        //check if we are launched in forward or reply mode
+        String action=getIntent().getAction();
+        switch (action){
+            case CommonConstants.COMPOSE_INTENT_ACTION_FORWARD:
+                setupForward();
+                break;
+            case CommonConstants.COMPOSE_INTENT_ACTION_REPLY:
+                setupReply();
+        }
     }
+
+    private void setupForward() {
+        String message=getIntent().getStringExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MESSAGE);
+        String subject=getIntent().getStringExtra(CommonConstants.COMPOSE_INTENT_EXTRA_SUBJECT);
+        composeEdit.setText(message);
+        subjectEdit.setText(subject);
+    }
+
+    private void setupReply() {
+        String to=getIntent().getStringExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MAIL);
+        sentToEdit.setText(to);
+        sentToEdit.setEnabled(false);
+        //check if email can be used to encrypt
+        for (Key key:FirebaseHandler.getInstance().getKeys()) {
+            if (key.getUser().equals(to)){
+                recipientKey = key;
+                shouldEncrypt=true;
+                break;
+            }
+            shouldEncrypt=false;
+        }
+        if (shouldEncrypt){
+            ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#4caf50"));
+        }else{
+            ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#818181"));
+        }
+    }
+
 
     private void bindElements() {
         sentToEdit= (EditText) findViewById(R.id.to);

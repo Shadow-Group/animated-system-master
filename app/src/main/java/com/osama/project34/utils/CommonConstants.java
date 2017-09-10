@@ -19,6 +19,11 @@ public class CommonConstants {
     public static final String MESSAGE_NUMBER_DATA      ="message_number_data";
     public static final String MAIL_VIEW_INTENT="mail_view_intent";
     public static final String LOADING_INTENT="loading_intent";
+    public static final String COMPOSE_INTENT_ACTION_REPLY="com.osama.project34.compose.reply";
+    public static final String COMPOSE_INTENT_ACTION_FORWARD="com.osama.project34.compose.forward";
+    public static final String COMPOSE_INTENT_EXTRA_MAIL="mail_id";
+    public static final String COMPOSE_INTENT_EXTRA_SUBJECT="mail_subject";
+    public static final String COMPOSE_INTENT_EXTRA_MESSAGE="mail_content";
 
     public static  String ACCESS_TOKEN ;
 }
