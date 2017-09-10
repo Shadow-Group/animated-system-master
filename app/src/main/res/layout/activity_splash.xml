@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/colorPrimaryDark"
     tools:context="com.osama.project34.ui.activities.SplashActivity">
 
     <com.osama.project34.ui.widgets.FancyTextView
@@ -15,6 +15,7 @@
         android:gravity="center"
         android:text="@string/app_name"
         android:layout_marginTop="30dp"
+        android:textColor="#fff"
         android:layout_gravity="center_horizontal"
         android:id="@+id/title"
         />
@@ -25,13 +26,14 @@
         android:src="@drawable/logo"
         android:layout_marginTop="30dp"
 android:layout_gravity="center_horizontal"
-        android:tint="?attr/colorAccent"
+        android:tint="@color/colorAccentDark"
         android:id="@+id/ima"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
+        android:textColor="#fff"
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="Loading necessary information. Please wait..."
@@ -40,6 +42,7 @@ android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:progressTint="@color/colorAccentDark"
         android:id="@+id/splash_progress_bar"
         android:layout_gravity="center_horizontal"
         />
