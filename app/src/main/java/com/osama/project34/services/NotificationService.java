@@ -1,4 +1,4 @@
-package com.osama.project34.imap;
+package com.osama.project34.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,6 +15,8 @@ import com.osama.project34.MailApplication;
 import com.osama.project34.R;
 import com.osama.project34.data.Mail;
 import com.osama.project34.data.Sender;
+import com.osama.project34.imap.FolderNames;
+import com.osama.project34.imap.MultiPartHandler;
 import com.osama.project34.ui.activities.MailViewActivity;
 import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
@@ -31,6 +33,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.UIDFolder;
 import javax.mail.internet.InternetAddress;
+import javax.mail.search.AndTerm;
 import javax.mail.search.FlagTerm;
 import javax.mail.search.SearchTerm;
 
@@ -96,8 +99,10 @@ public class NotificationService extends Service {
         if (!folder.isOpen()) {
             folder.open(Folder.READ_WRITE);
         }
+        SearchTerm searchTerm=new FlagTerm(new Flags(Flags.Flag.RECENT),true);
         SearchTerm search = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        Message[] messages = folder.search(search);
+        SearchTerm mixed=new AndTerm(search,searchTerm);
+        Message[] messages = folder.search(mixed);
         Message[] unseenMessages = new Message[messages.length];
         int count = 0;
         for (Message message : messages) {
@@ -107,10 +112,22 @@ public class NotificationService extends Service {
             } else {
                 Log.d(TAG, "checkMail: got a new message");
                 unseenMessages[count++] = message;
+                if (count==5){
+                    showManyMailsNotification(message.getMessageNumber());
+                    return null;
+                }
             }
         }
         return unseenMessages;
 
+    }
+    private void showManyMailsNotification(int number){
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
+                .setContentText("There are multiple unread emails in your account.")
+                .setContentTitle("Unread mails: "+number)
+                .setSmallIcon(R.drawable.logo);
+        manager.notify(notificationCount++, notification.build());
     }
 private void sendMailBroadcast(int folderId,boolean isLoading){
     Intent intent = new Intent(CommonConstants.GOT_MESSAGE_BROADCAST);

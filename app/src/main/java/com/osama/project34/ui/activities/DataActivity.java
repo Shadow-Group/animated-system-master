@@ -16,14 +16,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.osama.project34.imap.NotificationService;
+import com.osama.project34.services.NotificationService;
 import com.osama.project34.ui.activities.about.AboutActivity;
 import com.osama.project34.ui.activities.about.KeyDetailsActivity;
 import com.osama.project34.MailApplication;

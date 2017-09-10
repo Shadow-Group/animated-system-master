@@ -53,7 +53,7 @@
         </activity>
         <activity android:name=".ui.activities.GenerateKeysActivity" />
         <activity android:name=".ui.activities.SettingsActivity"/>
-        <service android:name=".imap.NotificationService"/>
+        <service android:name=".services.NotificationService"/>
     </application>
 
 </manifest>
