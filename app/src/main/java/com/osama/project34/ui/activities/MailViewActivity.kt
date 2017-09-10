@@ -1,14 +1,17 @@
 package com.osama.project34.ui.activities
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.PopupMenu
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.google.gson.Gson
@@ -38,7 +41,6 @@ class MailViewActivity : BaseActivity() {
         setupToolbar()
 
         currentMail=Gson().fromJson(intent.extras.getString(CommonConstants.MAIL_VIEW_INTENT),Mail::class.java)
-
 
         viewerMailSubject.text=currentMail!!.subject
         to.text=ConfigManager.getEmail()
@@ -72,9 +74,43 @@ class MailViewActivity : BaseActivity() {
             loadMail()
         }
 
+        moreOptionsMenu.setOnClickListener({
+            showPopupMenu(moreOptionsMenu)
+        })
 
     }
 
+    private fun showPopupMenu(anchorView:View) {
+       val popMenu=PopupMenu(this,anchorView)
+        popMenu.menuInflater.inflate(R.menu.menu_mail_options,popMenu.menu)
+        popMenu.show()
+        popMenu.setOnMenuItemClickListener { item ->
+            when (item!!.itemId){
+                R.id.mail_reply_menu_item ->{launchReplyActivity()}
+                R.id.mail_forward_menu_item->{launchForwardActivity()}
+            }
+            true
+        }
+    }
+
+    private fun launchReplyActivity() {
+        val intent=Intent(this,MailComposeActivity::class.java)
+        intent.action = CommonConstants.COMPOSE_INTENT_ACTION_REPLY
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MAIL,currentMail!!.sender.mail)
+        startActivity(intent)
+    }
+
+    private fun launchForwardActivity() {
+        if (!currentMail!!.isEncrypted){
+            Snackbar.make(moreOptionsMenu,"currently only encrypted can be forward.",Snackbar.LENGTH_SHORT).show()
+            return
+        }
+        val intent=Intent(this,MailComposeActivity::class.java)
+        intent.action=CommonConstants.COMPOSE_INTENT_ACTION_FORWARD
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_SUBJECT,currentMail!!.subject)
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MESSAGE,currentMail!!.message.text[0])
+        startActivity(intent)
+    }
 
 
     private fun showDecryptDialog() {

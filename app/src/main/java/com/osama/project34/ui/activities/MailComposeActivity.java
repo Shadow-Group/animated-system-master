@@ -54,12 +54,14 @@ public class MailComposeActivity extends BaseActivity {
 
         //check if we are launched in forward or reply mode
         String action=getIntent().getAction();
-        switch (action){
-            case CommonConstants.COMPOSE_INTENT_ACTION_FORWARD:
-                setupForward();
-                break;
-            case CommonConstants.COMPOSE_INTENT_ACTION_REPLY:
-                setupReply();
+        if (action!=null) {
+            switch (action) {
+                case CommonConstants.COMPOSE_INTENT_ACTION_FORWARD:
+                    setupForward();
+                    break;
+                case CommonConstants.COMPOSE_INTENT_ACTION_REPLY:
+                    setupReply();
+            }
         }
     }
 

@@ -149,6 +149,8 @@ class MessagesManager : MailObserver {
                 }
             }catch (ex:FolderClosedException){
                 ex.printStackTrace()
+            }catch (ex:MessagingException){
+                ex.printStackTrace()
             }
         }
 
