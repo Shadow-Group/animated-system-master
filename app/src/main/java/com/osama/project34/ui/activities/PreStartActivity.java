@@ -87,8 +87,8 @@ public class PreStartActivity extends AppCompatActivity {
     public void changePage(int num) {
         switch (num) {
             case 0:
-                preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
-                setColors(ContextCompat.getColor(this, R.color.colorAccent));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccentDark));
+                setColors(ContextCompat.getColor(this, R.color.colorAccentDark));
                 break;
             case 1:
                 preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.pagercolor2));
