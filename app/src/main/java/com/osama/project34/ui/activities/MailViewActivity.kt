@@ -12,6 +12,8 @@ import android.widget.EditText
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.google.gson.Gson
+import com.like.LikeButton
+import com.like.OnLikeListener
 import com.osama.project34.MailApplication
 import com.osama.project34.R
 import com.osama.project34.data.Mail
@@ -19,9 +21,14 @@ import com.osama.project34.encryption.EncryptionHandler
 import com.osama.project34.imap.MultiPartHandler
 import com.osama.project34.ui.widgets.EmailViewer
 import com.osama.project34.utils.CommonConstants
+import com.osama.project34.utils.ConfigManager
 import com.osama.project34.utils.FileUtils
 import kotlinx.android.synthetic.main.activity_mail_view.*
 import java.io.File
+import java.text.DateFormat
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MailViewActivity : BaseActivity() {
     var currentMail:Mail?=null
@@ -34,10 +41,28 @@ class MailViewActivity : BaseActivity() {
 
 
         viewerMailSubject.text=currentMail!!.subject
+        to.text=ConfigManager.getEmail()
+        messageSendDate.text=currentMail!!.date
+        likeButtonViewer.isLiked=currentMail!!.isFavorite
+
+        likeButtonViewer.setOnLikeListener(object:OnLikeListener{
+            override fun liked(p0: LikeButton?) {
+                toggleFavorite(currentMail!!,p0!!)
+            }
+
+            override fun unLiked(p0: LikeButton?) {
+                toggleFavorite(currentMail!!,p0!!)
+            }
+
+        })
+
         senderName.text=currentMail!!.sender.name?:currentMail!!.sender.mail
+        senderEmail.text=currentMail!!.sender.mail
+
         val generator = ColorGenerator.MATERIAL
+        val name=currentMail!!.sender.name?:currentMail!!.sender.mail
         val thumb = TextDrawable.builder()
-                .buildRound(currentMail!!.sender.mail.substring(0, 1), generator.getColor(currentMail!!.id))
+                .buildRound(name.substring(0, 1), generator.getColor(currentMail!!.id))
         viewerSenderIcon.setImageDrawable(thumb)
 
         //check if email is encrypted
@@ -49,6 +74,8 @@ class MailViewActivity : BaseActivity() {
 
 
     }
+
+
 
     private fun showDecryptDialog() {
         val dialog = Dialog(this)
@@ -65,6 +92,22 @@ class MailViewActivity : BaseActivity() {
 
         })
         dialog.show()
+    }
+    private fun toggleFavorite(message:Mail,itemView:LikeButton){
+        if (message.isFavorite) {
+            //message is already favorite
+            message.isFavorite = false
+            itemView.setLiked(false)
+            MailApplication.getDb().removeFromFavorite(message) //remove message from favorites
+            Snackbar.make(itemView, "Mail removed from favorite", Snackbar.LENGTH_LONG).setAction("Undo") {
+                message.isFavorite = false
+                toggleFavorite(message, itemView)
+            }.show()
+        } else {
+            MailApplication.getDb().insertFavorite(message)
+            message.isFavorite = true
+            itemView.isLiked = true
+        }
     }
 
     private fun decryptMail(password: String) {

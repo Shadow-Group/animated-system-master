@@ -9,9 +9,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.osama.project34.ui.activities.MailViewActivity">
-    <include layout="@layout/activities_toolbar"
+
+    <include
         android:id="@+id/toolbar"
-        />
+        layout="@layout/activities_toolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +23,8 @@
         android:layout_margin="5dp"
         >
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
@@ -29,30 +32,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/viewerMailSubject"
-        android:textSize="20sp"
-        android:layout_weight="4"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_marginStart="10dp"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
+        android:text="Hello"
         />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="2dp"
                 android:id="@+id/to"
+                android:textSize="12sp"
+                android:layout_marginStart="10dp"
+                android:text="m.osamabinomar@gmail.com"
                 />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="12-09-2017"
+                    android:textSize="12sp"
+                    android:layout_marginTop="2dp"
                     android:id="@+id/messageSendDate"
                     />
             </LinearLayout>
 
         <com.like.LikeButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:icon_size="25dp"
             app:icon_type="heart"
@@ -62,15 +72,16 @@
             />
         </LinearLayout>
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:layout_margin="5dp"
         android:id="@+id/sender_info_layout"
+        android:paddingEnd="10dp"
         >
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_alignParentStart="true"
             android:id="@+id/viewerSenderIcon"
@@ -79,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp"
+            android:layout_marginStart="5dp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/viewerSenderIcon"
             >
@@ -87,17 +98,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
+                android:text="Osama"
+                android:textStyle="bold"
                 android:id="@+id/senderName"
                 />
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:id="@+id/hiddenDetailLayout"
-                >
+                android:maxLines="1"
+                android:text="hello@example.com"
+                android:id="@+id/senderEmail"
+                android:textSize="12sp"
+                android:layout_marginBottom="2dp"
+                />
 
-                </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
