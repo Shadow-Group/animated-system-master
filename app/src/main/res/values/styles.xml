@@ -30,6 +30,7 @@
         <item name="android:background">@color/colorPrimaryDarkTheme</item>
         <item name="android:windowBackground">@color/colorPrimaryDarkDarkTheme</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
     <style name="DialogStyleLight" parent="Base.Theme.AppCompat.Light.Dialog.Alert">

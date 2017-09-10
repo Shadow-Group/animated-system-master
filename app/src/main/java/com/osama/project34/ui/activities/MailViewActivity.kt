@@ -114,7 +114,12 @@ class MailViewActivity : BaseActivity() {
 
 
     private fun showDecryptDialog() {
-        val dialog = Dialog(this)
+        var style=R.style.DialogStyleLight
+        if(ConfigManager.isDarkTheme()){
+            style=R.style.DialogStyleDark
+        }
+
+        val dialog = Dialog(this,style)
         dialog.setContentView(R.layout.dialog_decrypt_mail)
         dialog.findViewById(R.id.generate_key_button).setOnClickListener({
             val editText = dialog.findViewById(R.id.key_password) as EditText
