@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 /**
  * Created by bullhead on 8/18/17.
+ *
  */
 
 public class MessagesFragment extends Fragment implements MailListTouchHelper.OnSwiped {
@@ -43,19 +44,20 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
 
     private boolean favorite;
 
-
+    private OnFragmentViewCreated callbacks;
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
     }
 
-    public static MessagesFragment newInstance(final Folder folder) {
+    public static MessagesFragment newInstance(final Folder folder,OnFragmentViewCreated callbacks) {
 
         Bundle args = new Bundle();
 
         MessagesFragment fragment = new MessagesFragment();
         fragment.setArguments(args);
+        fragment.callbacks=callbacks;
         fragment.associatedFolder = folder;
         fragment.favorite = folder.getId() == FolderNames.ID_FAVORITE;
         return fragment;
@@ -195,6 +197,12 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        callbacks.viewCreated();
+    }
+
+    @Override
     public void toRight(int position) {
         //show message content
         try {
@@ -202,5 +210,8 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+    public interface OnFragmentViewCreated{
+        void viewCreated();
     }
 }

@@ -43,7 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class DataActivity extends BaseActivity implements MailCallbacks, OauthCallbacks {
+public class DataActivity extends BaseActivity implements MailCallbacks, OauthCallbacks,MessagesFragment.OnFragmentViewCreated {
     private static final String TAG = DataActivity.class.getName();
 
     private View rootContainer;
@@ -144,10 +144,10 @@ public class DataActivity extends BaseActivity implements MailCallbacks, OauthCa
         folders[FOURTH] = new Folder(FolderNames.ID_FAVORITE, FolderNames.FAVORITE);
 
         messagesFragments = new MessagesFragment[4];
-        messagesFragments[FIRST] = MessagesFragment.newInstance(folders[FIRST]);
-        messagesFragments[SECOND] = MessagesFragment.newInstance(folders[SECOND]);
-        messagesFragments[THIRD] = MessagesFragment.newInstance(folders[THIRD]);
-        messagesFragments[FOURTH] = MessagesFragment.newInstance(folders[FOURTH]);
+        messagesFragments[FIRST] = MessagesFragment.newInstance(folders[FIRST],this);
+        messagesFragments[SECOND] = MessagesFragment.newInstance(folders[SECOND],this);
+        messagesFragments[THIRD] = MessagesFragment.newInstance(folders[THIRD],this);
+        messagesFragments[FOURTH] = MessagesFragment.newInstance(folders[FOURTH],this);
 
         //as five is local folder fragment so set its field
         ArrayList<Mail> data = MailApplication.getDb().getAllFavoriteMails();
@@ -232,7 +232,6 @@ public class DataActivity extends BaseActivity implements MailCallbacks, OauthCa
                         startActivity(settings);
                         item.setChecked(false);
                 }
-                mDrawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
         });
@@ -321,5 +320,12 @@ public class DataActivity extends BaseActivity implements MailCallbacks, OauthCa
     @Override
     public void startSignInActivity(UserRecoverableAuthException e) {
 
+    }
+
+    @Override
+    public void viewCreated() {
+        if (mDrawerLayout!=null){
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 }
