@@ -105,6 +105,7 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         rootContainer=getLayoutInflater().inflate(R.layout.activity_data,null);
 
         setContentView(rootContainer);
+        exceptionHandler();
         setResult(RESULT_OK);
 
         Log.d(TAG, "onCreate: Created activity");
@@ -269,6 +270,15 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
+    }
+    private void exceptionHandler(){
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                Log.d(TAG, "uncaughtException: exception occurred.");
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override

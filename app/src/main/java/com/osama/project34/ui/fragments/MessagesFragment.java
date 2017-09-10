@@ -135,12 +135,15 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
             }
             mMessages=message;
             messagesAdapter.setDataSet(mMessages,messageCount);
-            messagesAdapter.notifyItemInserted(mMessages.size()-1);
+            messagesAdapter.notifyDataSetChanged();
         }
     }
 
     @Override
     public void toLeft(int position) {
+        if (position>=mMessages.size()){
+            return;
+        }
       showDeletionDialog(position);
 
     }
@@ -170,6 +173,7 @@ public class MessagesFragment extends Fragment implements MailListTouchHelper.On
                 .show();
     }
     private void deleteMessage(final int position){
+        if (position>=mMessages.size()){return;}
          Log.d("bullhead", "toLeft: hello world");
         //delete mail
         try{

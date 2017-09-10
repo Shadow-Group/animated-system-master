@@ -178,6 +178,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (getAdapterPosition()>=mDataSet.size()){
+                        return;
+                    }
                     Intent intent=new Intent(mContext, MailViewActivity.class);
                     intent.putExtra(CommonConstants.MAIL_VIEW_INTENT,new Gson().toJson(mDataSet.get(getAdapterPosition())));
                     mContext.startActivity(intent);

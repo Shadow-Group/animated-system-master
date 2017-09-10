@@ -99,6 +99,7 @@ class MessagesManager : MailObserver {
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
             val db=DatabaseHelper.getInstance(MailApplication.getInstance())
+            var counter=0
             sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
             try {
                 for (i in folder.messages.size - 1 downTo 0) {
@@ -140,12 +141,18 @@ class MessagesManager : MailObserver {
                     }
                     model.recipients = recipientAddresses
                    val count= MailApplication.getDb().insertMail(model)
-                    Log.d("bullhead", "Sending broadcast for got messages")
-                    val isLoading=count!=folder.messageCount
-                    val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
-                    intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
-                    intent.putExtra(CommonConstants.LOADING_INTENT,isLoading)
-                    MailApplication.getInstance().sendBroadcast(intent)
+
+                    if(counter==5) {
+                        Log.d("bullhead", "Sending broadcast for got messages")
+                        val isLoading = count != folder.messageCount
+                        val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
+                        intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
+                        intent.putExtra(CommonConstants.LOADING_INTENT, isLoading)
+                        MailApplication.getInstance().sendBroadcast(intent)
+                        counter=0
+                    }else{
+                        counter++
+                    }
                 }
             }catch (ex:FolderClosedException){
                 ex.printStackTrace()
