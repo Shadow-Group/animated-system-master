@@ -2,6 +2,7 @@ package com.osama.project34.ui.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 import com.osama.project34.R
 import com.osama.project34.utils.ConfigManager
@@ -28,7 +29,7 @@ class SettingsActivity : BaseActivity() {
         }else{
             ConfigManager.saveTheme(true)
         }
-
+        Toast.makeText(this,"Theme may work after re-launch",Toast.LENGTH_LONG).show();
         recreate()
     }
 }

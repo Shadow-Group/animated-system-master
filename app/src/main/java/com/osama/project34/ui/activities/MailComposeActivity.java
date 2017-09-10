@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MailComposeActivity extends AppCompatActivity {
+public class MailComposeActivity extends BaseActivity {
 
     private EditText sentToEdit;
     private EditText ccEdit;

@@ -23,7 +23,7 @@ import com.osama.project34.utils.FileUtils
 import kotlinx.android.synthetic.main.activity_mail_view.*
 import java.io.File
 
-class MailViewActivity : AppCompatActivity() {
+class MailViewActivity : BaseActivity() {
     var currentMail:Mail?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

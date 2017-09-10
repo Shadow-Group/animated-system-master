@@ -5,7 +5,7 @@ import android.os.Bundle
 
 import com.osama.project34.R
 
-class GenerateKeysActivity : AppCompatActivity() {
+class GenerateKeysActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
