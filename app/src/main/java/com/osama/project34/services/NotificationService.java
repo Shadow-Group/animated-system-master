@@ -36,9 +36,7 @@ import javax.mail.search.AndTerm;
 import javax.mail.search.FlagTerm;
 import javax.mail.search.SearchTerm;
 
-/**
- * Created by bullhead on 9/10/17.
- */
+
 
 public class NotificationService extends Service {
     private static final String TAG = "bullhead_service";

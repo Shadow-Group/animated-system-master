@@ -50,10 +50,6 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Iterator;
 
-/**
- * Created by tripleheader on 1/8/17.
- * encryption operation for the file size less than 2Mb
- */
 
 public class EncryptionSmallFileProcessor implements EncryptionOperation {
     static {

@@ -55,9 +55,7 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- * Created by osama on 10/8/16.
- */
+
 public class KeyManagement implements KeyOperations {
     @Override
     public PGPKeyRingGenerator generateKey(String email, char[] password) throws Exception {

@@ -3,9 +3,6 @@ package com.osama.project34.imap;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 
-/**
- * Created by bullhead on 9/5/17.
- */
 
 public final class FolderNames {
     public static final String INBOX = "inbox";

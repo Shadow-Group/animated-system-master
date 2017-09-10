@@ -6,9 +6,7 @@ import android.support.multidex.MultiDex;
 import com.osama.project34.database.DatabaseHelper;
 import com.osama.project34.utils.ConfigManager;
 
-/**
- * Created by home on 3/4/17.
- */
+
 
 public class MailApplication extends Application {
     private static MailApplication instance;

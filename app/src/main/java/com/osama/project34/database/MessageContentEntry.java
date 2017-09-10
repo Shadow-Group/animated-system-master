@@ -2,9 +2,7 @@ package com.osama.project34.database;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by bullhead on 9/8/17.
- */
+
 
 public class MessageContentEntry implements BaseColumns {
     public static final String TABLE_NAME = "content";

@@ -2,10 +2,7 @@ package com.osama.project34.imap
 
 import java.util.*
 
-/**
- * Created by bullhead on 5/31/17.
- *
- */
+
 class MailObjectFactory {
 
     private var messageManager: MessagesManager? = null

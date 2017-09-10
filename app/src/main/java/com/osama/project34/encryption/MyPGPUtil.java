@@ -18,10 +18,7 @@
 
 package com.osama.project34.encryption;
 
-/**
- * Created by tripleheader on 1/8/17.
- * pgp utilities
- */
+
 
 import org.spongycastle.openpgp.PGPCompressedDataGenerator;
 import org.spongycastle.openpgp.PGPException;

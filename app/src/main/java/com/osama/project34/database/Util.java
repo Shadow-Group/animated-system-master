@@ -3,9 +3,7 @@ package com.osama.project34.database;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by bullhead on 9/5/17.
- */
+
 
 public class Util {
     private static final String separator = ";";

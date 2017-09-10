@@ -16,9 +16,7 @@ import com.osama.project34.imap.MultiPartHandler;
 
 import java.util.ArrayList;
 
-/**
- * Created by bullhead on 9/5/17.
- */
+
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "sec";

@@ -1,9 +1,7 @@
 package com.osama.project34.database;
 
 
-/**
- * Created by bullhead on 9/5/17.
- */
+
 
 final class DbQueries {
     static final String CREATE_TABLE_FOLDERS =

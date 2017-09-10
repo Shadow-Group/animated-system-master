@@ -8,9 +8,7 @@ import javax.mail.Folder;
 import javax.mail.Session;
 import javax.mail.Store;
 
-/**
- * Created by bullhead on 5/31/17.
- */
+
 
 public class MailsSharedData {
     private static Session session;

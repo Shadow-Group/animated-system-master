@@ -14,10 +14,7 @@ import java.util.concurrent.Executors
 import javax.mail.*
 import javax.mail.internet.InternetAddress
 
-/**
- * Created by bullhead on 5/31/17.
- *
- */
+
 class MessagesManager : MailObserver {
     private var callbacks: MailCallbacks? = null
 

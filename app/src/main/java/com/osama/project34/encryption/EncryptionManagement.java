@@ -50,10 +50,7 @@ import java.security.SecureRandom;
 import java.security.Security;
 import java.util.Iterator;
 
-/**
- * Created by osama on 10/13/16.
- * the encryption related operations
- */
+
 
 public class EncryptionManagement implements EncryptionOperation {
     static {

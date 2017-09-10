@@ -27,9 +27,7 @@ import com.osama.project34.utils.ConfigManager;
 
 import java.util.ArrayList;
 
-/**
- * Created by home on 1/29/17.
- */
+
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {
     private Context mContext;

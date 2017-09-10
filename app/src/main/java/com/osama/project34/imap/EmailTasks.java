@@ -11,9 +11,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.UIDFolder;
 
-/**
- * Created by bullhead on 9/9/17.
- */
+
 
 public class EmailTasks {
     public static void deleteMail(final Mail mail) {

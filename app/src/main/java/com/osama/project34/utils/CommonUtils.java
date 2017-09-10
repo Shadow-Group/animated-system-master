@@ -7,9 +7,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by bullhead on 8/18/17.
- */
+
 
 public class CommonUtils {
     public static String getJsonfromUrl(String mUrl) throws IOException {

@@ -13,9 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Store;
 
-/**
- * Created by home on 1/28/17.
- */
+
 
 public class ConnectionManager {
 

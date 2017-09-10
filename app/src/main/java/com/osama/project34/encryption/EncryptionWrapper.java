@@ -23,11 +23,7 @@ import android.util.Log;
 import java.io.File;
 import java.io.InputStream;
 
-/**
- * Created by tripleheader on 1/8/17.
- * choose what encryption method to use.
- * i.e different for different file sizes
- */
+
 
 public class EncryptionWrapper {
     private static final int TWO_MB = 2097152;

@@ -12,9 +12,7 @@ import com.osama.project34.data.Key;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Created by bullhead on 9/7/17.
- */
+
 
 public class FirebaseHandler {
     private static final String TAG = FirebaseHandler.class.getCanonicalName();

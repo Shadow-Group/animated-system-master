@@ -7,9 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.osama.project34.R;
 import com.osama.project34.utils.ConfigManager;
 
-/**
- * Created by bullhead on 8/18/17.
- */
+
 
 public class BaseActivity extends AppCompatActivity {
     @Override

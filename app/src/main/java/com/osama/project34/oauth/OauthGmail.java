@@ -15,9 +15,7 @@ import com.osama.project34.utils.CommonConstants;
 
 import java.io.IOException;
 
-/**
- * Created by home on 3/4/17.
- */
+
 
 public class OauthGmail {
     private static final String TAG = OauthGmail.class.getCanonicalName();

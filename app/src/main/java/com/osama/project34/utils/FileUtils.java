@@ -12,9 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by bullhead on 9/6/17.
- */
+
 
 public final class FileUtils {
     private static final String OUR_DIR = MailApplication.getInstance().getFilesDir().getAbsolutePath() + "/";

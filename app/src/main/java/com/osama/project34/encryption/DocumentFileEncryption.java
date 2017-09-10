@@ -53,9 +53,7 @@ import java.security.Security;
 import java.util.Date;
 import java.util.Iterator;
 
-/**
- * Created by bullhead on 2/8/17.
- */
+
 
 public class DocumentFileEncryption {
     private static final String TAG = DocumentFileEncryption.class.getName();

@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.osama.project34.R;
 
-/**
- * Created by home on 1/27/17.
- */
+
 
 public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHolder> {
     private String[] mDataSet;

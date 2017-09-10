@@ -2,9 +2,7 @@ package com.osama.project34.database;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by bullhead on 9/5/17.
- */
+
 
 public final class KeyEntry implements BaseColumns {
     public static final String COLUMN_EMAIL = "email_address";

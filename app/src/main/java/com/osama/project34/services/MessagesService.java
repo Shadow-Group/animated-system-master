@@ -6,9 +6,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-/**
- * Created by bullhead on 9/5/17.
- */
 
 public class MessagesService extends Service {
     private IBinder mBinder = new LocalBinder();

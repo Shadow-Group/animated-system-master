@@ -1,9 +1,6 @@
 package com.osama.project34.utils;
 
-/**
- * Created by tripleheader on 1/27/17.
- * all the constants used in application
- */
+
 
 public class CommonConstants {
     public static final String GMAIL_HOST = "imap.gmail.com";

@@ -7,9 +7,7 @@ import android.view.MenuInflater;
 
 import com.osama.project34.R;
 
-/**
- * Created by patriot on 7/1/17.
- */
+
 
 public class EmailView extends Activity {
     @Override

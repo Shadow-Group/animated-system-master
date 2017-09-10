@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * Created by tripleheader on 2/3/17.
+
  * basic stream methods
  */
 

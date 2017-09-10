@@ -27,10 +27,7 @@ import com.osama.project34.utils.ConfigManager;
 
 import java.util.ArrayList;
 
-/**
- * Created by bullhead on 8/18/17.
- *
- */
+
 
 public class MessagesFragment extends Fragment implements MailListTouchHelper.OnSwiped {
     private View mView;

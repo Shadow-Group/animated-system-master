@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import com.osama.project34.R;
 
 
-/**
- * Created by Shadow on 1/12/2017.
- */
+
 
 public class ViewPagerFragmentOne extends Fragment {
 

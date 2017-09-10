@@ -20,9 +20,7 @@ package com.osama.project34.encryption;
 
 import android.provider.BaseColumns;
 
-/**
- * Created by osama on 10/14/16.
- */
+
 
 public final class FeedReaderContract implements BaseColumns {
     //make construct private so nobody can instantiate the class

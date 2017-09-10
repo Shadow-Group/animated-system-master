@@ -1,9 +1,6 @@
 package com.osama.project34.imap
 
-/**
- * Created by bullhead on 5/31/17.
- *
- */
+
 class MailManager private constructor() {
     //singleton using companion object method
     companion object {

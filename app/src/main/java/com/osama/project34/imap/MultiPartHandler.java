@@ -9,9 +9,7 @@ import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
 
-/**
- * Created by bullhead on 9/7/17.
- */
+
 
 public class MultiPartHandler {
     private String[] text;

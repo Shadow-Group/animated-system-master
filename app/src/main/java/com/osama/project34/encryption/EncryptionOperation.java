@@ -21,9 +21,7 @@ package com.osama.project34.encryption;
 import java.io.File;
 import java.io.InputStream;
 
-/**
- * Created by osama on 10/13/16.
- */
+
 
 public interface EncryptionOperation {
     boolean encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception;

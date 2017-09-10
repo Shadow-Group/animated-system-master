@@ -22,9 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-/**
- * Created by bullhead on 9/7/17.
- */
+
 
 public class EncryptionHandler {
     @SuppressLint("StaticFieldLeak")
