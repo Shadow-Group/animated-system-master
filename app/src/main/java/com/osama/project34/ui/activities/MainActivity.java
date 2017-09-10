@@ -89,31 +89,6 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //inflate the menu
-        getMenuInflater().inflate(R.menu.app_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-           /* case R.id.change_theme_menu_item: {
-                //change theme
-                //I need to recreate the activity to set theme
-                //also change the menu item color
-                toggleTheme();
-                break;
-            }*/
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        return super.onPrepareOptionsMenu(menu);
-    }
 
 
     @Override
