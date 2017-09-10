@@ -22,4 +22,5 @@
     <color name="textPrimaryDark">#fff</color>
     <color name="textSecondaryDark">#FAFAFA</color>
     <color name="textTertiary">#DADADA</color>
+    <color name="dialogButtonColor">?attr/colorAccent</color>
 </resources>
