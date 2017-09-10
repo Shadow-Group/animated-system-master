@@ -27,6 +27,7 @@
              />
         <activity
             android:name=".ui.activities.MailViewActivity"
+            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.activities.MainActivity" />
         <activity
