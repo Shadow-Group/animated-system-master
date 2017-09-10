@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 
 import com.osama.project34.R;
 import com.osama.project34.ui.activities.SplashActivity;
+import com.osama.project34.ui.adapters.PagerAdapter;
 import com.osama.project34.utils.ConfigManager;
 
 import me.relex.circleindicator.CircleIndicator;

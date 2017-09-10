@@ -14,7 +14,7 @@ public class ShowTeamActivity extends BaseActivity {
  private String mfirstDevelporName="Osama Bin Omar";
     private String msecondDevelporsName="Hamza Muhammad Latif";
     private String mthirdDevelporsName="Muahmmad Ahmad Nasim";
-    private String mworkFirstDevelpor="Encryption Specialist";
+    private String mworkFirstDevelpor="Encryption Specialis";
     private String mworkSecondDevelpor="Design And Implementation";
     private String mworkThirdDevelpor="Database specialist";
 

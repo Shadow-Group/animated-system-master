@@ -42,7 +42,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.activities.about.AboutActivity" />
         <activity
-            android:name=".ui.activities.startup.PreStartActivity"
+            android:name=".ui.activities.PreStartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,7 +51,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.GenerateKeysActivity" />
-        <activity android:name=".ui.activities.SettingsActivity"></activity>
+        <activity android:name=".ui.activities.SettingsActivity"/>
     </application>
 
 </manifest>

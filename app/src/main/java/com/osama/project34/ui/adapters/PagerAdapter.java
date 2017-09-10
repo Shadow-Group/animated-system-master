@@ -25,6 +25,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.osama.project34.ui.fragments.ViewPagerFragmentOne;
+import com.osama.project34.ui.fragments.ViewPagerFragmentThree;
+import com.osama.project34.ui.fragments.ViewPagerFragmentTwo;
 
 
 public class PagerAdapter extends FragmentPagerAdapter {
