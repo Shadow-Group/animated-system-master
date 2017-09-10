@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.osama.project34.imap.NotificationService;
 import com.osama.project34.ui.activities.about.AboutActivity;
 import com.osama.project34.ui.activities.about.KeyDetailsActivity;
 import com.osama.project34.MailApplication;
@@ -278,6 +279,9 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
     @Override
     public void informConnectionStatus(boolean status) {
         if(status){
+            //start message checking service
+            Intent intent=new Intent(this, NotificationService.class);
+            startService(intent);
             MailManager.Companion.getInstance(this).getObjectFactory().getMessageManager().checkMessages();
         }
     }

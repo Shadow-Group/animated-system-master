@@ -52,6 +52,7 @@
         </activity>
         <activity android:name=".ui.activities.GenerateKeysActivity" />
         <activity android:name=".ui.activities.SettingsActivity"/>
+        <service android:name=".imap.NotificationService"/>
     </application>
 
 </manifest>
