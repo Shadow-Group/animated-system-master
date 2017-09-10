@@ -14,12 +14,11 @@ class SettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
-        val themeSwitch=prefs_theme_box;
+        val themeSwitch=prefs_theme_box
         themeSwitch.isChecked=ConfigManager.isDarkTheme()
         main_toolbar.title = "Settings"
         themeSwitch.setOnClickListener({
-            themeSwitch.isChecked=!themeSwitch.isChecked;
-            switchTheme();
+            switchTheme()
         })
     }
 
@@ -29,6 +28,7 @@ class SettingsActivity : BaseActivity() {
         }else{
             ConfigManager.saveTheme(true)
         }
+
         recreate()
     }
 }

@@ -30,7 +30,6 @@
             android:text="Team"
             android:id="@+id/team_textview"
             android:textSize="18dp"
-            android:textColor="#212121"
             android:clickable="false"
             />
         <TextView
@@ -38,7 +37,6 @@
             android:layout_height="wrap_content"
             android:text="The team that built this app"
             android:textSize="15dp"
-            android:textColor="#9E9E9E"
             android:clickable="false"/>
 
     </LinearLayout>
@@ -71,7 +69,6 @@
             android:text="Version"
             android:id="@+id/version_textview"
             android:textSize="18dp"
-            android:textColor="#212121"
             android:clickable="false"
             />
         <TextView
@@ -79,7 +76,6 @@
             android:layout_height="wrap_content"
             android:text="1.0.0"
             android:textSize="15dp"
-            android:textColor="#9E9E9E"
             android:clickable="false"/>
 
 
