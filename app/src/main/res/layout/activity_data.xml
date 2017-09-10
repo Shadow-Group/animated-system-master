@@ -11,29 +11,30 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <include
             android:id="@+id/include"
             layout="@layout/activities_toolbar" />
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-        <FrameLayout
-            android:id="@+id/data_content_frame"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_edit"
-        android:tint="#FFF"
-        android:id="@+id/floating_compose_button"
-        android:layout_alignParentEnd="true"
-        />
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/data_content_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_edit"
+                android:tint="#FFF"
+                android:id="@+id/floating_compose_button"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -44,6 +45,5 @@
         android:layout_gravity="start"
         app:theme="@style/ThemeOverlay.AppCompat.navTheme"
         app:headerLayout="@layout/drawer_header_layout"
-        app:menu="@menu/drawer_menu">
-    </com.osama.floatingplayer.widgets.HomeNavView>
+        app:menu="@menu/drawer_menu"></com.osama.floatingplayer.widgets.HomeNavView>
 </android.support.v4.widget.DrawerLayout>

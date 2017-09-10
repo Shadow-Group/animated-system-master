@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by bullhead on 9/5/17.
- *
  */
 
-public class Key implements Serializable{
+public class Key implements Serializable {
     private String user;
     private String text;
 

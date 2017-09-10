@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * Created by bullhead on 9/5/17.
- *
  */
 
 public class Folder implements Serializable {
@@ -15,7 +14,9 @@ public class Folder implements Serializable {
         this.id = id;
         this.title = title;
     }
-    public Folder(){}
+
+    public Folder() {
+    }
 
     public int getId() {
         return id;

@@ -21,7 +21,6 @@ import javax.mail.internet.MimeMultipart;
 
 /**
  * Created by bullhead on 9/6/17.
- *
  */
 
 public class MailSendTask {
@@ -29,14 +28,14 @@ public class MailSendTask {
             "mail.imaps.sasl.mechanisms.oauth2.oauthToken";
 
     public static void sendMail(final String to, final String subject,
-                                final String message, final String attachment, final boolean isEncrypted, final OnMailResponse callback){
-        new AsyncTask<Void,Void,Boolean>(){
+                                final String message, final String attachment, final boolean isEncrypted, final OnMailResponse callback) {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... voids) {
                 try {
 
-                    Properties props=System.getProperties();
+                    Properties props = System.getProperties();
                     props.put("mail.smtp.starttls.enable", "true");
                     props.put("mail.smtp.starttls.required", "true");
                     props.put("mail.smtp.ssl.enable", "true");
@@ -55,24 +54,24 @@ public class MailSendTask {
 //                    }else{
 //                        message1.setText(message);
 //                    }
-                    BodyPart part=new MimeBodyPart();
-                      MimeMultipart mimeMultipart;
-                    if (isEncrypted){
-                        mimeMultipart=new MimeMultipart("encrypted");
-                    }else{
-                        mimeMultipart=new MimeMultipart("alternative");
+                    BodyPart part = new MimeBodyPart();
+                    MimeMultipart mimeMultipart;
+                    if (isEncrypted) {
+                        mimeMultipart = new MimeMultipart("encrypted");
+                    } else {
+                        mimeMultipart = new MimeMultipart("alternative");
                     }
                     part.setText(message);
                     mimeMultipart.addBodyPart(part);
 
-                    part.setHeader("Content-Type",MimeTypes.TEXT);
-                    message1.setContent(mimeMultipart,MimeTypes.PGP);
+                    part.setHeader("Content-Type", MimeTypes.TEXT);
+                    message1.setContent(mimeMultipart, MimeTypes.PGP);
                     final URLName unusedUrlName = null;
 
                     SMTPTransport transport = new SMTPTransport(session, unusedUrlName);
 
-                    transport.connect("smtp.gmail.com",465,ConfigManager.getEmail(), CommonConstants.ACCESS_TOKEN);
-                    transport.sendMessage(message1,message1.getAllRecipients());
+                    transport.connect("smtp.gmail.com", 465, ConfigManager.getEmail(), CommonConstants.ACCESS_TOKEN);
+                    transport.sendMessage(message1, message1.getAllRecipients());
                     return true;
                 } catch (MessagingException e) {
                     e.printStackTrace();
@@ -83,17 +82,19 @@ public class MailSendTask {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
-                if (aBoolean){
+                if (aBoolean) {
                     callback.onSuccess();
-                }else{
+                } else {
                     callback.onError();
                 }
             }
         }.execute();
 
     }
+
     public interface OnMailResponse {
         void onSuccess();
+
         void onError();
     }
 }

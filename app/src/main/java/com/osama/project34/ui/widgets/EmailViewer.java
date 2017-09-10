@@ -8,7 +8,6 @@ import android.widget.ProgressBar;
 
 /**
  * Created by bullhead on 9/8/17.
- *
  */
 
 public class EmailViewer extends WebViewClient {

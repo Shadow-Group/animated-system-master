@@ -72,11 +72,11 @@ class MessagesManager : MailObserver {
                 fold3.title = FolderNames.INBOX
                 executor.execute(Threaded(inbox, fold3))
 
-                } catch (ex: MessagingException) {
+            } catch (ex: MessagingException) {
                 Log.e("bullhead", "unable to open folder.")
 
-                    ex.printStackTrace()
-                }
+                ex.printStackTrace()
+            }
             return false
         }
 
@@ -98,8 +98,8 @@ class MessagesManager : MailObserver {
 
     private class Threaded(val folder: Folder, val myFolder: com.osama.project34.data.Folder) : Runnable {
         override fun run() {
-            val db=DatabaseHelper.getInstance(MailApplication.getInstance())
-            var counter=0
+            val db = DatabaseHelper.getInstance(MailApplication.getInstance())
+            var counter = 0
             sendMessageNumberBroadCast(folder.messageCount, myFolder.id)
             try {
                 for (i in folder.messages.size - 1 downTo 0) {
@@ -114,20 +114,20 @@ class MessagesManager : MailObserver {
                     model.folderId = myFolder.id
                     model.isFavorite = false
                     model.id = (folder as UIDFolder).getUID(message)
-                    model.isEncrypted=message.contentType.toLowerCase().contains("multipart/encrypted")
+                    model.isEncrypted = message.contentType.toLowerCase().contains("multipart/encrypted")
                     model.subject = message.subject
                     model.date = message.receivedDate.toString()
                     model.message = MultiPartHandler.createFromMessage(message)
                     if (message.from != null && message.from.isNotEmpty()) {
                         val address: InternetAddress = message.from[0] as InternetAddress
-                        val sender= Sender()
-                        sender.mail=address.address.toString()
-                        sender.name=address.personal
+                        val sender = Sender()
+                        sender.mail = address.address.toString()
+                        sender.name = address.personal
                         model.sender = sender
                     } else {
-                        val sender=Sender()
-                        sender.mail=ConfigManager.getEmail()
-                        sender.name="Draft"
+                        val sender = Sender()
+                        sender.mail = ConfigManager.getEmail()
+                        sender.name = "Draft"
                         model.sender = sender
                     }
                     message.flags.userFlags
@@ -140,29 +140,29 @@ class MessagesManager : MailObserver {
                         recipientAddresses.add("Draft") //drafts don't have recipient
                     }
                     model.recipients = recipientAddresses
-                   val count= MailApplication.getDb().insertMail(model)
+                    val count = MailApplication.getDb().insertMail(model)
 
-                    if(counter==5) {
+                    if (counter == 5) {
                         Log.d("bullhead", "Sending broadcast for got messages")
                         val isLoading = count != folder.messageCount
                         val intent = Intent(CommonConstants.GOT_MESSAGE_BROADCAST)
                         intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, myFolder.id)
                         intent.putExtra(CommonConstants.LOADING_INTENT, isLoading)
                         MailApplication.getInstance().sendBroadcast(intent)
-                        counter=0
-                    }else{
+                        counter = 0
+                    } else {
                         counter++
                     }
                 }
-            }catch (ex:FolderClosedException){
+            } catch (ex: FolderClosedException) {
                 ex.printStackTrace()
-            }catch (ex:MessagingException){
+            } catch (ex: MessagingException) {
                 ex.printStackTrace()
             }
         }
 
         private fun sendMessageNumberBroadCast(messages: Int, folderNumber: Int) {
-            Log.d("bullhead", "Sending broadcast for messages number: "+folderNumber)
+            Log.d("bullhead", "Sending broadcast for messages number: " + folderNumber)
             val intent = Intent(CommonConstants.MESSAGE_NUMBER_BROADCAST)
             intent.putExtra(CommonConstants.MESSAGE_NUMBER_DATA, messages)
             intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, folderNumber)

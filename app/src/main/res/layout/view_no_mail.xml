@@ -3,15 +3,16 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<ImageView
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:src="@drawable/ic_mail_outline"
-    android:contentDescription="@string/mail_image"
-    android:id="@+id/mail_image"
-    android:tint="?attr/colorAccent"
-    android:layout_centerInParent="true"
-    />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_mail_outline"
+        android:contentDescription="@string/mail_image"
+        android:id="@+id/mail_image"
+        android:tint="?attr/colorAccent"
+        android:layout_centerInParent="true" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +20,5 @@
         android:textSize="24sp"
         android:layout_below="@id/mail_image"
         android:layout_centerHorizontal="true"
-        android:textColor="?attr/colorAccent"
-        />
+        android:textColor="?attr/colorAccent" />
 </RelativeLayout>

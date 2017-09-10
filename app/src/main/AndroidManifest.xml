@@ -22,9 +22,7 @@
         <activity
             android:name=".ui.activities.MailComposeActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
-        <activity
-            android:name=".ui.activities.SplashActivity"
-             />
+        <activity android:name=".ui.activities.SplashActivity" />
         <activity
             android:name=".ui.activities.MailViewActivity"
             android:launchMode="singleTask"
@@ -52,8 +50,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activities.GenerateKeysActivity" />
-        <activity android:name=".ui.activities.SettingsActivity"/>
-        <service android:name=".services.NotificationService"/>
+        <activity android:name=".ui.activities.SettingsActivity" />
+
+        <service android:name=".services.NotificationService" />
     </application>
 
 </manifest>

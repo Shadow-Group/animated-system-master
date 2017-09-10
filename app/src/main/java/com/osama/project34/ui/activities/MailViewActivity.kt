@@ -5,10 +5,8 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.PopupMenu
@@ -28,41 +26,37 @@ import com.osama.project34.utils.ConfigManager
 import com.osama.project34.utils.FileUtils
 import kotlinx.android.synthetic.main.activity_mail_view.*
 import java.io.File
-import java.text.DateFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class MailViewActivity : BaseActivity() {
-    var currentMail:Mail?=null
+    var currentMail: Mail? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mail_view)
         setupToolbar()
 
-        currentMail=Gson().fromJson(intent.extras.getString(CommonConstants.MAIL_VIEW_INTENT),Mail::class.java)
+        currentMail = Gson().fromJson(intent.extras.getString(CommonConstants.MAIL_VIEW_INTENT), Mail::class.java)
 
-        viewerMailSubject.text=currentMail!!.subject
-        to.text=ConfigManager.getEmail()
-        messageSendDate.text=currentMail!!.date
-        likeButtonViewer.isLiked=currentMail!!.isFavorite
+        viewerMailSubject.text = currentMail!!.subject
+        to.text = ConfigManager.getEmail()
+        messageSendDate.text = currentMail!!.date
+        likeButtonViewer.isLiked = currentMail!!.isFavorite
 
-        likeButtonViewer.setOnLikeListener(object:OnLikeListener{
+        likeButtonViewer.setOnLikeListener(object : OnLikeListener {
             override fun liked(p0: LikeButton?) {
-                toggleFavorite(currentMail!!,p0!!)
+                toggleFavorite(currentMail!!, p0!!)
             }
 
             override fun unLiked(p0: LikeButton?) {
-                toggleFavorite(currentMail!!,p0!!)
+                toggleFavorite(currentMail!!, p0!!)
             }
 
         })
 
-        senderName.text=currentMail!!.sender.name?:currentMail!!.sender.mail
-        senderEmail.text=currentMail!!.sender.mail
+        senderName.text = currentMail!!.sender.name ?: currentMail!!.sender.mail
+        senderEmail.text = currentMail!!.sender.mail
 
         val generator = ColorGenerator.MATERIAL
-        val name=currentMail!!.sender.name?:currentMail!!.sender.mail
+        val name = currentMail!!.sender.name ?: currentMail!!.sender.mail
         val thumb = TextDrawable.builder()
                 .buildRound(name.substring(0, 1), generator.getColor(currentMail!!.id))
         viewerSenderIcon.setImageDrawable(thumb)
@@ -80,46 +74,50 @@ class MailViewActivity : BaseActivity() {
 
     }
 
-    private fun showPopupMenu(anchorView:View) {
-       val popMenu=PopupMenu(this,anchorView)
-        popMenu.menuInflater.inflate(R.menu.menu_mail_options,popMenu.menu)
+    private fun showPopupMenu(anchorView: View) {
+        val popMenu = PopupMenu(this, anchorView)
+        popMenu.menuInflater.inflate(R.menu.menu_mail_options, popMenu.menu)
         popMenu.show()
         popMenu.setOnMenuItemClickListener { item ->
-            when (item!!.itemId){
-                R.id.mail_reply_menu_item ->{launchReplyActivity()}
-                R.id.mail_forward_menu_item->{launchForwardActivity()}
+            when (item!!.itemId) {
+                R.id.mail_reply_menu_item -> {
+                    launchReplyActivity()
+                }
+                R.id.mail_forward_menu_item -> {
+                    launchForwardActivity()
+                }
             }
             true
         }
     }
 
     private fun launchReplyActivity() {
-        val intent=Intent(this,MailComposeActivity::class.java)
+        val intent = Intent(this, MailComposeActivity::class.java)
         intent.action = CommonConstants.COMPOSE_INTENT_ACTION_REPLY
-        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MAIL,currentMail!!.sender.mail)
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MAIL, currentMail!!.sender.mail)
         startActivity(intent)
     }
 
     private fun launchForwardActivity() {
-        if (!currentMail!!.isEncrypted){
-            Snackbar.make(moreOptionsMenu,"currently only encrypted can be forward.",Snackbar.LENGTH_SHORT).show()
+        if (!currentMail!!.isEncrypted) {
+            Snackbar.make(moreOptionsMenu, "currently only encrypted can be forward.", Snackbar.LENGTH_SHORT).show()
             return
         }
-        val intent=Intent(this,MailComposeActivity::class.java)
-        intent.action=CommonConstants.COMPOSE_INTENT_ACTION_FORWARD
-        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_SUBJECT,currentMail!!.subject)
-        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MESSAGE,currentMail!!.message.text[0])
+        val intent = Intent(this, MailComposeActivity::class.java)
+        intent.action = CommonConstants.COMPOSE_INTENT_ACTION_FORWARD
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_SUBJECT, currentMail!!.subject)
+        intent.putExtra(CommonConstants.COMPOSE_INTENT_EXTRA_MESSAGE, currentMail!!.message.text[0])
         startActivity(intent)
     }
 
 
     private fun showDecryptDialog() {
-        var style=R.style.DialogStyleLight
-        if(ConfigManager.isDarkTheme()){
-            style=R.style.DialogStyleDark
+        var style = R.style.DialogStyleLight
+        if (ConfigManager.isDarkTheme()) {
+            style = R.style.DialogStyleDark
         }
 
-        val dialog = Dialog(this,style)
+        val dialog = Dialog(this, style)
         dialog.setContentView(R.layout.dialog_decrypt_mail)
         dialog.findViewById(R.id.generate_key_button).setOnClickListener({
             val editText = dialog.findViewById(R.id.key_password) as EditText
@@ -134,7 +132,8 @@ class MailViewActivity : BaseActivity() {
         })
         dialog.show()
     }
-    private fun toggleFavorite(message:Mail,itemView:LikeButton){
+
+    private fun toggleFavorite(message: Mail, itemView: LikeButton) {
         if (message.isFavorite) {
             //message is already favorite
             message.isFavorite = false

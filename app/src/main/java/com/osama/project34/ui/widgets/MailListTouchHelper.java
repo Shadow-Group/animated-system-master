@@ -15,18 +15,18 @@ import com.osama.project34.R;
 
 /**
  * Created by bullhead on 9/9/17.
- *
  */
 
-public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
+public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback {
     private Paint p;
     private Context mContext;
     private OnSwiped callback;
-    public MailListTouchHelper(Context context,OnSwiped callback){
-        super(0,ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
-        p=new Paint();
-        this.mContext=context;
-        this.callback=callback;
+
+    public MailListTouchHelper(Context context, OnSwiped callback) {
+        super(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
+        p = new Paint();
+        this.mContext = context;
+        this.callback = callback;
     }
 
     @Override
@@ -36,13 +36,14 @@ public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        if (direction==ItemTouchHelper.LEFT){
+        if (direction == ItemTouchHelper.LEFT) {
             callback.toLeft(viewHolder.getAdapterPosition());
         }
-        if (direction==ItemTouchHelper.RIGHT){
+        if (direction == ItemTouchHelper.RIGHT) {
             callback.toRight(viewHolder.getAdapterPosition());
         }
     }
+
     @Override
     public void onChildDraw(
             Canvas c,
@@ -50,44 +51,46 @@ public class MailListTouchHelper extends ItemTouchHelper.SimpleCallback{
             RecyclerView.ViewHolder viewHolder,
             float dX,
             float dY,
-            int   actionState,
+            int actionState,
             boolean isCurrentlyActive) {
         Bitmap icon;
-        if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
+        if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
 
             View itemView = viewHolder.itemView;
-            float height  = (float) itemView.getBottom() - (float) itemView.getTop();
-            float width   = height / 3;
+            float height = (float) itemView.getBottom() - (float) itemView.getTop();
+            float width = height / 3;
 
-            if(dX > 0){
+            if (dX > 0) {
                 p.setColor(Color.parseColor("#388E3C"));
                 RectF background = new RectF((float) itemView.getLeft(),
-                        (float) itemView.getTop(), dX,(float) itemView.getBottom());
-                c.drawRect(background,p);
+                        (float) itemView.getTop(), dX, (float) itemView.getBottom());
+                c.drawRect(background, p);
                 icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_show_mail);
-                RectF icon_dest = new RectF((float) itemView.getLeft() + width ,
-                        (float) itemView.getTop() + width,(float) itemView.getLeft()+ 2*width,
-                        (float)itemView.getBottom() - width);
-                c.drawBitmap(icon,null,icon_dest,p);
+                RectF icon_dest = new RectF((float) itemView.getLeft() + width,
+                        (float) itemView.getTop() + width, (float) itemView.getLeft() + 2 * width,
+                        (float) itemView.getBottom() - width);
+                c.drawBitmap(icon, null, icon_dest, p);
             } else {
                 p.setColor(Color.parseColor("#D32F2F"));
                 RectF background = new RectF((float) itemView.getRight() + dX,
-                        (float) itemView.getTop(),(float) itemView.getRight(),
+                        (float) itemView.getTop(), (float) itemView.getRight(),
                         (float) itemView.getBottom());
-                c.drawRect(background,p);
+                c.drawRect(background, p);
 
                 icon = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_delete_white_48dp);
-                RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,
+                RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width,
                         (float) itemView.getTop() + width,
-                        (float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                        (float) itemView.getRight() - width, (float) itemView.getBottom() - width);
 
-                c.drawBitmap(icon,null,icon_dest,p);
+                c.drawBitmap(icon, null, icon_dest, p);
             }
         }
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
     }
-    public interface OnSwiped{
+
+    public interface OnSwiped {
         void toLeft(int position);
+
         void toRight(int position);
     }
 

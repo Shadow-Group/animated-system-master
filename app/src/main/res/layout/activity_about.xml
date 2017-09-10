@@ -4,87 +4,94 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_about"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.slownet5.pgprootexplorer.about.AboutActivity">
-    <include layout="@layout/activities_toolbar"/>
-    <LinearLayout
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activity_about"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:id="@+id/team"
-        android:paddingTop="10dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="10dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        >
-        <TextView
+        tools:context="com.slownet5.pgprootexplorer.about.AboutActivity">
+
+        <include layout="@layout/activities_toolbar" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Team"
-            android:id="@+id/team_textview"
-            android:textSize="18dp"
-            android:clickable="false"
+            android:orientation="vertical"
+            android:id="@+id/team"
+            android:paddingTop="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Team"
+                android:id="@+id/team_textview"
+                android:textSize="18dp"
+                android:clickable="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The team that built this app"
+                android:textSize="15dp"
+                android:clickable="false" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#BDBDBD"
+
             />
-        <TextView
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="The team that built this app"
-            android:textSize="15dp"
-            android:clickable="false"/>
+            android:layout_height="1px"
+            android:background="#BDBDBD"
 
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#BDBDBD"
-
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#BDBDBD"
-
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="10dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="false">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Version"
-            android:id="@+id/version_textview"
-            android:textSize="18dp"
-            android:clickable="false"
             />
-        <TextView
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1.0.0"
-            android:textSize="15dp"
-            android:clickable="false"/>
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="false">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Version"
+                android:id="@+id/version_textview"
+                android:textSize="18dp"
+                android:clickable="false" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1.0.0"
+                android:textSize="15dp"
+                android:clickable="false" />
 
 
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#BDBDBD"
+
+            />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#BDBDBD"
-
-        />
-    </LinearLayout>
-    </ScrollView>
+</ScrollView>

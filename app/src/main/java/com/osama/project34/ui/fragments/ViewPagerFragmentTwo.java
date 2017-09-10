@@ -1,5 +1,3 @@
-
-
 package com.osama.project34.ui.fragments;
 
 import android.os.Bundle;
@@ -20,7 +18,7 @@ public class ViewPagerFragmentTwo extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.pager_fragment_two,container,false);
+        return inflater.inflate(R.layout.pager_fragment_two, container, false);
     }
 
 }

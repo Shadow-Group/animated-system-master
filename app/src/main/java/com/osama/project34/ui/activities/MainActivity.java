@@ -3,7 +3,6 @@ package com.osama.project34.ui.activities;
 import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,26 +20,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.EditText;
 
-import com.osama.project34.R;
-import com.osama.project34.encryption.EncryptionHandler;
-import com.osama.project34.oauth.OauthGmail;
-import com.osama.project34.data.Profile;
-import com.osama.project34.ui.adapters.AccountsAdapter;
-import com.osama.project34.ui.adapters.AdapterCallbacks;
-import com.osama.project34.oauth.OauthCallbacks;
-import com.osama.project34.utils.CommonUtils;
-import com.osama.project34.utils.ConfigManager;
-import com.osama.project34.utils.CommonConstants;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.osama.project34.R;
+import com.osama.project34.data.Profile;
+import com.osama.project34.oauth.OauthCallbacks;
+import com.osama.project34.oauth.OauthGmail;
+import com.osama.project34.ui.adapters.AccountsAdapter;
+import com.osama.project34.ui.adapters.AdapterCallbacks;
+import com.osama.project34.utils.CommonConstants;
+import com.osama.project34.utils.CommonUtils;
+import com.osama.project34.utils.ConfigManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,20 +42,20 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 
-public class MainActivity extends BaseActivity implements AdapterCallbacks,OauthCallbacks {
+public class MainActivity extends BaseActivity implements AdapterCallbacks, OauthCallbacks {
     private static final String TAG = MainActivity.class.getName();
 
-    private static final int REQ_PERMISSION         = 90;
-    private static final int REQ_SIGN_IN_REQUIRED   = 10;
-    private static final int REQ_ADD_ACCOUNT        = 32;
+    private static final int REQ_PERMISSION = 90;
+    private static final int REQ_SIGN_IN_REQUIRED = 10;
+    private static final int REQ_ADD_ACCOUNT = 32;
 
 
-    private Account[]       mAllAccounts;
-    private String[]        mUserAccountsAddress;
-    private RecyclerView    mAccountsList;
+    private Account[] mAllAccounts;
+    private String[] mUserAccountsAddress;
+    private RecyclerView mAccountsList;
     private AccountsAdapter mAccountsAdapter;
-    private Account         mCurrentAccount;
-    private String          mAccessToken;
+    private Account mCurrentAccount;
+    private String mAccessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +67,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     }
 
     private void setupToolbar() {
-        Toolbar toolbar=(Toolbar)findViewById(R.id.main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
     }
@@ -90,13 +84,12 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     }
 
 
-
     @Override
     public void viewClicked(int position) {
         //check the google play services availability
-        if(!isRequiredService()){
+        if (!isRequiredService()) {
             //show dialog
-            final AlertDialog.Builder builder=new AlertDialog.Builder(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this, ConfigManager.isDarkTheme() ? R.style.DialogStyleDark : R.style.DialogStyleLight);
             builder.setMessage(R.string.play_services_failed_message);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 @Override
@@ -104,7 +97,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
                     final String appPackageName = "com.google.android.gms";
                     try {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                    }catch (android.content.ActivityNotFoundException anfe) {
+                    } catch (android.content.ActivityNotFoundException anfe) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                     }
                 }
@@ -113,32 +106,32 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             return;
         }
 
-        if(position>=mAllAccounts.length){
+        if (position >= mAllAccounts.length) {
             // this means add new account
             addAccount();
             return;
         }
         //set selected account
-        mCurrentAccount=mAllAccounts[position];
+        mCurrentAccount = mAllAccounts[position];
         //check if I already have the token
-        if(mAccessToken!=null){
+        if (mAccessToken != null) {
             showGenerateKeysDialog();
-        }else{
+        } else {
             getToken(position);
         }
 
     }
 
     private boolean isRequiredService() {
-        int resultCode= GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
-        return resultCode== ConnectionResult.SUCCESS;
+        int resultCode = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
+        return resultCode == ConnectionResult.SUCCESS;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
-            case REQ_ADD_ACCOUNT:{
-                if(resultCode==RESULT_OK){
+        switch (requestCode) {
+            case REQ_ADD_ACCOUNT: {
+                if (resultCode == RESULT_OK) {
                     Log.d(TAG, "onActivityResult: Account successfully added");
                     //reload the account list
                     listAccounts();
@@ -148,8 +141,8 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
                 }
                 break;
             }
-            case REQ_SIGN_IN_REQUIRED:{
-                if(resultCode==RESULT_OK){
+            case REQ_SIGN_IN_REQUIRED: {
+                if (resultCode == RESULT_OK) {
                     Log.d(TAG, "onActivityResult: Got the permissions");
                     //start the email getting operation
                     //TODO
@@ -176,15 +169,13 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             return;
         }
 
-        int index               = 0;
-        mAllAccounts            = manager.getAccountsByType("com.google");
-        mUserAccountsAddress    = new String[mAllAccounts.length];
+        int index = 0;
+        mAllAccounts = manager.getAccountsByType("com.google");
+        mUserAccountsAddress = new String[mAllAccounts.length];
 
-        for(Account account: mAllAccounts)
-        {
-            if(account.type.equalsIgnoreCase("com.google"))
-            {
-                Log.d(TAG, "listAccounts: account is: "+account.name);
+        for (Account account : mAllAccounts) {
+            if (account.type.equalsIgnoreCase("com.google")) {
+                Log.d(TAG, "listAccounts: account is: " + account.name);
                 mUserAccountsAddress[index++] = account.name;
             }
         }
@@ -192,10 +183,10 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     }
 
     private void setupList() {
-        mAccountsList =(RecyclerView)findViewById(R.id.user_accounts_listview);
+        mAccountsList = (RecyclerView) findViewById(R.id.user_accounts_listview);
         mAccountsList.setLayoutManager(new LinearLayoutManager(this));
 
-        mAccountsAdapter=new AccountsAdapter(this,mUserAccountsAddress);
+        mAccountsAdapter = new AccountsAdapter(this, mUserAccountsAddress);
         mAccountsList.setAdapter(mAccountsAdapter);
         animateWhat();
     }
@@ -206,12 +197,13 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             requestPermissions(perms, REQ_PERMISSION);
         }
     }
-    private void addAccount(){
+
+    private void addAccount() {
         Log.d(TAG, "addAccount: Adding new account upon user request");
         Intent addAccountIntent = new Intent(android.provider.Settings.ACTION_ADD_ACCOUNT)
                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        addAccountIntent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[] {"com.google"});
-        startActivityForResult(addAccountIntent,REQ_ADD_ACCOUNT);
+        addAccountIntent.putExtra(Settings.EXTRA_ACCOUNT_TYPES, new String[]{"com.google"});
+        startActivityForResult(addAccountIntent, REQ_ADD_ACCOUNT);
     }
 
     /**
@@ -223,7 +215,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     public void tokenSuccessful(String token) {
         //save email in config
         ConfigManager.saveEmail(mCurrentAccount.name);
-        mAccessToken=token;
+        mAccessToken = token;
         getProfileInfo();
 
 
@@ -233,11 +225,11 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         new AsyncTask<Void, Void, Profile>() {
             @Override
             protected Profile doInBackground(Void... params) {
-                try{
-                    String url="https://www.googleapis.com/plus/v1/people/me?access_token="+mAccessToken+"&key="+ CommonConstants.API_KEY;
-                    String json= CommonUtils.getJsonfromUrl(url);
-                    JSONObject rootObject=new JSONObject(json);
-                    Profile profile=new Profile();
+                try {
+                    String url = "https://www.googleapis.com/plus/v1/people/me?access_token=" + mAccessToken + "&key=" + CommonConstants.API_KEY;
+                    String json = CommonUtils.getJsonfromUrl(url);
+                    JSONObject rootObject = new JSONObject(json);
+                    Profile profile = new Profile();
                     profile.setName(rootObject.getString("displayName"));
                     profile.setMail(mCurrentAccount.name);
                     profile.setImage(rootObject.getJSONObject("image").getString("url"));
@@ -251,19 +243,20 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
             @Override
             protected void onPostExecute(Profile profile) {
                 super.onPostExecute(profile);
-                if (profile!=null){
+                if (profile != null) {
                     mProgressDialog.dismiss();
                     ConfigManager.saveProfileInfo(profile);
                     showGenerateKeysDialog();
-                }else{
+                } else {
                     mProgressDialog.dismiss();
                     showGenerateKeysDialog();
                 }
             }
         }.execute();
     }
-    private void showGenerateKeysDialog(){
-       startActivityForResult(new Intent(this,GenerateKeysActivity.class),100);
+
+    private void showGenerateKeysDialog() {
+        startActivityForResult(new Intent(this, GenerateKeysActivity.class), 100);
         finish();
     }
 
@@ -272,30 +265,30 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         mProgressDialog.dismiss();
         Snackbar.make(
                 findViewById(R.id.activity_main),
-                "There is an error. "+error,
+                "There is an error. " + error,
                 Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void startSignInActivity(UserRecoverableAuthException e) {
-        startActivityForResult(e.getIntent(),REQ_SIGN_IN_REQUIRED);
+        startActivityForResult(e.getIntent(), REQ_SIGN_IN_REQUIRED);
     }
 
-    private void getToken(int pos){
-        mProgressDialog=new ProgressDialog(MainActivity.this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
+    private void getToken(int pos) {
+        mProgressDialog = new ProgressDialog(MainActivity.this, ConfigManager.isDarkTheme() ? R.style.DialogStyleDark : R.style.DialogStyleLight);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setTitle("Account setup");
         mProgressDialog.setMessage("Setting up account please wait");
         mProgressDialog.setCancelable(false);
         mProgressDialog.show();
-        new OauthGmail(mAllAccounts[pos],this);
+        new OauthGmail(mAllAccounts[pos], this);
     }
 
 
     //trying to animate something
-    private void animateWhat(){
-        Animation animation=new ScaleAnimation(0f,1f,0f,1f);
+    private void animateWhat() {
+        Animation animation = new ScaleAnimation(0f, 1f, 0f, 1f);
         animation.setDuration(800);
         mAccountsList.setAnimation(animation);
         mAccountsList.animate();

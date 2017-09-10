@@ -7,10 +7,9 @@ import android.util.AttributeSet;
 
 /**
  * Created by bullhead on 9/10/17.
- *
  */
 
-public class FancyTextView extends AppCompatTextView{
+public class FancyTextView extends AppCompatTextView {
     public FancyTextView(Context context) {
         super(context);
         setTypeFace();
@@ -25,7 +24,8 @@ public class FancyTextView extends AppCompatTextView{
         super(context, attrs, defStyleAttr);
         setTypeFace();
     }
-    private void setTypeFace(){
-        setTypeface(Typeface.createFromAsset(getContext().getAssets(),"fonts/Mad.ttf"));
+
+    private void setTypeFace() {
+        setTypeface(Typeface.createFromAsset(getContext().getAssets(), "fonts/Mad.ttf"));
     }
 }

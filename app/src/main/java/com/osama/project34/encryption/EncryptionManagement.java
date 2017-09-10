@@ -59,16 +59,18 @@ public class EncryptionManagement implements EncryptionOperation {
     static {
         Security.addProvider(new org.spongycastle.jce.provider.BouncyCastleProvider());
     }
+
     private KeyManagement keyManagement;
-    public EncryptionManagement(){
-        keyManagement=new KeyManagement();
+
+    public EncryptionManagement() {
+        keyManagement = new KeyManagement();
     }
 
     @Override
-    public boolean decryptFile(File inputFile,File outputFile,File pubKey,InputStream secKeyFile,char[] pass)throws Exception {
+    public boolean decryptFile(File inputFile, File outputFile, File pubKey, InputStream secKeyFile, char[] pass) throws Exception {
         InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
-        boolean status=decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath(),inputFile.length());
-        Log.d("decrypt","look like i can handle it");
+        boolean status = decryptFile(in, secKeyFile, pass, outputFile.getAbsolutePath(), inputFile.length());
+        Log.d("decrypt", "look like i can handle it");
         secKeyFile.close();
         in.close();
         return status;
@@ -76,11 +78,11 @@ public class EncryptionManagement implements EncryptionOperation {
 
     @Override
     public boolean encryptFile(File outputFile, File inputFile,
-                             File pubKeyFile,Boolean integrityCheck
+                               File pubKeyFile, Boolean integrityCheck
     ) throws Exception {
         OutputStream out = new BufferedOutputStream(new FileOutputStream(outputFile));
-        String fileName=inputFile.getPath();
-        PGPPublicKey encKey=keyManagement.getPublicKey(pubKeyFile);
+        String fileName = inputFile.getPath();
+        PGPPublicKey encKey = keyManagement.getPublicKey(pubKeyFile);
         Security.addProvider(new BouncyCastleProvider());
 
         PGPEncryptedDataGenerator cPk =
@@ -94,7 +96,7 @@ public class EncryptionManagement implements EncryptionOperation {
 
         cPk.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(encKey));
 
-        OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
+        OutputStream cOut = cPk.open(out, new byte[1 << 16]);
 
         PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
                 PGPCompressedData.UNCOMPRESSED);
@@ -104,122 +106,102 @@ public class EncryptionManagement implements EncryptionOperation {
         comData.close();
 
         cOut.close();
-        Log.d("encrypt","file successfully encrypted");
+        Log.d("encrypt", "file successfully encrypted");
         return true;
     }
+
     /**
      * decrypt the passed in message stream
      */
     private boolean decryptFile(
             InputStream in,
             InputStream keyIn,
-            char[]      passwd,
-            String      defaultFileName,
-            long        limit
-            )
+            char[] passwd,
+            String defaultFileName,
+            long limit
+    )
             throws Exception {
-        Log.d("decrypt","yoo nigga decrypting");
+        Log.d("decrypt", "yoo nigga decrypting");
         in = PGPUtil.getDecoderStream(in);
 
-        try
-        {
+        try {
             JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
             PGPEncryptedDataList enc;
 
-            Object                  o = pgpF.nextObject();
+            Object o = pgpF.nextObject();
             //
             // the first object might be a PGP marker packet.
             //
-            if (o instanceof PGPEncryptedDataList)
-            {
-                enc = (PGPEncryptedDataList)o;
-            }
-            else
-            {
-                enc = (PGPEncryptedDataList)pgpF.nextObject();
+            if (o instanceof PGPEncryptedDataList) {
+                enc = (PGPEncryptedDataList) o;
+            } else {
+                enc = (PGPEncryptedDataList) pgpF.nextObject();
             }
 
             //
             // find the secret key
             //
-            Iterator                    it = enc.getEncryptedDataObjects();
+            Iterator it = enc.getEncryptedDataObjects();
             PGPPrivateKey sKey = null;
             PGPPublicKeyEncryptedData pbe = null;
             PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
                     PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
 
-            while (sKey == null && it.hasNext())
-            {
-                pbe = (PGPPublicKeyEncryptedData)it.next();
+            while (sKey == null && it.hasNext()) {
+                pbe = (PGPPublicKeyEncryptedData) it.next();
 
                 sKey = KeyManagement.findSecretKey(pgpSec, pbe.getKeyID(), passwd);
             }
 
-            if (sKey == null)
-            {
+            if (sKey == null) {
                 Log.d("decrypt", "decryptFile: no key found");
                 throw new IllegalArgumentException("password is wrong.");
             }
 
-            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
+            InputStream clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
 
-            JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
+            JcaPGPObjectFactory plainFact = new JcaPGPObjectFactory(clear);
 
-            PGPCompressedData   cData = (PGPCompressedData)plainFact.nextObject();
+            PGPCompressedData cData = (PGPCompressedData) plainFact.nextObject();
 
-            InputStream         compressedStream = new BufferedInputStream(cData.getDataStream());
-            JcaPGPObjectFactory    pgpFact = new JcaPGPObjectFactory(compressedStream);
+            InputStream compressedStream = new BufferedInputStream(cData.getDataStream());
+            JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory(compressedStream);
 
-            Object              message = pgpFact.nextObject();
+            Object message = pgpFact.nextObject();
 
-            if (message instanceof PGPLiteralData)
-            {
-                PGPLiteralData ld   = (PGPLiteralData)message;
-                InputStream unc     = ld.getInputStream();
-                Log.d("decrypt","now trying with limit: ");
-                OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-                Streams.pipeAll(unc,fOut);
+            if (message instanceof PGPLiteralData) {
+                PGPLiteralData ld = (PGPLiteralData) message;
+                InputStream unc = ld.getInputStream();
+                Log.d("decrypt", "now trying with limit: ");
+                OutputStream fOut = new BufferedOutputStream(new FileOutputStream(defaultFileName));
+                Streams.pipeAll(unc, fOut);
 
 
                 fOut.close();
-            }
-            else if (message instanceof PGPOnePassSignatureList)
-            {
+            } else if (message instanceof PGPOnePassSignatureList) {
                 throw new PGPException("encrypted message contains a signed message - not literal data.");
-            }
-            else
-            {
+            } else {
                 throw new PGPException("message is not a simple encrypted file - type unknown.");
             }
 
-            if (pbe.isIntegrityProtected())
-            {
-                if (!pbe.verify())
-                {
+            if (pbe.isIntegrityProtected()) {
+                if (!pbe.verify()) {
                     System.err.println("message failed integrity check");
-                }
-                else
-                {
+                } else {
                     System.err.println("message integrity check passed");
                 }
-            }
-            else
-            {
+            } else {
                 System.err.println("no message integrity check");
             }
-        }
-        catch (PGPException e)
-        {
+        } catch (PGPException e) {
             e.printStackTrace();
-            if (e.getUnderlyingException() != null)
-            {
+            if (e.getUnderlyingException() != null) {
                 e.getUnderlyingException().printStackTrace();
             }
             return false;
         }
         return true;
     }
-
 
 
 }

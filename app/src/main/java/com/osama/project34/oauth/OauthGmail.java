@@ -6,33 +6,32 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.osama.project34.MailApplication;
-import com.osama.project34.firebase.FirebaseHandler;
-import com.osama.project34.utils.CommonConstants;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
+import com.osama.project34.MailApplication;
+import com.osama.project34.firebase.FirebaseHandler;
+import com.osama.project34.utils.CommonConstants;
 
 import java.io.IOException;
 
 /**
  * Created by home on 3/4/17.
- *
  */
 
 public class OauthGmail {
-    private static final String TAG=OauthGmail.class.getCanonicalName();
-    private static final String SCOPE="oauth2:https://mail.google.com/ https://www.googleapis.com/auth/userinfo.profile";
+    private static final String TAG = OauthGmail.class.getCanonicalName();
+    private static final String SCOPE = "oauth2:https://mail.google.com/ https://www.googleapis.com/auth/userinfo.profile";
 
-    private OauthCallbacks   callbacks;
-    private Account          account;
-    private String           mAccessToken;
-    private Context          mContext;
+    private OauthCallbacks callbacks;
+    private Account account;
+    private String mAccessToken;
+    private Context mContext;
 
-    public OauthGmail(Account account,Context context){
-        this.account=account;
-        callbacks=(OauthCallbacks)context;
-        this.mContext=context;
+    public OauthGmail(Account account, Context context) {
+        this.account = account;
+        callbacks = (OauthCallbacks) context;
+        this.mContext = context;
 
         new RetrieveTokenTask().execute(this.account);
     }
@@ -56,21 +55,21 @@ public class OauthGmail {
                         MailApplication.getInstance().getSharedPreferences(
                                 CommonConstants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
-                CommonConstants.ACCESS_TOKEN=mAccessToken;
+                CommonConstants.ACCESS_TOKEN = mAccessToken;
                 editor.putString(accountName.name, mAccessToken);
-                editor.putString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS,accountName.name);
+                editor.putString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS, accountName.name);
                 editor.apply();
                 editor.commit();
 
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
-                mAccessToken=e.getMessage();
+                mAccessToken = e.getMessage();
                 return false;
             } catch (UserRecoverableAuthException e) {
                 callbacks.startSignInActivity(e);
             } catch (GoogleAuthException e) {
                 Log.e(TAG, e.getMessage());
-                mAccessToken=e.getMessage();
+                mAccessToken = e.getMessage();
                 return false;
             }
             return true;

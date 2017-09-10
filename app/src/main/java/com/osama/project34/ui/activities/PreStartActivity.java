@@ -1,5 +1,3 @@
-
-
 package com.osama.project34.ui.activities;
 
 
@@ -16,36 +14,35 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.osama.project34.R;
-import com.osama.project34.ui.activities.SplashActivity;
 import com.osama.project34.ui.adapters.PagerAdapter;
 import com.osama.project34.utils.ConfigManager;
 
 import me.relex.circleindicator.CircleIndicator;
 
 public class PreStartActivity extends AppCompatActivity {
-    private RelativeLayout  preStartLayout;
+    private RelativeLayout preStartLayout;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //check if not first run
-        if (!ConfigManager.isFirstRun()){
+        if (!ConfigManager.isFirstRun()) {
             startSplash();
             return;
         }
         ConfigManager.voidFirstRun();
         setContentView(R.layout.activity_pre_start);
 
-        preStartLayout =(RelativeLayout)findViewById(R.id.pre_start);
-        setColors(ContextCompat.getColor(this,R.color.colorAccent));
+        preStartLayout = (RelativeLayout) findViewById(R.id.pre_start);
+        setColors(ContextCompat.getColor(this, R.color.colorAccent));
 
         //set ViewPager adapter
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
         //set pager indicator
-       CircleIndicator indicator = (CircleIndicator)findViewById(R.id.indicator);
+        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         viewPager.setAdapter(pagerAdapter);
         indicator.setViewPager(viewPager);
         changePage(0);
@@ -75,12 +72,13 @@ public class PreStartActivity extends AppCompatActivity {
         });
     }
 
-    public void onSkipButtonClick(View v){
-       startSplash();
+    public void onSkipButtonClick(View v) {
+        startSplash();
     }
-    private void startSplash(){
-       //start the intent for the password activity
-        Intent intent=new Intent(this,SplashActivity.class);
+
+    private void startSplash() {
+        //start the intent for the password activity
+        Intent intent = new Intent(this, SplashActivity.class);
         //start the activity but not let the user get back to this activity
         startActivity(intent);
         finish();
@@ -89,31 +87,33 @@ public class PreStartActivity extends AppCompatActivity {
     public void changePage(int num) {
         switch (num) {
             case 0:
-                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.colorAccent));
-                setColors(ContextCompat.getColor(this,R.color.colorAccent));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                setColors(ContextCompat.getColor(this, R.color.colorAccent));
                 break;
             case 1:
-                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor2));
-                setColors(ContextCompat.getColor(this,R.color.pagercolor2));
-                setColors(ContextCompat.getColor(this,R.color.pagercolor2));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.pagercolor2));
+                setColors(ContextCompat.getColor(this, R.color.pagercolor2));
+                setColors(ContextCompat.getColor(this, R.color.pagercolor2));
                 break;
             case 2:
-                preStartLayout.setBackgroundColor(ContextCompat.getColor(this,R.color.pagercolor3));
-                setColors(ContextCompat.getColor(this,R.color.pagercolor3));
-                setColors(ContextCompat.getColor(this,R.color.pagercolor3));
+                preStartLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.pagercolor3));
+                setColors(ContextCompat.getColor(this, R.color.pagercolor3));
+                setColors(ContextCompat.getColor(this, R.color.pagercolor3));
                 animateButtonAndShow();
                 break;
 
         }
     }
-    private void animateButtonAndShow(){
-        ImageButton button= (ImageButton) findViewById(R.id.pre_start_skip_button);
+
+    private void animateButtonAndShow() {
+        ImageButton button = (ImageButton) findViewById(R.id.pre_start_skip_button);
         button.setVisibility(View.VISIBLE);
         //animate
-        Animation animation= AnimationUtils.loadAnimation(this,R.anim.done_button_anim);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.done_button_anim);
         button.startAnimation(animation);
     }
-    private void setColors(int color){
+
+    private void setColors(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(color);
             getWindow().setStatusBarColor(color);

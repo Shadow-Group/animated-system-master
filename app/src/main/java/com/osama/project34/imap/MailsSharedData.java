@@ -10,14 +10,13 @@ import javax.mail.Store;
 
 /**
  * Created by bullhead on 5/31/17.
- *
  */
 
 public class MailsSharedData {
     private static Session session;
-    private static Store   store;
+    private static Store store;
     private static Account userAccount;
-    private static ArrayList<Folder> allFolders=new ArrayList<>();
+    private static ArrayList<Folder> allFolders = new ArrayList<>();
 
     public static void setAllFolders(ArrayList<Folder> allFolders) {
         MailsSharedData.allFolders = allFolders;

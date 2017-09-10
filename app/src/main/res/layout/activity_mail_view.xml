@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.osama.project34.ui.activities.MailViewActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/activities_toolbar" />
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/viewer_header_layout"
-        android:weightSum="5"
-        android:layout_margin="5dp"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.osama.project34.ui.activities.MailViewActivity">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/activities_toolbar" />
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewerMailSubject"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginStart="10dp"
-        android:layout_gravity="center_vertical"
-        android:gravity="center_vertical"
-        android:text="Hello"
-        />
-            <TextView
-                android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/viewer_header_layout"
+            android:weightSum="5"
+            android:layout_margin="5dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="4"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:layout_marginTop="2dp"
-                android:id="@+id/to"
-                android:textSize="12sp"
-                android:layout_marginStart="10dp"
-                android:text="m.osamabinomar@gmail.com"
-                />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/viewerMailSubject"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Hello" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:layout_marginTop="2dp"
+                    android:id="@+id/to"
+                    android:textSize="12sp"
+                    android:layout_marginStart="10dp"
+                    android:text="m.osamabinomar@gmail.com" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -57,92 +58,91 @@
                     android:text="12-09-2017"
                     android:textSize="12sp"
                     android:layout_marginTop="2dp"
-                    android:id="@+id/messageSendDate"
-                    />
+                    android:id="@+id/messageSendDate" />
             </LinearLayout>
 
-        <com.like.LikeButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:icon_size="25dp"
-            app:icon_type="heart"
-            android:layout_weight="1"
-            android:id="@+id/likeButtonViewer"
-            android:layout_gravity="center_vertical"
-            />
-        </LinearLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="5dp"
-        android:id="@+id/sender_info_layout"
-        android:paddingEnd="10dp"
-        >
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/viewerSenderIcon"
-            />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="5dp"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/viewerSenderIcon"
-            >
-            <TextView
-                android:layout_width="wrap_content"
+            <com.like.LikeButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="Osama"
-                android:textStyle="bold"
-                android:id="@+id/senderName"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:text="hello@example.com"
-                android:id="@+id/senderEmail"
-                android:textSize="12sp"
-                android:layout_marginBottom="2dp"
-                />
-
+                app:icon_size="25dp"
+                app:icon_type="heart"
+                android:layout_weight="1"
+                android:id="@+id/likeButtonViewer"
+                android:layout_gravity="center_vertical" />
         </LinearLayout>
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:src="@drawable/ic_more_vert"
-    android:tint="?attr/colorAccent"
-    android:layout_alignParentEnd="true"
-    android:id="@+id/moreOptionsMenu"
-    />
-    </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_margin="5dp"
-        android:background="#818181"/>
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <WebView
-            android:layout_margin="10dp"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/email_viewer" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp"
+            android:id="@+id/sender_info_layout"
+            android:paddingEnd="10dp">
 
-        <ProgressBar
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:id="@+id/mail_loading_bar" />
-    </FrameLayout>
-</LinearLayout>
-    </ScrollView>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/viewerSenderIcon" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/viewerSenderIcon">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="Osama"
+                    android:textStyle="bold"
+                    android:id="@+id/senderName" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="hello@example.com"
+                    android:id="@+id/senderEmail"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="2dp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_more_vert"
+                android:tint="?attr/colorAccent"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/moreOptionsMenu" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_margin="5dp"
+            android:background="#818181" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <WebView
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/email_viewer" />
+
+            <ProgressBar
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:id="@+id/mail_loading_bar" />
+        </FrameLayout>
+    </LinearLayout>
+</ScrollView>

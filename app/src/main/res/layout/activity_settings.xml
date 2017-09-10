@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,8 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Dark theme"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
 
         <Switch
             android:layout_width="0dp"
@@ -31,11 +29,11 @@
             android:id="@+id/prefs_theme_box"
             android:layout_weight="1" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#BDBDBD"
-        />
+        android:background="#BDBDBD" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,8 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:text="Show email content by default"
-            android:textSize="18sp"
-            />
+            android:textSize="18sp" />
 
         <Switch
             android:layout_width="0dp"
@@ -59,9 +56,9 @@
             android:id="@+id/prefs_show_mail_box"
             android:layout_weight="1" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#BDBDBD"
-        />
+        android:background="#BDBDBD" />
 </LinearLayout>

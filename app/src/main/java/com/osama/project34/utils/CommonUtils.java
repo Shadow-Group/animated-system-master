@@ -9,7 +9,6 @@ import java.net.URL;
 
 /**
  * Created by bullhead on 8/18/17.
- *
  */
 
 public class CommonUtils {

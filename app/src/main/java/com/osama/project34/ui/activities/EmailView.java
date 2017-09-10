@@ -2,22 +2,22 @@ package com.osama.project34.ui.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.osama.project34.R;
 
 /**
  * Created by patriot on 7/1/17.
- *
  */
 
-public class EmailView extends Activity{
+public class EmailView extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.email_view);
+        // setContentView(R.layout.email_view);
     }
+
     //may not compile. written without IDE
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

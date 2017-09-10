@@ -5,16 +5,13 @@ import com.osama.project34.imap.MultiPartHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.mail.Multipart;
-
 /**
  * Created by bullhead on 9/5/17.
- *
  */
 
 public class Mail implements Serializable {
-    private long     id;
-    private int     folderId;
+    private long id;
+    private int folderId;
     private boolean readStatus;
     private boolean encrypted;
     private ArrayList<String> recipients;
@@ -104,9 +101,10 @@ public class Mail implements Serializable {
     public void setMessage(MultiPartHandler message) {
         this.message = message;
     }
-    public void setMessage(String text){
-        this.message=new MultiPartHandler();
-        this.message.setText(new String[]{text} );
+
+    public void setMessage(String text) {
+        this.message = new MultiPartHandler();
+        this.message.setText(new String[]{text});
     }
 
     public String getSubject() {

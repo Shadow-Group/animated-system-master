@@ -8,9 +8,7 @@
         android:orderInCategory="300"
         android:title="Search"
         android:icon="@drawable/ic_send_black_24dp"
-        app:showAsAction="ifRoom"
-        />
-
+        app:showAsAction="ifRoom" />
 
 
 </menu>

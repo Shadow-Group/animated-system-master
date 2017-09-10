@@ -14,8 +14,8 @@ class HomeNavView @JvmOverloads constructor(
 ) : NavigationView(context, attrs, defStyleAttr) {
     override fun onMeasure(widthSpec: Int, heightSpec: Int) {
         super.onMeasure(widthSpec, heightSpec)
-        val width=resources.displayMetrics.widthPixels/1.3
-        setMeasuredDimension(width.toInt(),heightSpec)
+        val width = resources.displayMetrics.widthPixels / 1.3
+        setMeasuredDimension(width.toInt(), heightSpec)
         val count = childCount
         for (i in 0..count - 1) {
             val v = getChildAt(i)

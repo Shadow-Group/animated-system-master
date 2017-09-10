@@ -55,77 +55,74 @@ import java.util.Iterator;
 
 /**
  * Created by bullhead on 2/8/17.
- *
  */
 
-public class DocumentFileEncryption  {
-    private static final String TAG=DocumentFileEncryption.class.getName();
+public class DocumentFileEncryption {
+    private static final String TAG = DocumentFileEncryption.class.getName();
+
     public static boolean encryptFile(InputStream in, OutputStream out, File pubKeyFile,
-                               boolean integrityCheck, Date fileDate,String filename){
+                                      boolean integrityCheck, Date fileDate, String filename) {
         boolean status;
-       try{
-           PGPPublicKey encKey=MyPGPUtil.readPublicKey(new FileInputStream(pubKeyFile));
-           Security.addProvider(new BouncyCastleProvider());
+        try {
+            PGPPublicKey encKey = MyPGPUtil.readPublicKey(new FileInputStream(pubKeyFile));
+            Security.addProvider(new BouncyCastleProvider());
 
-           PGPEncryptedDataGenerator cPk =
-                   new PGPEncryptedDataGenerator(
-                           new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).
-                                   setWithIntegrityPacket(integrityCheck).
-                                   setSecureRandom(
-                                           new SecureRandom()
-                                   )
-                   );
+            PGPEncryptedDataGenerator cPk =
+                    new PGPEncryptedDataGenerator(
+                            new JcePGPDataEncryptorBuilder(PGPEncryptedData.CAST5).
+                                    setWithIntegrityPacket(integrityCheck).
+                                    setSecureRandom(
+                                            new SecureRandom()
+                                    )
+                    );
 
-           cPk.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(encKey));
+            cPk.addMethod(new JcePublicKeyKeyEncryptionMethodGenerator(encKey));
 
-           OutputStream                cOut = cPk.open(out, new byte[1 << 16]);
+            OutputStream cOut = cPk.open(out, new byte[1 << 16]);
 
-           PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
-                   PGPCompressedData.UNCOMPRESSED);
+            PGPCompressedDataGenerator comData = new PGPCompressedDataGenerator(
+                    PGPCompressedData.UNCOMPRESSED);
 
-           PGPLiteralDataGenerator lData = new PGPLiteralDataGenerator();
-           OutputStream pOut = lData.open(comData.open(cOut), PGPLiteralData.BINARY,filename ,fileDate, new byte[1 << 16]);
-           PGPUtil.pipeDocumentFileContents(in,pOut, new byte[1 << 16].length);
-           comData.close();
+            PGPLiteralDataGenerator lData = new PGPLiteralDataGenerator();
+            OutputStream pOut = lData.open(comData.open(cOut), PGPLiteralData.BINARY, filename, fileDate, new byte[1 << 16]);
+            PGPUtil.pipeDocumentFileContents(in, pOut, new byte[1 << 16].length);
+            comData.close();
 
-           cOut.close();
-           Log.d(TAG,"file successfully encrypted");
-           status=true;
-       }catch (Exception ex){
-           Log.d(TAG, "encryptFile: error in encrypting document file");
-           ex.printStackTrace();
-           status=false;
-       }
+            cOut.close();
+            Log.d(TAG, "file successfully encrypted");
+            status = true;
+        } catch (Exception ex) {
+            Log.d(TAG, "encryptFile: error in encrypting document file");
+            ex.printStackTrace();
+            status = false;
+        }
 
         return status;
     }
+
     public static boolean decryptFile(
             InputStream in,
             InputStream keyIn,
-            char[]      passwd,
+            char[] passwd,
             OutputStream outFile
-    ){
+    ) {
 
-        Log.d(TAG,"decrypting document file");
+        Log.d(TAG, "decrypting document file");
 
-        try
-        {
+        try {
             in = PGPUtil.getDecoderStream(in);
 
             JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);
             PGPEncryptedDataList enc;
 
-            Object                  o = pgpF.nextObject();
+            Object o = pgpF.nextObject();
             //
             // the first object might be a PGP marker packet.
             //
-            if (o instanceof PGPEncryptedDataList)
-            {
-                enc = (PGPEncryptedDataList)o;
-            }
-            else
-            {
-                enc = (PGPEncryptedDataList)pgpF.nextObject();
+            if (o instanceof PGPEncryptedDataList) {
+                enc = (PGPEncryptedDataList) o;
+            } else {
+                enc = (PGPEncryptedDataList) pgpF.nextObject();
             }
 
             //
@@ -137,77 +134,61 @@ public class DocumentFileEncryption  {
             PGPSecretKeyRingCollection pgpSec = new PGPSecretKeyRingCollection(
                     PGPUtil.getDecoderStream(keyIn), new JcaKeyFingerprintCalculator());
 
-            while (sKey == null && it.hasNext())
-            {
-                pbe = (PGPPublicKeyEncryptedData)it.next();
+            while (sKey == null && it.hasNext()) {
+                pbe = (PGPPublicKeyEncryptedData) it.next();
 
                 sKey = KeyManagement.findSecretKey(pgpSec, pbe.getKeyID(), passwd);
             }
 
-            if (sKey == null)
-            {
+            if (sKey == null) {
                 Log.d(TAG, "decryptFile: no key found");
                 throw new IllegalArgumentException("password is wrong.");
             }
 
-            InputStream         clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
+            InputStream clear = pbe.getDataStream(new BcPublicKeyDataDecryptorFactory(sKey));
 
-            JcaPGPObjectFactory    plainFact = new JcaPGPObjectFactory(clear);
+            JcaPGPObjectFactory plainFact = new JcaPGPObjectFactory(clear);
 
-            PGPCompressedData   cData = (PGPCompressedData)plainFact.nextObject();
+            PGPCompressedData cData = (PGPCompressedData) plainFact.nextObject();
 
-            InputStream         compressedStream = new BufferedInputStream(cData.getDataStream());
-            JcaPGPObjectFactory    pgpFact = new JcaPGPObjectFactory(compressedStream);
+            InputStream compressedStream = new BufferedInputStream(cData.getDataStream());
+            JcaPGPObjectFactory pgpFact = new JcaPGPObjectFactory(compressedStream);
 
-            Object              message = pgpFact.nextObject();
+            Object message = pgpFact.nextObject();
 
-            if (message instanceof PGPLiteralData)
-            {
-                PGPLiteralData ld   = (PGPLiteralData)message;
-                InputStream unc     = ld.getInputStream();
+            if (message instanceof PGPLiteralData) {
+                PGPLiteralData ld = (PGPLiteralData) message;
+                InputStream unc = ld.getInputStream();
                 //OutputStream fOut =  new BufferedOutputStream(new FileOutputStream(defaultFileName));
-                Streams.pipeAll(unc,outFile);
+                Streams.pipeAll(unc, outFile);
 
                 outFile.close();
-            }
-            else if (message instanceof PGPOnePassSignatureList)
-            {
+            } else if (message instanceof PGPOnePassSignatureList) {
                 throw new PGPException("encrypted message contains a signed message - not literal data.");
-            }
-            else
-            {
+            } else {
                 throw new PGPException("message is not a simple encrypted file - type unknown.");
             }
 
-            if (pbe.isIntegrityProtected())
-            {
-                if (!pbe.verify())
-                {
+            if (pbe.isIntegrityProtected()) {
+                if (!pbe.verify()) {
                     System.err.println("message failed integrity check");
-                }
-                else
-                {
+                } else {
                     System.err.println("message integrity check passed");
                 }
-            }
-            else
-            {
+            } else {
                 System.err.println("no message integrity check");
             }
-        }
-        catch (PGPException e)
-        {
+        } catch (PGPException e) {
             e.printStackTrace();
-            if (e.getUnderlyingException() != null)
-            {
+            if (e.getUnderlyingException() != null) {
                 e.getUnderlyingException().printStackTrace();
             }
             return false;
-        }catch (IOException ex){
+        } catch (IOException ex) {
             Log.d(TAG, "decryptFile: Error decrypting file");
             ex.printStackTrace();
             return false;
-        }catch (NoSuchProviderException ex){
+        } catch (NoSuchProviderException ex) {
             Log.d(TAG, "decryptFile: No such provider exception");
             return false;
         }

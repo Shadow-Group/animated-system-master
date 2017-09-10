@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        >
+        android:layout_margin="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/total_rec_mess"
             android:textAppearance="@android:style/TextAppearance.Material.Menu" />
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="321"
-       android:layout_alignParentEnd="true"
 
-       />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="321"
+            android:layout_alignParentEnd="true"
+
+            />
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        >
- <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="@string/total_sent_mess"
-     android:textAppearance="@android:style/TextAppearance.Material.Menu" />
-    />
-   <TextView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="331"
-       android:layout_alignParentEnd="true"
+        android:layout_margin="5dp">
 
-       />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_sent_mess"
+            android:textAppearance="@android:style/TextAppearance.Material.Menu" />
+        />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="331"
+            android:layout_alignParentEnd="true"
+
+            />
     </RelativeLayout>
 </LinearLayout>

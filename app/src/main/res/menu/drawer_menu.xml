@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<group>
-    <item
-    android:title="@string/inbox"
-    android:icon="@drawable/ic_inbox_black_24dp"
-        android:id="@+id/inbox_drawer_item"
-    />
-    <item
-        android:title="@string/sent"
-        android:icon="@drawable/ic_label_black_24dp"
-        android:id="@+id/sent_drawer_item"
-        />
-    <item
-        android:title="@string/drafts"
-        android:icon="@drawable/ic_drafts_black_24dp"
-        android:id="@+id/drafts_drawer_item"
-        />
-    <!--<item-->
+    <group>
+        <item
+            android:title="@string/inbox"
+            android:icon="@drawable/ic_inbox_black_24dp"
+            android:id="@+id/inbox_drawer_item" />
+        <item
+            android:title="@string/sent"
+            android:icon="@drawable/ic_label_black_24dp"
+            android:id="@+id/sent_drawer_item" />
+        <item
+            android:title="@string/drafts"
+            android:icon="@drawable/ic_drafts_black_24dp"
+            android:id="@+id/drafts_drawer_item" />
+        <!--<item-->
         <!--android:title="@string/trash"-->
         <!--android:icon="@drawable/ic_delete"-->
         <!--android:id="@+id/trash_drawer_item"-->
         <!--/>-->
-    <item android:title="@string/favorites"
-        android:icon="@drawable/ic_favorite_border"
-        android:id="@+id/favorite_drawer_item"/>
-    <item android:title="Others">
-        <menu>
-             <item android:title="@string/keydetail"
-        android:icon="@drawable/ic_details_black_24dp"
-        android:id="@+id/keydeatail_drawer_item"/>
-    <item android:title="@string/about"
-        android:icon="@drawable/ic_info_outline_black_24dp"
-        android:id="@+id/About_drawer_item"/>
-            <item android:title="@string/settings"
-                android:icon="@drawable/ic_settings_black"
-                android:id="@+id/drawer_setting_item"
-                />
-        </menu>
-    </item>
+        <item
+            android:title="@string/favorites"
+            android:icon="@drawable/ic_favorite_border"
+            android:id="@+id/favorite_drawer_item" />
+        <item android:title="Others">
+            <menu>
+                <item
+                    android:title="@string/keydetail"
+                    android:icon="@drawable/ic_details_black_24dp"
+                    android:id="@+id/keydeatail_drawer_item" />
+                <item
+                    android:title="@string/about"
+                    android:icon="@drawable/ic_info_outline_black_24dp"
+                    android:id="@+id/About_drawer_item" />
+                <item
+                    android:title="@string/settings"
+                    android:icon="@drawable/ic_settings_black"
+                    android:id="@+id/drawer_setting_item" />
+            </menu>
+        </item>
 
 
-</group>
+    </group>
 </menu>

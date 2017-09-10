@@ -8,7 +8,6 @@ import com.osama.project34.utils.ConfigManager;
 
 /**
  * Created by home on 3/4/17.
- *
  */
 
 public class MailApplication extends Application {
@@ -23,12 +22,12 @@ public class MailApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MultiDex.install(this);
-        instance=this;
-        db=DatabaseHelper.getInstance(this);
+        instance = this;
+        db = DatabaseHelper.getInstance(this);
         ConfigManager.openConfig();
     }
 
-    public static MailApplication getInstance(){
+    public static MailApplication getInstance() {
         return instance;
     }
 }

@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:background="@android:color/transparent"
     android:layout_height="match_parent">
 
@@ -15,36 +16,36 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="45dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/imageView2">
-    <TextView
-        android:text="Encryption keys Backup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:id="@+id/textView4"
-        android:textSize="20sp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#FAFAFA" />
+
+        <TextView
+            android:text="Encryption keys Backup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/textView4"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FAFAFA" />
 
 
-
-
-    <TextView
-        android:text="@string/start_message3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="#FAFAFA"
-        android:gravity="center"
-        android:textSize="16sp"
-        android:id="@+id/textView10" />
+        <TextView
+            android:text="@string/start_message3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textColor="#FAFAFA"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:id="@+id/textView10" />
     </LinearLayout>
 </RelativeLayout>

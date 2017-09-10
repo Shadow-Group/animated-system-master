@@ -20,7 +20,6 @@ import com.osama.project34.imap.MultiPartHandler;
 import com.osama.project34.ui.activities.MailViewActivity;
 import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
-import com.sun.mail.imap.protocol.FLAGS;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,12 +38,12 @@ import javax.mail.search.SearchTerm;
 
 /**
  * Created by bullhead on 9/10/17.
- *
  */
 
 public class NotificationService extends Service {
     private static final String TAG = "bullhead_service";
-    private int notificationCount=0;
+    private int notificationCount = 0;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -79,10 +78,10 @@ public class NotificationService extends Service {
                                 if (message != null) {
                                     long uid = ((UIDFolder) inbox).getUID(message);
                                     Mail mail = makeMailFromMessage(message, FolderNames.ID_INBOX, uid);
-                                    int number=MailApplication.getDb().insertMail(mail);
+                                    int number = MailApplication.getDb().insertMail(mail);
                                     showNotification(mail);
-                                    boolean isLoading=inbox.getMessageCount()!=number;
-                                    sendMailBroadcast(FolderNames.ID_INBOX,isLoading);
+                                    boolean isLoading = inbox.getMessageCount() != number;
+                                    sendMailBroadcast(FolderNames.ID_INBOX, isLoading);
                                 }
                             }
                         }
@@ -99,9 +98,9 @@ public class NotificationService extends Service {
         if (!folder.isOpen()) {
             folder.open(Folder.READ_WRITE);
         }
-        SearchTerm searchTerm=new FlagTerm(new Flags(Flags.Flag.RECENT),true);
+        SearchTerm searchTerm = new FlagTerm(new Flags(Flags.Flag.RECENT), true);
         SearchTerm search = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        SearchTerm mixed=new AndTerm(search,searchTerm);
+        SearchTerm mixed = new AndTerm(search, searchTerm);
         Message[] messages = folder.search(mixed);
         Message[] unseenMessages = new Message[messages.length];
         int count = 0;
@@ -112,7 +111,7 @@ public class NotificationService extends Service {
             } else {
                 Log.d(TAG, "checkMail: got a new message");
                 unseenMessages[count++] = message;
-                if (count==5){
+                if (count == 5) {
                     showManyMailsNotification(message.getMessageNumber());
                     return null;
                 }
@@ -121,32 +120,35 @@ public class NotificationService extends Service {
         return unseenMessages;
 
     }
-    private void showManyMailsNotification(int number){
+
+    private void showManyMailsNotification(int number) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setContentText("There are multiple unread emails in your account.")
-                .setContentTitle("Unread mails: "+number)
+                .setContentTitle("Unread mails: " + number)
                 .setSmallIcon(R.drawable.logo);
         manager.notify(notificationCount++, notification.build());
     }
-private void sendMailBroadcast(int folderId,boolean isLoading){
-    Intent intent = new Intent(CommonConstants.GOT_MESSAGE_BROADCAST);
-    intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, folderId);
-    intent.putExtra(CommonConstants.LOADING_INTENT,isLoading);
-    MailApplication.getInstance().sendBroadcast(intent);
-}
+
+    private void sendMailBroadcast(int folderId, boolean isLoading) {
+        Intent intent = new Intent(CommonConstants.GOT_MESSAGE_BROADCAST);
+        intent.putExtra(CommonConstants.MESSAGE_FOLDER_ID, folderId);
+        intent.putExtra(CommonConstants.LOADING_INTENT, isLoading);
+        MailApplication.getInstance().sendBroadcast(intent);
+    }
+
     private void showNotification(Mail mail) {
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Intent showMailIntent=new Intent(this, MailViewActivity.class);
-        showMailIntent.putExtra(CommonConstants.MAIL_VIEW_INTENT,new Gson().toJson(mail));
-        showMailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_HISTORY|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent intent=
-                PendingIntent.getActivity(this,new Random().nextInt(),showMailIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent showMailIntent = new Intent(this, MailViewActivity.class);
+        showMailIntent.putExtra(CommonConstants.MAIL_VIEW_INTENT, new Gson().toJson(mail));
+        showMailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent intent =
+                PendingIntent.getActivity(this, new Random().nextInt(), showMailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder notification = new NotificationCompat.Builder(this)
                 .setContentText("New mail arrived.")
                 .setContentTitle(mail.getSender().getName() == null ? mail.getSender().getMail() : mail.getSender().getName())
                 .setSmallIcon(R.drawable.logo)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_markunread_black_24dp))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_markunread_black_24dp))
                 .setContentIntent(intent);
         manager.notify(notificationCount++, notification.build());
     }

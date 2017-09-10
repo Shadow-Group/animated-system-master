@@ -11,12 +11,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -30,12 +29,13 @@ import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
 
-public class SplashActivity extends BaseActivity implements OauthCallbacks{
-    private static final int RC_PERMISSION=123;
+public class SplashActivity extends BaseActivity implements OauthCallbacks {
+    private static final int RC_PERMISSION = 123;
     private String accountName;
     private ProgressBar loadingBar;
     private boolean hasRequiredPermission;
     private Account mAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,30 +45,31 @@ public class SplashActivity extends BaseActivity implements OauthCallbacks{
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(Color.parseColor("#212121"));
         }
-        loadingBar= (ProgressBar) findViewById(R.id.splash_progress_bar);
+        loadingBar = (ProgressBar) findViewById(R.id.splash_progress_bar);
         //check storage permissions
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},RC_PERMISSION);
-        }else{
-            hasRequiredPermission=true;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_PERMISSION);
+        } else {
+            hasRequiredPermission = true;
         }
-        SharedPreferences prefs=getSharedPreferences(CommonConstants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences(CommonConstants.SHARED_PREFS_OAUTH, Context.MODE_PRIVATE);
         //check if prefs has the values set.
-        accountName=prefs.getString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS,null);
-        if(accountName!=null){
-            if(hasRequiredPermission){
+        accountName = prefs.getString(CommonConstants.STRING_ACCOUNT_SHARED_PREFS, null);
+        if (accountName != null) {
+            if (hasRequiredPermission) {
                 setupAccount(accountName);
                 return;
             }
         }
         new InitTask().execute();
     }
+
     private void setupAccount(String accountName) {
         AccountManager mAccountManager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         for (Account acc :
                 mAccountManager.getAccountsByType("com.google")) {
             if (acc.name.equalsIgnoreCase(accountName)) {
-                mAccount=acc;
+                mAccount = acc;
                 new OauthGmail(acc, this);
                 break;
             }
@@ -78,19 +79,19 @@ public class SplashActivity extends BaseActivity implements OauthCallbacks{
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==RC_PERMISSION){
-            if (grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                hasRequiredPermission=true;
+        if (requestCode == RC_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                hasRequiredPermission = true;
                 recreate();
             }
         }
     }
 
     private void startDataActivity(String accountName, String accessToken) {
-        Intent intent=new Intent(this,DataActivity.class);
-        intent.putExtra(CommonConstants.DATA_ACTIVITY_INTENT_PERM,accountName);
-        intent.putExtra(CommonConstants.DATA_ACTIVITY_PERM_TOKEN,accessToken);
-        startActivityForResult(intent,1);
+        Intent intent = new Intent(this, DataActivity.class);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_INTENT_PERM, accountName);
+        intent.putExtra(CommonConstants.DATA_ACTIVITY_PERM_TOKEN, accessToken);
+        startActivityForResult(intent, 1);
         finish();
     }
 
@@ -99,27 +100,27 @@ public class SplashActivity extends BaseActivity implements OauthCallbacks{
             Intent intent = new Intent(this, MainActivity.class);
             startActivityForResult(intent, 1);
             finish();
-        }else{
-            Toast.makeText(this,"I need storage permissions to work.",Toast.LENGTH_SHORT).show();
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},RC_PERMISSION);
+        } else {
+            Toast.makeText(this, "I need storage permissions to work.", Toast.LENGTH_SHORT).show();
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, RC_PERMISSION);
         }
     }
 
     @Override
     public void tokenSuccessful(String token) {
-        CommonConstants.ACCESS_TOKEN=token;
-        startDataActivity(accountName,token);
+        CommonConstants.ACCESS_TOKEN = token;
+        startDataActivity(accountName, token);
     }
 
     @Override
     public void tokenError(String error) {
-        new AlertDialog.Builder(this, ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight)
+        new AlertDialog.Builder(this, ConfigManager.isDarkTheme() ? R.style.DialogStyleDark : R.style.DialogStyleLight)
                 .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         new OauthGmail(mAccount, SplashActivity.this);
                     }
-                    })
+                })
                 .setMessage("Unable to connect to account")
                 .setCancelable(false)
                 .show();
@@ -130,12 +131,12 @@ public class SplashActivity extends BaseActivity implements OauthCallbacks{
 
     }
 
-    private class InitTask extends AsyncTask<Void,Void,Void>{
+    private class InitTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
             //write folder in database
-            Folder folder =new Folder();
+            Folder folder = new Folder();
             folder.setTitle(FolderNames.INBOX);
             folder.setId(FolderNames.ID_INBOX);
             MailApplication.getDb().insertFolder(folder);

@@ -4,11 +4,10 @@ import javax.mail.Flags;
 
 /**
  * Created by bullhead on 9/8/17.
- *
  */
 
 public class PgpFlag extends Flags {
-    public PgpFlag(){
+    public PgpFlag() {
         super("pgp");
     }
 

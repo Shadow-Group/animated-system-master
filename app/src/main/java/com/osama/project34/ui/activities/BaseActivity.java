@@ -9,13 +9,12 @@ import com.osama.project34.utils.ConfigManager;
 
 /**
  * Created by bullhead on 8/18/17.
- *
  */
 
 public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(ConfigManager.isDarkTheme()? R.style.AppThemeDar:R.style.AppThemeLight);
+        setTheme(ConfigManager.isDarkTheme() ? R.style.AppThemeDar : R.style.AppThemeLight);
     }
 }

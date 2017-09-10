@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * Created by bullhead on 9/8/17.
- *
  */
 
 public class Sender implements Serializable {

@@ -57,15 +57,14 @@ import java.util.Iterator;
 
 /**
  * Created by osama on 10/8/16.
- *
  */
 public class KeyManagement implements KeyOperations {
     @Override
     public PGPKeyRingGenerator generateKey(String email, char[] password) throws Exception {
-        RSAKeyPairGenerator rsaKeyPairGenerator=new RSAKeyPairGenerator();
-        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001),new SecureRandom(),2048,12));
-        PGPKeyPair keyPair=new BcPGPKeyPair(PGPPublicKey.RSA_SIGN,rsaKeyPairGenerator.generateKeyPair(),new Date());
-        PGPKeyPair enKeyPair=new BcPGPKeyPair(PGPPublicKey.RSA_ENCRYPT,rsaKeyPairGenerator.generateKeyPair(),new Date());
+        RSAKeyPairGenerator rsaKeyPairGenerator = new RSAKeyPairGenerator();
+        rsaKeyPairGenerator.init(new RSAKeyGenerationParameters(BigInteger.valueOf(0x10001), new SecureRandom(), 2048, 12));
+        PGPKeyPair keyPair = new BcPGPKeyPair(PGPPublicKey.RSA_SIGN, rsaKeyPairGenerator.generateKeyPair(), new Date());
+        PGPKeyPair enKeyPair = new BcPGPKeyPair(PGPPublicKey.RSA_ENCRYPT, rsaKeyPairGenerator.generateKeyPair(), new Date());
 
         // Add a self-signature on the id
         PGPSignatureSubpacketGenerator signhashgen =
@@ -74,17 +73,17 @@ public class KeyManagement implements KeyOperations {
         // Add signed metadata on the signature.
         // 1) Declare its purpose
         signhashgen.setKeyFlags
-                (false, KeyFlags.SIGN_DATA|KeyFlags.CERTIFY_OTHER);
+                (false, KeyFlags.SIGN_DATA | KeyFlags.CERTIFY_OTHER);
         // 2) Set preferences for secondary crypto algorithms to use
         //    when sending messages to this key.
         signhashgen.setPreferredSymmetricAlgorithms
-                (false, new int[] {
+                (false, new int[]{
                         SymmetricKeyAlgorithmTags.AES_256,
                         SymmetricKeyAlgorithmTags.AES_192,
                         SymmetricKeyAlgorithmTags.AES_128
                 });
         signhashgen.setPreferredHashAlgorithms
-                (false, new int[] {
+                (false, new int[]{
                         HashAlgorithmTags.SHA256,
                         HashAlgorithmTags.SHA1,
                         HashAlgorithmTags.SHA384,
@@ -101,7 +100,7 @@ public class KeyManagement implements KeyOperations {
                 new PGPSignatureSubpacketGenerator();
         // Add metadata to declare its purpose
         enchashgen.setKeyFlags
-                (false, KeyFlags.ENCRYPT_COMMS|KeyFlags.ENCRYPT_STORAGE);
+                (false, KeyFlags.ENCRYPT_COMMS | KeyFlags.ENCRYPT_STORAGE);
 
         // Objects used to encrypt the secret key.
         PGPDigestCalculator sha1Calc =
@@ -137,7 +136,7 @@ public class KeyManagement implements KeyOperations {
 
     @Override
     public PGPPublicKey getPublicKey(File file) throws Exception {
-        InputStream input=new FileInputStream(file);
+        InputStream input = new FileInputStream(file);
         JcaPGPPublicKeyRingCollection pgpPub = new JcaPGPPublicKeyRingCollection(PGPUtil.getDecoderStream(input));
         PGPPublicKey pubKey = null;
 
@@ -158,29 +157,26 @@ public class KeyManagement implements KeyOperations {
             }
         }
 
-        if(pubKey != null) {
+        if (pubKey != null) {
             return pubKey;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Can't find encryption key in key ring.");
         }
     }
 
 
     public static PGPPrivateKey findSecretKey(PGPSecretKeyRingCollection pgpSec, long keyID, char[] pass)
-            throws PGPException, NoSuchProviderException
-    {
+            throws PGPException, NoSuchProviderException {
         PGPSecretKey pgpSecKey = pgpSec.getSecretKey(keyID);
         PGPPrivateKey x;
-        if (pgpSecKey == null)
-        {
+        if (pgpSecKey == null) {
             return null;
         }
 
-        try{
+        try {
             Log.d("decrypt", "findSecretKey: fixing something");
-           x =pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
-        }catch (Exception ex){
+            x = pgpSecKey.extractPrivateKey(new JcePBESecretKeyDecryptorBuilder().setProvider("BC").build(pass));
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }

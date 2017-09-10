@@ -2,7 +2,6 @@ package com.osama.project34.data;
 
 /**
  * Created by bullhead on 8/18/17.
- *
  */
 
 public class Profile {

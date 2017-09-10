@@ -1,8 +1,6 @@
 package com.osama.project34.encryption;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -26,41 +24,40 @@ import java.io.FileOutputStream;
 
 /**
  * Created by bullhead on 9/7/17.
- *
  */
 
 public class EncryptionHandler {
     @SuppressLint("StaticFieldLeak")
-    public static void generateKeys(final String username, final String password, final OnKeysGenerated listener){
-        new AsyncTask<Void,Void,Boolean>(){
+    public static void generateKeys(final String username, final String password, final OnKeysGenerated listener) {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... voids) {
-                char[] pass             = password.toCharArray();
+                char[] pass = password.toCharArray();
                 try {
-                    Log.d("bullhead","start generating keys");
-                    PGPKeyRingGenerator keyRingGenerator    = new KeyManagement().generateKey(username,pass);
-                    PGPPublicKeyRing publicKeys             = keyRingGenerator.generatePublicKeyRing();
-                    PGPSecretKeyRing secretKeys             = keyRingGenerator.generateSecretKeyRing();
+                    Log.d("bullhead", "start generating keys");
+                    PGPKeyRingGenerator keyRingGenerator = new KeyManagement().generateKey(username, pass);
+                    PGPPublicKeyRing publicKeys = keyRingGenerator.generatePublicKeyRing();
+                    PGPSecretKeyRing secretKeys = keyRingGenerator.generateSecretKeyRing();
 
                     //output keys in ascii armored format
-                    File file                   = new File(MailApplication.getInstance().getFilesDir(),"pub.asc");
-                    ArmoredOutputStream pubOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    File file = new File(MailApplication.getInstance().getFilesDir(), "pub.asc");
+                    ArmoredOutputStream pubOut = new ArmoredOutputStream(new FileOutputStream(file));
                     publicKeys.encode(pubOut);
                     pubOut.close();
 
                     file = new File(MailApplication.getInstance().getFilesDir(), "sec.asc");
-                    ArmoredOutputStream secOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    ArmoredOutputStream secOut = new ArmoredOutputStream(new FileOutputStream(file));
                     secretKeys.encode(secOut);
                     secOut.close();
 
                     //insert user public key on server database
-                    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-                    ArmoredOutputStream armoredOutputStream=new ArmoredOutputStream(outputStream);
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    ArmoredOutputStream armoredOutputStream = new ArmoredOutputStream(outputStream);
                     publicKeys.encode(armoredOutputStream);
                     armoredOutputStream.close();
 
-                    Key key=new Key();
+                    Key key = new Key();
                     key.setText(outputStream.toString());
                     key.setUser(username);
                     FirebaseHandler.getInstance().saveKey(key);
@@ -68,7 +65,7 @@ public class EncryptionHandler {
 
 
                 } catch (Exception e) {
-                    Log.d("bullhead","Error generating keys");
+                    Log.d("bullhead", "Error generating keys");
                     e.printStackTrace();
                     return false;
 
@@ -78,10 +75,10 @@ public class EncryptionHandler {
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
-                if (aBoolean){
+                if (aBoolean) {
                     ConfigManager.setKeysGenerated();
                     listener.onSuccess();
-                }else{
+                } else {
                     listener.onError();
                 }
             }
@@ -89,31 +86,31 @@ public class EncryptionHandler {
     }
 
     @SuppressLint("StaticFieldLeak")
-    public static void encryptFile(final File inputFile, final File outputFile, final File pubKey, final OnFileEncrypted listener){
-       new AsyncTask<Void,Void,Boolean>(){
+    public static void encryptFile(final File inputFile, final File outputFile, final File pubKey, final OnFileEncrypted listener) {
+        new AsyncTask<Void, Void, Boolean>() {
 
-           @Override
-           protected Boolean doInBackground(Void... voids) {
-               try {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                try {
 
-                   return EncryptionWrapper.encryptFile(inputFile,outputFile,pubKey,true);
+                    return EncryptionWrapper.encryptFile(inputFile, outputFile, pubKey, true);
 
-               } catch (Exception e) {
-                   e.printStackTrace();
-                   return false;
-               }
-           }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
 
-           @Override
-           protected void onPostExecute(Boolean aBoolean) {
-               super.onPostExecute(aBoolean);
-                if (aBoolean){
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                if (aBoolean) {
                     listener.onSuccess();
-                }else{
+                } else {
                     listener.onError();
                 }
-           }
-       }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -144,34 +141,35 @@ public class EncryptionHandler {
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
-    public static void importKeys(final String secKeyFileName, final OnKeysGenerated callback){
-        new AsyncTask<Void,Void,Boolean>(){
+
+    public static void importKeys(final String secKeyFileName, final OnKeysGenerated callback) {
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    PGPSecretKey key=MyPGPUtil.readSecretKey(secKeyFileName);
+                    PGPSecretKey key = MyPGPUtil.readSecretKey(secKeyFileName);
                     // if secret key is correct get the public key from it and save it
-                    PGPPublicKey pub=key.getPublicKey();
+                    PGPPublicKey pub = key.getPublicKey();
                     //output keys in ascii armored format
-                    File file                   = new File(MailApplication.getInstance().getFilesDir(),"pub.asc");
-                    ArmoredOutputStream pubOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    File file = new File(MailApplication.getInstance().getFilesDir(), "pub.asc");
+                    ArmoredOutputStream pubOut = new ArmoredOutputStream(new FileOutputStream(file));
                     pub.encode(pubOut);
                     pubOut.close();
 
 
                     file = new File(MailApplication.getInstance().getFilesDir(), "sec.asc");
-                    ArmoredOutputStream secOut  = new ArmoredOutputStream(new FileOutputStream(file));
+                    ArmoredOutputStream secOut = new ArmoredOutputStream(new FileOutputStream(file));
                     key.encode(secOut);
                     secOut.close();
 
                     //insert user public key on server database
-                    ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-                    ArmoredOutputStream armoredOutputStream=new ArmoredOutputStream(outputStream);
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    ArmoredOutputStream armoredOutputStream = new ArmoredOutputStream(outputStream);
                     pub.encode(armoredOutputStream);
                     armoredOutputStream.close();
 
-                    Key user=new Key();
+                    Key user = new Key();
                     user.setText(outputStream.toString());
                     user.setUser(ConfigManager.getEmail());
                     FirebaseHandler.getInstance().saveKey(user);
@@ -182,6 +180,7 @@ public class EncryptionHandler {
                     return false;
                 }
             }
+
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
@@ -202,12 +201,16 @@ public class EncryptionHandler {
 
         void onError();
     }
-    public interface OnFileEncrypted{
+
+    public interface OnFileEncrypted {
         void onSuccess();
+
         void onError();
     }
-    public interface OnKeysGenerated{
+
+    public interface OnKeysGenerated {
         void onSuccess();
+
         void onError();
     }
 

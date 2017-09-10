@@ -1,110 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <include layout="@layout/activities_toolbar"/>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/activity_about"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="16dp"
-        android:orientation="vertical"
-        tools:context="com.slownet5.pgprootexplorer.about.ShowTeamActivity">
-        <LinearLayout
+        android:orientation="vertical">
+
+        <include layout="@layout/activities_toolbar" />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/activity_about"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingTop="16dp"
             android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="false">
-            <TextView
+            tools:context="com.slownet5.pgprootexplorer.about.ShowTeamActivity">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Team"
-                android:id="@+id/firstdevelpor_textview"
-                android:textSize="18dp"
-                android:layout_marginTop="15dp"
-                android:clickable="false"/>
-            <TextView
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="false">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Team"
+                    android:id="@+id/firstdevelpor_textview"
+                    android:textSize="18dp"
+                    android:layout_marginTop="15dp"
+                    android:clickable="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="3dp"
+                    android:id="@+id/work_first_develpor_textview"
+                    android:text="View our terms and conditions"
+                    android:textSize="15dp"
+                    android:clickable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
-                android:id="@+id/work_first_develpor_textview"
-                android:text="View our terms and conditions"
-                android:textSize="15dp"
-                android:clickable="false"
-                />
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="false">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Team"
+                    android:id="@+id/seconddevelpor_textview"
+                    android:textSize="18dp"
+                    android:clickable="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/work_second_develpor_textview"
+                    android:text="The team that built this app"
+                    android:textSize="15dp"
+                    android:clickable="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="false">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Team"
+                    android:id="@+id/thirddevelpor_textview"
+                    android:textSize="18dp"
+                    android:clickable="false" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/work_Third_develpor_textview"
+                    android:text="The team that built this app"
+                    android:textSize="15dp"
+                    android:clickable="false" />
+
+            </LinearLayout>
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="false">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Team"
-                android:id="@+id/seconddevelpor_textview"
-                android:textSize="18dp"
-                android:clickable="false"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/work_second_develpor_textview"
-                android:text="The team that built this app"
-                android:textSize="15dp"
-                android:clickable="false"/>
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="false">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Team"
-                android:id="@+id/thirddevelpor_textview"
-                android:textSize="18dp"
-                android:clickable="false"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/work_Third_develpor_textview"
-                android:text="The team that built this app"
-                android:textSize="15dp"
-                android:clickable="false"/>
-
-        </LinearLayout>
-
-</LinearLayout>
     </LinearLayout>
-    </ScrollView>
+</ScrollView>

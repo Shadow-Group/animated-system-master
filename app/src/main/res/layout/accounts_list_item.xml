@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/list_card_view_margin"
-    >
+    android:layout_margin="@dimen/list_card_view_margin">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/list_accounts_padding"
-        >
+        android:padding="@dimen/list_accounts_padding">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/account_thumb"
             android:tint="#FF80CBC4"
             android:src="@drawable/ic_account_circle" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/account_email"
             android:layout_gravity="center_vertical"
-            android:text="Hey Google"
-            />
+            android:text="Hey Google" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

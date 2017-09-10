@@ -2,13 +2,14 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activities.about.KeyDetailsActivity">
-<include layout="@layout/activities_toolbar"/>
+
+    <include layout="@layout/activities_toolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,15 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Username"
-            android:textSize="18dp"
-             />
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/key_details_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
-             />
+            android:textSize="15dp" />
     </LinearLayout>
 
     <TextView
@@ -37,8 +36,7 @@
         android:layout_margin="5dp"
         android:padding="10dp"
         android:text="Key details"
-        android:textSize="18dp"
-         />
+        android:textSize="18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,16 +57,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Size"
-                android:textSize="17dp"
-                 />
+                android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/key_details_keysize_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="null"
-                android:textSize="15dp"
-                 />
+                android:textSize="15dp" />
 
         </LinearLayout>
 
@@ -83,16 +79,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ID"
-                android:textSize="17dp"
-                 />
+                android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/key_details_keyid_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="null"
-                android:textSize="15dp"
-                 />
+                android:textSize="15dp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -116,8 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Creation time"
-                android:textSize="17dp"
-                />
+                android:textSize="17dp" />
 
             <TextView
                 android:id="@+id/key_details_keytime_textview"

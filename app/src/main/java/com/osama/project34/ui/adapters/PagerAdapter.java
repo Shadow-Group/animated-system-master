@@ -21,6 +21,7 @@ package com.osama.project34.ui.adapters;
 /**
  * Created by Shadow on 1/12/2017.
  */
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

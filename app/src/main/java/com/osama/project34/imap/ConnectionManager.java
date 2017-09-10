@@ -15,45 +15,45 @@ import javax.mail.Store;
 
 /**
  * Created by home on 1/28/17.
- *
  */
 
 public class ConnectionManager {
 
-    private static final String TAG=ConnectionManager.class.getName();
+    private static final String TAG = ConnectionManager.class.getName();
     private static ConnectionManager instance;
     private MailCallbacks callbacks;
 
-    private Properties       mProps;
-    private Session          mSession;
-    private Store            mStore;
-    private Account          mUserAccount;
-    private String           mAccessToken;
+    private Properties mProps;
+    private Session mSession;
+    private Store mStore;
+    private Account mUserAccount;
+    private String mAccessToken;
 
 
-    public ConnectionManager(Account acc, String token, Context ctx){
-        instance=this;
-        mProps=new Properties();
+    public ConnectionManager(Account acc, String token, Context ctx) {
+        instance = this;
+        mProps = new Properties();
         mProps.put("mail.imap.ssl.enable", "true"); // required for Gmail
         mProps.put("mail.imap.auth.mechanisms", "XOAUTH2");
-        this.mUserAccount=acc;
-        this.mAccessToken=token;
-        this.mSession=Session.getInstance(mProps);
-        try{
-            callbacks=(MailCallbacks)ctx;
-        }catch (Exception ex){
+        this.mUserAccount = acc;
+        this.mAccessToken = token;
+        this.mSession = Session.getInstance(mProps);
+        try {
+            callbacks = (MailCallbacks) ctx;
+        } catch (Exception ex) {
             Log.d(TAG, "ConnectionManager: Necessary for the caller to implement interface MailCallbacks");
             return;
         }
         new ConnectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
     }
-    public void connect(){
+
+    public void connect() {
         new ConnectionTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public static ConnectionManager getInstance() throws UnsupportedOperationException{
-        if(instance==null){
+    public static ConnectionManager getInstance() throws UnsupportedOperationException {
+        if (instance == null) {
             throw new UnsupportedOperationException("Instance of this class must be created first" +
                     " from any of the interface class");
         }
@@ -65,33 +65,34 @@ public class ConnectionManager {
         return mStore;
     }
 
-    private class ConnectionTask extends AsyncTask<Void,Void,String>{
+    private class ConnectionTask extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
-              try {
-                    mStore=mSession.getStore("imap");
-                    mStore.connect(CommonConstants.GMAIL_HOST, CommonConstants.GMAIL_SSL_PORT,mUserAccount.name,mAccessToken);
-                    while (!mStore.isConnected()){
-                          Log.d(TAG, "doInBackground: conecting store");
-                    }
-                    return "true";
-        } catch ( MessagingException e) {
-            Log.d(TAG, "ConnectionManager: Failure in connecting");
-            e.printStackTrace();
-                  return e.getLocalizedMessage();
+            try {
+                mStore = mSession.getStore("imap");
+                mStore.connect(CommonConstants.GMAIL_HOST, CommonConstants.GMAIL_SSL_PORT, mUserAccount.name, mAccessToken);
+                while (!mStore.isConnected()) {
+                    Log.d(TAG, "doInBackground: conecting store");
+                }
+                return "true";
+            } catch (MessagingException e) {
+                Log.d(TAG, "ConnectionManager: Failure in connecting");
+                e.printStackTrace();
+                return e.getLocalizedMessage();
+            }
         }
-        }
+
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("true")){
+            if (s.equals("true")) {
                 //init check for new messages task
                 MailsSharedData.setSession(mSession);
                 MailsSharedData.setStore(mStore);
                 MailsSharedData.setUserAccount(mUserAccount);
                 callbacks.informConnectionStatus(true);
 
-            }else{
+            } else {
                 callbacks.connectionError(s);
             }
         }

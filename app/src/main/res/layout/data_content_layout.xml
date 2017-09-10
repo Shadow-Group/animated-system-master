@@ -3,20 +3,21 @@
     android:layout_height="match_parent"
     android:layout_below="@id/include"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <ProgressBar
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
-        android:id="@+id/loading_inbox_bar"
-        />
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/messages_recycler_view"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            />
-    <include layout="@layout/view_no_mail"
-        android:id="@+id/no_mail_view"
-        />
-    </RelativeLayout>
+        android:id="@+id/loading_inbox_bar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/messages_recycler_view"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp" />
+
+    <include
+        layout="@layout/view_no_mail"
+        android:id="@+id/no_mail_view" />
+</RelativeLayout>

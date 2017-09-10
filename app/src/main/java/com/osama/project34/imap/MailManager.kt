@@ -6,27 +6,29 @@ package com.osama.project34.imap
  */
 class MailManager private constructor() {
     //singleton using companion object method
-    companion object{
-        private var instance:MailManager?=null
-        private var  callbacks: MailCallbacks?=null
-        private var objectFactory:MailObjectFactory?=null
+    companion object {
+        private var instance: MailManager? = null
+        private var callbacks: MailCallbacks? = null
+        private var objectFactory: MailObjectFactory? = null
 
-        fun getInstance(caller:MailCallbacks):MailManager{
-            if(instance==null){
-                instance=MailManager()
+        fun getInstance(caller: MailCallbacks): MailManager {
+            if (instance == null) {
+                instance = MailManager()
             }
-            callbacks=caller
-            objectFactory?.callbacks= callbacks
+            callbacks = caller
+            objectFactory?.callbacks = callbacks
             objectFactory?.notifyObservers()
 
             return instance as MailManager
         }
     }
-    init{
-        objectFactory=MailObjectFactory()
+
+    init {
+        objectFactory = MailObjectFactory()
     }
-   public fun getObjectFactory():MailObjectFactory {
-       return objectFactory as MailObjectFactory
-   }
+
+    public fun getObjectFactory(): MailObjectFactory {
+        return objectFactory as MailObjectFactory
+    }
 
 }
