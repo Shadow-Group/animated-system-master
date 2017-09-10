@@ -314,7 +314,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
         dialog.show();
     }
     private void generateKeys(final String password){
-        final ProgressDialog dialog=new ProgressDialog(this);
+        final ProgressDialog dialog=new ProgressDialog(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
         dialog.setMessage("Generating keys. please wait....");
         dialog.setTitle("Keys Generation");
         dialog.setCancelable(false);
@@ -368,7 +368,7 @@ public class MainActivity extends BaseActivity implements AdapterCallbacks,Oauth
     }
 
     private void getToken(int pos){
-        mProgressDialog=new ProgressDialog(MainActivity.this);
+        mProgressDialog=new ProgressDialog(MainActivity.this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mProgressDialog.setTitle("Account setup");

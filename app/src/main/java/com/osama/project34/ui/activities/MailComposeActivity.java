@@ -167,7 +167,7 @@ public class MailComposeActivity extends BaseActivity {
     }
 
     private void confirmSend(final String to, final String subject, final String message) {
-        final ProgressDialog dialog=new ProgressDialog(this);
+        final ProgressDialog dialog=new ProgressDialog(this,ConfigManager.isDarkTheme()?R.style.DialogStyleDark:R.style.DialogStyleLight);
         dialog.setMessage("Sending message. Please wait...");
         dialog.setTitle("Message");
         dialog.setCancelable(false);
