@@ -28,7 +28,7 @@ import com.osama.project34.oauth.OauthGmail;
 import com.osama.project34.utils.CommonConstants;
 import com.osama.project34.utils.ConfigManager;
 
-public class SplashActivity extends AppCompatActivity implements OauthCallbacks{
+public class SplashActivity extends BaseActivity implements OauthCallbacks{
     private static final int RC_PERMISSION=123;
     private String accountName;
     private ProgressBar loadingBar;
