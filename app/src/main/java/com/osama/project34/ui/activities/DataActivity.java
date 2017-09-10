@@ -184,18 +184,6 @@ public class DataActivity extends BaseActivity implements MailCallbacks,OauthCal
 
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-            menu.getItem(0).setIcon(R.drawable.ic_search_white_24dp);
-         //   menu.getItem(1).setIcon(R.drawable.ic_palette_white_24dp);
-        return super.onPrepareOptionsMenu(menu);
-    }
-    private void toggleTheme() {
-        ConfigManager.saveTheme(!ConfigManager.isDarkTheme());
-        recreate();
-    }
-
-
     private void setupToolbarAndDrawer() {
         toolbar=(Toolbar)findViewById(R.id.main_toolbar);
         toolbar.setTitle(R.string.app_name);
