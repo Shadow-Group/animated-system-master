@@ -34,4 +34,9 @@
     </style>
     <style name="DialogStyleLight" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
     </style>
+    <style name="ThemeOverlay.AppCompat.navTheme">
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+
+    </style>
 </resources>
