@@ -26,14 +26,14 @@
     <string name="no_mails">No Mails</string>
     <string name="keydetail">Key Detail</string>
     <string name="about">About</string>
-    <string name="start_message1"><b>PGP Root Explorer</b> helps you to encrypt
-        all your files.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
+    <string name="start_message1"><b>OpenPGP Secure Mail</b> helps you to encrypt
+        all your emails.\n The aim of this application is to provide<b> Pretty Good Privacy</b>
         encryption on Android devices.</string>
-    <string name="start_message2">PGP Root Explorer provides impervious
+    <string name="start_message2">OpenPGP Secure Mail provides impervious
         security.\n Your keys will be stored in encrypted database \n and Private key is also self
         encrypted.
         </string>
-    <string name="start_message3">PGP Root Explorer encryption keys are
+    <string name="start_message3">OpenPGP Secure Mail encryption keys are
         unique for every user so    backup of your keys because in case
         of app uninstall or data clear you must   have keys to decrypt your data
         <b>backing up keys is your own responsibility</b></string>

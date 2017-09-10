@@ -67,7 +67,7 @@ public class AccountsAdapter extends RecyclerView.Adapter<AccountsAdapter.ViewHo
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                            mCallbacks.viewClicked(getAdapterPosition());
+                              mCallbacks.viewClicked(getAdapterPosition());
                 }
             });
         }
