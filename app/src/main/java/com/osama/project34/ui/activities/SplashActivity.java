@@ -109,7 +109,11 @@ public class SplashActivity extends BaseActivity implements OauthCallbacks {
     @Override
     public void tokenSuccessful(String token) {
         CommonConstants.ACCESS_TOKEN = token;
+        if (ConfigManager.isKeyGenerated()){
         startDataActivity(accountName, token);
+        } else {
+            startMainActivity();
+        }
     }
 
     @Override

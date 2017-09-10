@@ -35,7 +35,14 @@ public class FirebaseHandler {
     }
 
     public void saveKey(Key key) {
-        databaseReference.child("key" + new Random().nextInt(10000)).setValue(key);
+        String username= key.getUser();
+        if (username.contains(".")){
+           username= username.replace(".","");
+        }
+        if (username.contains("@")){
+            username=username.replace("@","");
+        }
+        databaseReference.child(username).setValue(key);
     }
 
     public void loadAllKeys() {
