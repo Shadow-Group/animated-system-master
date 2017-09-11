@@ -1,4 +1,4 @@
-package com.osama.floatingplayer.widgets
+package com.osama.project34.ui.widgets
 
 import android.content.Context
 import android.support.design.widget.NavigationView
