@@ -118,6 +118,7 @@ public class MailComposeActivity extends BaseActivity {
                         shouldEncrypt = false;
                     }
                     if (shouldEncrypt) {
+                        showDailog();
                         ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#4caf50"));
                     } else {
                         ((ImageView) findViewById(R.id.encryption_status_image)).setColorFilter(Color.parseColor("#818181"));
@@ -206,6 +207,18 @@ public class MailComposeActivity extends BaseActivity {
             return;
         }
         confirmSend(to, subject, message);
+    }
+    private void showDailog(){
+        new AlertDialog.Builder(this)
+                .setTitle("Not")
+                .setMessage("Mail not encrypted")
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).setCancelable(false)
+                .show();
     }
 
     private void confirmSend(final String to, final String subject, final String message) {

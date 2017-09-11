@@ -15,7 +15,7 @@ import java.util.Random;
 
 
 public class FirebaseHandler {
-    private static final String TAG = FirebaseHandler.class.getCanonicalName();
+    private static final String TAG ="bullhead";
     private DatabaseReference databaseReference;
     private static FirebaseHandler instance;
     private ArrayList<Key> keys;
@@ -33,8 +33,10 @@ public class FirebaseHandler {
     }
 
     public void saveKey(Key key) {
+        Log.d(TAG, "saveKey: started public key upload");
         String username= key.getUser();
         if (username.contains(".")){
+            Log.d(TAG, "saveKey: username has \".\" in his/her name. Can't put with \".\" in db");
            username= username.replace(".","");
         }
         if (username.contains("@")){
@@ -50,6 +52,7 @@ public class FirebaseHandler {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Key key = child.getValue(Key.class);
                     if (key != null) {
+                        Log.d(TAG, "onDataChange: user"+key.getUser()+" has key: "+key.getText());
                         keys.add(key);
                     } else {
                         Log.d(TAG, "onDataChange: key is null");

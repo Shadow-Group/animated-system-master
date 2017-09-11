@@ -61,7 +61,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation {
     @Override
     public boolean encryptFile(File inputFile, File outputFile, File keyFile, Boolean integrityCheck) throws Exception {
         try {
-            Log.d("mail", "encryptFile: encrypting armored ");
+            Log.d("bullhead", "encryptFile: encrypting armored ");
             byte[] bytes = MyPGPUtil.compressFile(inputFile.getAbsolutePath(), PGPCompressedData.ZIP);
             ArmoredOutputStream out = new ArmoredOutputStream(new FileOutputStream(outputFile));
             Security.addProvider(new BouncyCastleProvider());
@@ -79,7 +79,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation {
             return true;
 
         } catch (PGPException e) {
-            Log.i(TAG, "encryptFile: cannot encrypt file");
+            Log.i(TAG, "bullhead: cannot encrypt file");
             if (e.getUnderlyingException() != null) {
                 e.getUnderlyingException().printStackTrace();
             }
@@ -90,6 +90,7 @@ public class EncryptionSmallFileProcessor implements EncryptionOperation {
 
     @Override
     public boolean decryptFile(File inputFile, File outputFile, File pubKeyFile, InputStream secKeyFile, char[] pass) throws Exception {
+        Log.d(TAG, "decryptFile: started decrypting file");
         InputStream in = new BufferedInputStream(new FileInputStream(inputFile));
         in = PGPUtil.getDecoderStream(in);
         JcaPGPObjectFactory pgpF = new JcaPGPObjectFactory(in);

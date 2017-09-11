@@ -34,11 +34,13 @@ public class EncryptionWrapper {
                                       Boolean integrityCheck)
             throws Exception {
         //check file size
-        Log.d("wrapper", "encryptFile: size/length is: " + inputFile.length());
+        Log.d("bullhead", "encryptFile: size/length is: " + inputFile.length());
         if (inputFile.length() > TWO_MB) {
+            Log.d("bullhead", "encryptFile: file size is larger than 2MB using large file handler ");
             EncryptionManagement enc = new EncryptionManagement();
             return enc.encryptFile(outputFile, inputFile, keyFile, integrityCheck);
         } else {
+            Log.d("bullhead", "encryptFile: ");
             EncryptionSmallFileProcessor enc = new EncryptionSmallFileProcessor();
             return enc.encryptFile(inputFile, outputFile, keyFile, integrityCheck);
         }

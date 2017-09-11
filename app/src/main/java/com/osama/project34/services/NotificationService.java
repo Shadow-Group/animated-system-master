@@ -39,7 +39,7 @@ import javax.mail.search.SearchTerm;
 
 
 public class NotificationService extends Service {
-    private static final String TAG = "bullhead_service";
+    private static final String TAG = "bullhead";
     private int notificationCount = 0;
 
     @Nullable
@@ -96,10 +96,9 @@ public class NotificationService extends Service {
         if (!folder.isOpen()) {
             folder.open(Folder.READ_WRITE);
         }
-        SearchTerm searchTerm = new FlagTerm(new Flags(Flags.Flag.RECENT), true);
         SearchTerm search = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
-        SearchTerm mixed = new AndTerm(search, searchTerm);
-        Message[] messages = folder.search(mixed);
+
+        Message[] messages = folder.search(search);
         Message[] unseenMessages = new Message[messages.length];
         int count = 0;
         for (Message message : messages) {
